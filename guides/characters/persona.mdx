@@ -1,0 +1,121 @@
+---
+title: "Set Your User Persona for Character Chats"
+sidebarTitle: "User persona"
+description: "A user persona defines who you are in Tavo chats — your name, background, and relationship to the character — shaping how the AI interacts with you across every conversation."
+---
+
+In Tavo, a **user persona** (also called a user identity) defines who *you* are in the conversation. While the character card controls the AI's behavior, your persona controls how the AI perceives and relates to you — your name, your role, and your relationship to the character. Setting a thoughtful persona is one of the most effective ways to shape the tone and direction of a chat.
+
+The active persona name is what `{{user}}` resolves to anywhere it appears in character cards and prompts.
+
+## What a persona does
+
+When you start a chat, the AI doesn't know anything about you unless you tell it. Your persona fills in that gap. A well-written persona:
+
+- Tells the AI what relationship you and the character have before the first message
+- Anchors the AI's responses to a consistent dynamic (a friend, a rival, a stranger)
+- Lets you maintain different identities for different characters or scenarios
+- Prevents the AI from defaulting to a generic or inconsistent portrayal of "the user"
+
+## Creating a persona
+
+<Steps>
+  <Step title="Open the menu">
+    Tap **Menu** in the app's navigation bar.
+  </Step>
+  <Step title="Tap More">
+    In the menu, tap **More** to expand the additional settings.
+  </Step>
+  <Step title="Select User Identity">
+    Tap **User Identity** to open your list of personas.
+  </Step>
+  <Step title="Tap New">
+    Tap **New** to create a persona. A persona is your identity in a chat — who you are as the other person in the conversation.
+  </Step>
+  <Step title="Fill in the details and save">
+    Tap the avatar area to set a profile photo, then fill in your **name** and a **persona description**. Tap **Save** when you are done. Your new persona is ready to use.
+  </Step>
+</Steps>
+
+## Switching between personas
+
+If you have multiple personas, you can switch the active one at any time.
+
+<Steps>
+  <Step title="Open User Identity">
+    Go to **Menu → More → User Identity**.
+  </Step>
+  <Step title="Open the options for a persona">
+    Tap the three-dot menu (**...**) to the right of the persona you want to activate.
+  </Step>
+  <Step title="Set as default">
+    Select **Set as default**. The chosen persona becomes your active identity for new chats. You can also edit or delete personas from this same menu.
+  </Step>
+</Steps>
+
+## Writing an effective persona description
+
+Your persona description should answer two questions in one or two sentences:
+
+1. **Who are you in relation to the character?** (stranger, childhood friend, sworn enemy, apprentice, colleague)
+2. **What is your situation when the story begins?** (why you are here, what you know, what you want)
+
+Optionally, add a sentence about the **emotional tone** of the relationship — tense, warm, cautious, playful.
+
+<Tip>
+Write the description in third person using `{{user}}` in place of your name. This matches how character cards reference you and ensures consistent handling by the AI.
+</Tip>
+
+## Persona examples by relationship type
+
+The following examples show how different persona descriptions produce very different conversational dynamics.
+
+<AccordionGroup>
+  <Accordion title="Intimate relationship — emotional bond">
+    **Persona description:**
+
+    > {{user}} is {{char}}'s childhood friend and the one person she trusts completely. The two of you share an unspoken understanding; your interactions are natural, warm, and close.
+
+    **Effect:** The character treats you with unconditional trust, shares personal thoughts and secrets, uses affectionate terms, and maintains a tone of quiet care throughout the conversation.
+  </Accordion>
+
+  <Accordion title="Professional relationship — goal-oriented">
+    **Persona description:**
+
+    > {{user}} is the royal court's appointed apprentice and supervisor assigned to {{char}}, a legendary mage. Your role is to document her research and ensure she does not cross into forbidden magic. The relationship is careful and mutually watchful.
+
+    **Effect:** The character addresses you in a teacher-student or overseen-overseer dynamic, mixing instruction with occasional posturing, and creates a clear sense of shared purpose alongside an underlying power tension.
+  </Accordion>
+
+  <Accordion title="Adversarial relationship — conflict and rivalry">
+    **Persona description:**
+
+    > {{user}} is the detective who has foiled {{char}}'s plans more than once and has finally cornered her. You are evenly matched opponents who respect each other's skill even as you stand on opposite sides.
+
+    **Effect:** The character's dialogue carries provocation, sharp wit, and flashes of reluctant admiration. Exchanges feel like a contest of intellect with real stakes, and the tension stays high.
+  </Accordion>
+
+  <Accordion title="Unknown relationship — mystery and discovery">
+    **Persona description:**
+
+    > {{user}} woke up in a forest with no memory beyond their own name. You've just encountered {{char}}, who is curious about this unexpected stranger but wary of your presence.
+
+    **Effect:** The character actively tries to read you — asking questions, watching your responses closely, and withholding trust. The dynamic is suited to mystery-driven stories where the relationship evolves through discovery.
+  </Accordion>
+
+  <Accordion title="Situational — specific scenario entry">
+    **Persona description:**
+
+    > {{user}} is a soldier who has just returned from the front, tired and carrying wounds. You've stopped at the remote inn run by {{char}}, looking for a quiet place to rest and a drink in peace.
+
+    **Effect:** The character (the innkeeper) responds to your visible state — showing concern, restraint, or quiet curiosity — and the conversation opens inside a fully realized scene rather than a blank context.
+  </Accordion>
+</AccordionGroup>
+
+## The `{{user}}` macro
+
+Anywhere `{{user}}` appears in a character card — in the description, scenario, dialogue examples, or prompts — Tavo replaces it with the name from your active persona. This means a character card written with `{{user}}` automatically adapts to whoever is chatting with it, making the same card feel personal for every user.
+
+<Info>
+If you have no persona set, `{{user}}` typically resolves to a default placeholder. For the most immersive experience, always set an active persona before starting a chat.
+</Info>

@@ -1,0 +1,275 @@
+---
+title: "Macros: Inject Dynamic Values into Any Prompt"
+sidebarTitle: "Macros"
+description: "Reference every Tavo macro — character names, dates, random rolls, formatting helpers, and the chat variable system for building game-like stateful interactions."
+---
+
+Macros are placeholders that Tavo replaces with real values when assembling the prompt sent to the AI. You can use them in character cards, presets, lorebook entries, and regex scripts. They let you write prompts once that automatically adapt — using the correct character name, the current date, a random number, or a value you stored earlier in the conversation.
+
+The general syntax is `{{macroName}}`. If a macro takes parameters, separate them with double colons: `{{macroName::param1::param2}}`.
+
+**Example in a character card:**
+
+```text
+{{char}} is the CEO of the Song Group.
+{{user}} is {{char}}'s personal secretary.
+```
+
+If the character is named Songyi and the user persona is named Yuelin, the AI sees:
+
+```text
+Songyi is the CEO of the Song Group.
+Yuelin is Songyi's personal secretary.
+```
+
+---
+
+## Character macros
+
+These resolve to the names of participants in the current conversation.
+
+| Macro | Value |
+|---|---|
+| `{{user}}` | Your current persona name |
+| `{{char}}` | The character's name |
+| `{{group}}` | All characters in a group chat, comma-separated |
+| `{{groupNotMuted}}` | Characters in the group chat who are not muted, comma-separated |
+| `{{charIfNotGroup}}` | The character's name in a solo chat; all characters comma-separated in a group chat |
+
+---
+
+## Character card macros
+
+These pull content directly from the character card fields, so you can reference them from presets or lorebook entries without duplicating text.
+
+| Macro | Value |
+|---|---|
+| `{{charDescription}}` | The character's description field *(alias: `{{description}}`)* |
+| `{{charPersonality}}` | The character's personality field *(alias: `{{personality}}`)* |
+| `{{charScenario}}` | The scenario field on the character card |
+| `{{scenario}}` | The active scenario — uses the conversation-level scenario if set, otherwise falls back to the character card scenario |
+| `{{persona}}` | Your user persona description |
+| `{{charPrompt}}` | The content of the Main Prompt system instruction |
+| `{{charInstruction}}` | The Post-History Instructions content *(alias: `{{charJailbreak}}`)* |
+| `{{mesExamples}}` | Dialogue examples, rendered |
+| `{{mesExamplesRaw}}` | Dialogue examples, raw/unrendered |
+| `{{charVersion}}` | The version field from the character's additional info |
+| `{{charCreatorNotes}}` | The creator notes field *(alias: `{{creatorNotes}}`)* |
+
+---
+
+## Message macros
+
+These reference content from the current conversation.
+
+| Macro | Value |
+|---|---|
+| `{{lastMessage}}` | The most recent message in the chat |
+| `{{input}}` | The message you just typed (your current input) |
+| `{{lastUserMessage}}` | The most recent message sent by you |
+| `{{lastCharMessage}}` | The most recent message sent by the character |
+
+---
+
+## Date and time macros
+
+These inject the current date and time, which is useful for grounding the AI in real-world context or tracking idle time.
+
+| Macro | Value |
+|---|---|
+| `{{time}}` | Current local time |
+| `{{date}}` | Current local date |
+| `{{weekday}}` | Current day of the week |
+| `{{isotime}}` | Time in `HH:MM` format |
+| `{{isodate}}` | Date in `YYYY-MM-DD` format |
+| `{{idleDuration}}` | Time elapsed since the last message *(alias: `{{idle_duration}}`)* |
+| `{{time::UTC+9}}` | Current time in a specific timezone (e.g., UTC+9) *(alias: `{{time_UTC±<offset>}}`)* |
+
+**Example in a lorebook entry:**
+
+```text
+{{user}} was pulled through a temporal vortex in 1984 and arrived in this world,
+where they met {{char}}. They reunited on {{date}}.
+```
+
+---
+
+## Random macros
+
+Use these to introduce unpredictability into prompts or game mechanics.
+
+| Macro | Value |
+|---|---|
+| `{{random::1::3::5}}` | Picks one value at random from the list *(alias: `{{random::1,3,5}}`)* |
+| `{{roll::3d6}}` | Rolls dice: `3d6` means three six-sided dice, summed |
+
+**Example:**
+
+```text
+The merchant offers you {{random::a sword::a shield::a mysterious vial}}.
+Your persuasion roll: {{roll::1d20}}
+```
+
+---
+
+## Formatting macros
+
+These control whitespace and help you structure prompt text precisely.
+
+| Macro | Value |
+|---|---|
+| `{{newline}}` | A single line break |
+| `{{newline::<n>}}` | *n* line breaks |
+| `{{space}}` | A single space |
+| `{{space::<n>}}` | *n* spaces |
+| `{{trim}}` | Removes leading and trailing whitespace and line breaks from the surrounding text |
+| `{{noop}}` | Resolves to nothing; useful as a placeholder |
+| `{{//<comment>}}` | A comment — rendered as empty, never sent to the AI |
+| `\{{char\}}` | Escaping — wrap a macro in backslashes to prevent it from being resolved; renders as the literal text `{{char}}` |
+
+---
+
+## Chat variables
+
+Chat variables exist only within the current conversation. They reset when you start a new chat. Use them to track state that is specific to a single session — health points, inventory, round counters, and similar game mechanics.
+
+| Macro | Action |
+|---|---|
+| `{{setvar::<name>::<value>}}` | Sets a variable to a value (number, text, or JSON list). Overwrites any existing value. |
+| `{{addvar::<name>::<value>}}` | Adds to the current value. Numbers use addition; lists append; text concatenates. |
+| `{{incvar::<name>}}` | Increments the variable by 1. |
+| `{{decvar::<name>}}` | Decrements the variable by 1. |
+| `{{getvar::<name>}}` | Reads the current value of the variable. |
+
+---
+
+## Global variables
+
+Global variables persist across all conversations and characters. Use them for information that should survive between chats.
+
+| Macro | Action |
+|---|---|
+| `{{setglobalvar::<name>::<value>}}` | Sets a global variable. |
+| `{{addglobalvar::<name>::<value>}}` | Adds to a global variable. |
+| `{{incglobalvar::<name>}}` | Increments a global variable by 1. |
+| `{{decglobalvar::<name>}}` | Decrements a global variable by 1. |
+| `{{getglobalvar::<name>}}` | Reads a global variable. |
+
+---
+
+## The variable system: a practical guide
+
+Variables give the AI a reliable notepad. Without them, the AI can only approximate values from context — and after enough turns, it forgets or gets them wrong.
+
+<Tabs>
+  <Tab title="Without variables">
+    ```text
+    You: My HP is 97.
+    [20 messages later]
+    AI: Your HP should be around 100, right?
+    ```
+    The AI lost track of the value you stated earlier.
+  </Tab>
+  <Tab title="With variables">
+    ```text
+    You: {{setvar::hp::97}}
+    [20 messages later]
+    You: What's my HP?
+    AI: Your current HP is 97.
+    ```
+    The value is stored precisely and retrieved exactly.
+  </Tab>
+</Tabs>
+
+### Example: HP tracking in a combat game
+
+**In the preset (Post-History Instructions):**
+
+```text
+You must follow these rules in every reply:
+1. Whenever a character takes damage, add this to the start of your reply
+   (once per point of damage): {{decvar::hp}}
+2. At the end of every reply, append a status bar:
+   【HP: {{getvar::hp}} | Round: {{getvar::round}}】
+3. Increment the round counter after every reply: {{incvar::round}}
+```
+
+**To initialize at the start of the session:**
+
+```text
+{{setvar::hp::100}} {{setvar::round::1}}
+The adventure begins. You step into the dungeon.
+```
+
+### Example: lorebook entry that initializes variables on trigger
+
+```text
+Trigger keywords: dungeon, enter the dungeon, dungeon entrance
+
+You have entered the dungeon. Initializing combat state:
+{{setvar::dungeon_floor::1}}
+{{setvar::enemies_left::5}}
+{{setvar::trap_count::0}}
+
+Remember: each time an enemy is defeated, execute {{decvar::enemies_left}}.
+```
+
+### Example: global variables for multi-chapter stories
+
+```text
+Trigger keywords: Chapter 2, beyond the Frost City
+
+{{setglobalvar::chapter::2}}
+{{setglobalvar::location::The Wastes Beyond Frost City}}
+{{addglobalvar::characters::["Su Wu"]}}
+
+New character Su Wu joins the story — a taciturn guide from the snow highlands.
+```
+
+### Using the macro assistant
+
+To insert variable macros quickly without typing them by hand:
+
+<Steps>
+  <Step title="Open the macro assistant">
+    Tap the icon at the bottom-left of the input box, then tap the **Macro Assistant** button.
+  </Step>
+  <Step title="Find and select a macro">
+    Browse or search for the variable macro you need. Tap it to auto-insert it into the input field.
+  </Step>
+  <Step title="Customize the parameters">
+    Replace the placeholder variable name and value with your own.
+  </Step>
+</Steps>
+
+### Shorthand with regex
+
+You can use regex scripts to expand shorthand into full macro calls. For example:
+
+| You type | Expands to |
+|---|---|
+| `-hp5` | `{{decvar::hp}}{{decvar::hp}}{{decvar::hp}}{{decvar::hp}}{{decvar::hp}}` |
+| `+gold20` | `{{addvar::gold::20}}` |
+
+Configure this in a regex script with **Send** timing so the expansion happens before the message reaches the AI.
+
+---
+
+## Legacy macros
+
+These older forms are still supported for backwards compatibility but the newer `{{macro}}` syntax is preferred.
+
+| Legacy | Current equivalent |
+|---|---|
+| `<USER>` | `{{user}}` |
+| `<CHAR>` / `<BOT>` | `{{char}}` |
+| `<GROUP>` / `<CHARIFNOTGROUP>` | `{{group}}` / `{{charIfNotGroup}}` |
+| `{{idle_duration}}` | `{{idleDuration}}` |
+| `{{time_UTC±<offset>}}` | `{{time::UTC+<offset>}}` |
+| `{{description}}` | `{{charDescription}}` |
+| `{{personality}}` | `{{charPersonality}}` |
+| `{{creatorNotes}}` | `{{charCreatorNotes}}` |
+
+<Note>
+The macro list is actively growing. If you have a use case that isn't covered by the current macros, share your feedback with the Tavo community.
+</Note>

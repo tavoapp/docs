@@ -1,0 +1,170 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "almond",
+  "name": "Tavo",
+  "description": "User guide and JavaScript API reference for Tavo — the AI character chat app.",
+  "colors": {
+    "primary": "#762cb5",
+    "light": "#b45193",
+    "dark": "#191627"
+  },
+  "favicon": "https://media.brand.dev/0e273cd3-a146-4462-8425-80fcfed9a68e.png",
+  "icons": {
+    "library": "lucide"
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "contextual": {
+    "options": ["copy", "view", "assistant"]
+  },
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Home",
+          "icon": "house",
+          "href": "/"
+        },
+        {
+          "anchor": "Discord",
+          "icon": "discord",
+          "href": "https://discord.gg/47cBNpQDFG"
+        },
+        {
+          "anchor": "Support",
+          "icon": "life-buoy",
+          "href": "mailto:tavo_service@outlook.com"
+        }
+      ]
+    },
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get Started",
+            "icon": "rocket",
+            "expanded": true,
+            "pages": [
+              "guides/introduction",
+              "guides/api-setup",
+              "guides/api-setup/get-key",
+              "guides/api-setup/configure",
+              "guides/api-setup/select-model",
+              "guides/api-setup/troubleshooting"
+            ]
+          },
+          {
+            "group": "Characters",
+            "icon": "user-round",
+            "expanded": true,
+            "pages": [
+              "guides/characters/overview",
+              "guides/characters/create",
+              "guides/characters/import-cards",
+              "guides/characters/persona"
+            ]
+          },
+          {
+            "group": "Chat",
+            "icon": "message-circle",
+            "expanded": true,
+            "pages": [
+              "guides/chat/start",
+              "guides/chat/actions",
+              "guides/chat/group-chat",
+              "guides/chat/import-export",
+              "guides/chat/advanced-settings"
+            ]
+          },
+          {
+            "group": "Advanced Features",
+            "icon": "sparkles",
+            "expanded": true,
+            "pages": [
+              "guides/advanced/lorebook",
+              "guides/advanced/preset",
+              "guides/advanced/regex",
+              "guides/advanced/macros",
+              "guides/advanced/long-memory",
+              "guides/advanced/advanced-rendering"
+            ]
+          },
+          {
+            "group": "Voice",
+            "icon": "mic",
+            "expanded": true,
+            "pages": [
+              "guides/voice/overview",
+              "guides/voice/api-keys",
+              "guides/voice/configure",
+              "guides/voice/voice-binding",
+              "guides/voice/settings",
+              "guides/voice/local-tts"
+            ]
+          },
+          {
+            "group": "Customization",
+            "icon": "palette",
+            "expanded": true,
+            "pages": [
+              "guides/customization/theme",
+              "guides/customization/storage",
+              "guides/customization/backup",
+              "guides/customization/shortcuts",
+              "guides/customization/image-sending"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "JavaScript API",
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "expanded": true,
+            "pages": [
+              "js-api/introduction",
+              "js-api/variables",
+              "js-api/macros-reference"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "icon": "code",
+            "expanded": true,
+            "pages": [
+              "js-api/message",
+              "js-api/chat",
+              "js-api/character",
+              "js-api/persona",
+              "js-api/preset",
+              "js-api/lorebook",
+              "js-api/regex",
+              "js-api/memory",
+              "js-api/generate",
+              "js-api/input",
+              "js-api/utils",
+              "js-api/app"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [],
+    "primary": {
+      "type": "button",
+      "label": "Download Tavo",
+      "href": "https://tavoai.dev"
+    }
+  },
+  "footer": {
+    "socials": {
+      "discord": "https://discord.gg/47cBNpQDFG"
+    }
+  }
+}

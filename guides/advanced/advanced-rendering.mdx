@@ -1,0 +1,84 @@
+---
+title: "Advanced Rendering: HTML and CSS in Chat Bubbles"
+sidebarTitle: "Advanced Rendering"
+description: "Enable Advanced Rendering to display standard HTML and CSS inside chat messages, allowing rich formatting like colored text, images, and custom layouts."
+---
+
+Advanced Rendering (AR) allows Tavo to interpret and display standard HTML and CSS inside chat message bubbles. With it enabled, a character's reply isn't limited to plain text — it can contain colored spans, bold text, images, custom layouts, and any other visual element that standard HTML and CSS support. This unlocks powerful options for world-building, status panels, formatted lore cards, and creative visual presentation directly in the conversation.
+
+## Enabling Advanced Rendering
+
+<Steps>
+  <Step title="Open the main interface">
+    Launch Tavo and go to the main screen.
+  </Step>
+  <Step title="Open the sidebar">
+    Tap the icon in the top-left corner to open the left sidebar.
+  </Step>
+  <Step title="Go to Settings">
+    Tap **More** at the bottom of the sidebar, then tap **Settings**.
+  </Step>
+  <Step title="Enable the toggle">
+    Find **Advanced Rendering** in the settings list and switch the toggle on.
+  </Step>
+</Steps>
+
+Once enabled, any message that contains valid HTML will be rendered instead of shown as raw markup.
+
+## Basic example
+
+To try it out, edit any chat bubble and paste in the following:
+
+```html
+This is a line with <span style="color: red">red text</span>
+and also some <strong>bold text</strong>.
+<br/>
+Sometimes you can even show images:
+<img src="https://upload.wikimedia.org/wikipedia/zh/9/94/Genshin_Impact.jpg" alt="Example image" />
+```
+
+The bubble will render the colored text, bold text, and image — exactly as a browser would display the same HTML.
+
+## What you can do with Advanced Rendering
+
+<CardGroup cols={2}>
+  <Card title="Colored and styled text" icon="palette">
+    Use inline CSS to apply colors, font sizes, italics, or any other text style to specific words or phrases within a message.
+  </Card>
+  <Card title="Images" icon="image">
+    Embed images using `<img>` tags. Useful for character portraits, scene illustrations, or item images in game-like scenarios.
+  </Card>
+  <Card title="Structured layouts" icon="layout-grid">
+    Use `<div>`, `<table>`, `<ul>`, and other block elements to create formatted status panels, inventory lists, or information cards inside a bubble.
+  </Card>
+  <Card title="Custom CSS styling" icon="code">
+    Apply `style` attributes directly to elements, or use `<style>` blocks to define classes that can be reused throughout a message.
+  </Card>
+</CardGroup>
+
+## Example: a formatted status panel
+
+You can use HTML tables inside a lorebook entry or character response to display a game-style status bar:
+
+```html
+<div style="border: 1px solid #888; border-radius: 6px; padding: 8px; font-family: monospace;">
+  <strong>Status</strong><br/>
+  <table>
+    <tr><td>HP</td><td>87 / 100</td></tr>
+    <tr><td>MP</td><td>42 / 60</td></tr>
+    <tr><td>Location</td><td>Dungeon Floor 2</td></tr>
+  </table>
+</div>
+```
+
+When rendered, this produces a bordered card with a status table, rather than a block of plain text.
+
+## JavaScript support
+
+Advanced Rendering renders HTML and CSS. JavaScript support is available but requires a separate toggle to enable — JS is not active by default even when Advanced Rendering is on.
+
+<Warning>
+Enabling JavaScript gives messages the ability to run code in your app environment. Only enable it if you understand what the scripts do. Never run JavaScript from untrusted character cards or sources.
+</Warning>
+
+For the full JavaScript API available inside rendered messages — including how to interact with chat state, variables, and Tavo's runtime — see the [JavaScript API reference](/js-api/introduction).

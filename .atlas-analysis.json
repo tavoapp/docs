@@ -1,0 +1,186 @@
+{
+  "projectType": "saas",
+  "projectName": "Tavo",
+  "projectDescription": "Tavo is a mobile AI character chat app that lets users interact with customizable AI characters, configure their own LLM API connections, and build immersive roleplay experiences.",
+  "theme": "almond",
+  "primaryColor": "#762cb5",
+  "lightColor": "#b45193",
+  "darkColor": "#191627",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "guides/introduction",
+              "guides/api-setup",
+              "guides/api-setup/get-key",
+              "guides/api-setup/configure",
+              "guides/api-setup/select-model",
+              "guides/api-setup/troubleshooting"
+            ]
+          },
+          {
+            "group": "Characters",
+            "pages": [
+              "guides/characters/overview",
+              "guides/characters/create",
+              "guides/characters/import-cards",
+              "guides/characters/persona"
+            ]
+          },
+          {
+            "group": "Chat",
+            "pages": [
+              "guides/chat/start",
+              "guides/chat/actions",
+              "guides/chat/group-chat",
+              "guides/chat/import-export",
+              "guides/chat/advanced-settings"
+            ]
+          },
+          {
+            "group": "Advanced Features",
+            "pages": [
+              "guides/advanced/lorebook",
+              "guides/advanced/preset",
+              "guides/advanced/regex",
+              "guides/advanced/macros",
+              "guides/advanced/long-memory",
+              "guides/advanced/advanced-rendering"
+            ]
+          },
+          {
+            "group": "Voice",
+            "pages": [
+              "guides/voice/overview",
+              "guides/voice/api-keys",
+              "guides/voice/configure",
+              "guides/voice/voice-binding",
+              "guides/voice/settings",
+              "guides/voice/local-tts"
+            ]
+          },
+          {
+            "group": "Customization",
+            "pages": [
+              "guides/customization/theme",
+              "guides/customization/storage",
+              "guides/customization/backup",
+              "guides/customization/shortcuts",
+              "guides/customization/image-sending"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "JavaScript API",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "js-api/introduction",
+              "js-api/variables",
+              "js-api/macros-reference"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "pages": [
+              "js-api/message",
+              "js-api/chat",
+              "js-api/character",
+              "js-api/persona",
+              "js-api/preset",
+              "js-api/lorebook",
+              "js-api/regex",
+              "js-api/memory",
+              "js-api/generate",
+              "js-api/input",
+              "js-api/utils",
+              "js-api/app"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "AI character chat with customizable personalities, backstories, and interaction styles",
+    "Support for multiple LLM providers: OpenAI, Claude, Gemini, DeepSeek, OpenRouter, Doubao, Volink, and custom OpenAI-compatible APIs",
+    "Character card import from external platforms (Chub.ai, Janitor.ai, AI Character Cards, Pygmalion, RealmRisu)",
+    "Lorebook (World Book) for maintaining world-building and story consistency",
+    "Presets for configuring AI prompt templates and behavior",
+    "Regex scripts for automatic text processing and transformation",
+    "Long-term memory across conversations",
+    "Group chat with multiple AI characters",
+    "Voice synthesis with ElevenLabs, Google TTS, Gemini, Volink, and local TTS",
+    "Advanced HTML/CSS rendering and JavaScript API for custom interactivity",
+    "Macro system for dynamic prompt injection and variable management",
+    "Persona system for defining user identity in roleplay"
+  ],
+  "publicApiSurface": [
+    "tavo.get(name, scope)",
+    "tavo.set(name, value, scope)",
+    "tavo.unset(name, scope)",
+    "tavo.message.find(indexRange, filter)",
+    "tavo.message.get(messageId)",
+    "tavo.message.current()",
+    "tavo.message.count()",
+    "tavo.message.append(message)",
+    "tavo.message.update(message)",
+    "tavo.message.delete(messageId)",
+    "tavo.chat.current()",
+    "tavo.chat.update(chat)",
+    "tavo.character.all()",
+    "tavo.character.get(characterId)",
+    "tavo.character.find(name, options)",
+    "tavo.character.create(character)",
+    "tavo.character.update(character)",
+    "tavo.character.import(card)",
+    "tavo.character.delete(characterId)",
+    "tavo.persona.all()",
+    "tavo.persona.get(personaId)",
+    "tavo.persona.find(name, options)",
+    "tavo.persona.create(persona)",
+    "tavo.persona.update(persona)",
+    "tavo.persona.delete(personaId)",
+    "tavo.preset.all()",
+    "tavo.preset.get(presetId)",
+    "tavo.preset.find(name, options)",
+    "tavo.preset.import(preset)",
+    "tavo.preset.create(preset)",
+    "tavo.preset.update(preset)",
+    "tavo.preset.delete(presetId)",
+    "tavo.lorebook.all()",
+    "tavo.lorebook.get(lorebookId)",
+    "tavo.lorebook.find(name, options)",
+    "tavo.lorebook.import(lorebook)",
+    "tavo.lorebook.create(lorebook)",
+    "tavo.lorebook.update(lorebook)",
+    "tavo.lorebook.delete(lorebookId)",
+    "tavo.regex.all()",
+    "tavo.regex.get(regexId)",
+    "tavo.regex.find(name, options)",
+    "tavo.regex.import(regex)",
+    "tavo.regex.create(regex)",
+    "tavo.regex.update(regex)",
+    "tavo.regex.delete(regexId)",
+    "tavo.memory.current()",
+    "tavo.memory.update(memory)",
+    "tavo.generate(prompt, options)",
+    "tavo.input.get()",
+    "tavo.input.set(text)",
+    "tavo.input.append(text)",
+    "tavo.input.clear()",
+    "tavo.input.send()",
+    "tavo.utils.toast(text)",
+    "tavo.utils.openUrl(url)",
+    "tavo.utils.export(name, data)",
+    "tavo.utils.select(options, title, defaultValue)",
+    "tavo.app.version()",
+    "tavo.app.versionNumber()"
+  ]
+}

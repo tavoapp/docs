@@ -1,0 +1,63 @@
+---
+title: "API Setup Overview — Connect Tavo to an AI Model"
+sidebarTitle: "API Setup"
+description: "Tavo uses your own API key to call AI models. Follow these four steps to get a key, configure it, choose a model, and troubleshoot any issues."
+---
+
+Tavo does not bundle an AI model — instead, it connects to the model provider of your choice using an API key that you supply. This design gives you full control over which model you use, how much you spend, and which provider you trust with your data.
+
+The API setup process has four parts. Work through them in order the first time you set up Tavo.
+
+<CardGroup cols={2}>
+  <Card
+    title="Get an API Key"
+    icon="key"
+    href="/guides/api-setup/get-key"
+  >
+    Register on a supported AI platform and generate an API key. Covers Volink, Gemini, Claude, DeepSeek, OpenAI, Doubao, OpenRouter, and custom endpoints.
+  </Card>
+  <Card
+    title="Configure the Connection"
+    icon="settings"
+    href="/guides/api-setup/configure"
+  >
+    Enter your API key in Tavo's API settings, pick the right provider type, and verify the connection is working.
+  </Card>
+  <Card
+    title="Select a Model"
+    icon="layers"
+    href="/guides/api-setup/select-model"
+  >
+    Browse the models available under your API connection, set one as the default, and adjust model parameters.
+  </Card>
+  <Card
+    title="Troubleshooting"
+    icon="triangle-alert"
+    href="/guides/api-setup/troubleshooting"
+  >
+    Fix common API errors including invalid keys, quota limits, empty responses, content filtering, and region restrictions.
+  </Card>
+</CardGroup>
+
+## Supported providers
+
+Tavo currently supports the following AI providers:
+
+| Provider | Notes |
+|---|---|
+| **Volink** | Recommended for first-time users. Chinese-friendly payment options, no VPN required. |
+| **Gemini** | Google AI Studio. Free tier available for personal Google accounts. |
+| **Claude** | Anthropic. Requires a non-mainland-China phone number to register. |
+| **DeepSeek** | Official DeepSeek platform. Top up account balance to unlock API calls. |
+| **OpenAI** | ChatGPT platform API. Requires phone verification for the first API key. |
+| **Doubao / Volcano / ByteDance** | ByteDance's model platform (火山方舟). Also carries DeepSeek models. Requires real-name verification. |
+| **OpenRouter** | Aggregator with 200+ models from many providers. Good for comparing models. |
+| **Custom (OpenAI-compatible)** | Any API endpoint that follows the OpenAI protocol, including local models. |
+
+<Note>
+  You need to register directly with your chosen provider and agree to their terms of service. Tavo does not resell API access — your key goes straight to the provider's servers.
+</Note>
+
+## How billing works
+
+You pay the AI provider directly based on your usage (typically measured in tokens). Tavo itself does not charge per message. Check each provider's pricing page before you start, especially if you plan to have long conversations or use large context windows.

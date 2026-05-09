@@ -1,0 +1,87 @@
+---
+title: "Long Memory: Persist Facts Across Conversations"
+sidebarTitle: "Long Memory"
+description: "Enable long memory so Tavo remembers your preferences, story details, and important facts between separate chat sessions — not just within a single conversation."
+---
+
+By default, Tavo's AI only knows what is in the current conversation window. When a chat ends, everything discussed is gone. Long memory changes this by extracting and storing key facts from your conversations so the AI can reference them in future sessions — your preferences, story developments, character relationships, and personal details all carry forward instead of resetting every time.
+
+## What long memory does
+
+<Tabs>
+  <Tab title="Without long memory">
+    Every new conversation starts completely fresh. The AI has no recollection of anything you discussed before — not your name, not a story arc you developed together, not a preference you mentioned last week.
+
+    You mentioned you love running in one session. Three sessions later, the AI has no idea.
+  </Tab>
+  <Tab title="With long memory">
+    The AI behaves like a friend who remembers. Your preferences, interests, and important story details persist between sessions. The AI can bring them up naturally — asking how your running has been going, or continuing a narrative thread from where you left off.
+  </Tab>
+</Tabs>
+
+## How memory is extracted
+
+There are two ways facts get saved to long memory: you can trigger it manually, or the system can do it automatically.
+
+### Manual extraction
+
+You control exactly what gets saved. At any point during a conversation, you can tap to extract the current conversation and save its key contents to memory. Use this when something important just happened in the story, or when you've shared a preference or detail you definitely want the AI to remember later.
+
+Think of it like selecting photos to put in an album — you choose which moments are worth keeping.
+
+### Automatic extraction (after 10 messages)
+
+Once you and the character have exchanged 10 messages in a session, the system automatically reviews the conversation and extracts content it determines to be meaningful. You don't need to do anything; the system handles it in the background.
+
+Think of it like a scrapbook that quietly assembles itself — it picks up the recurring themes and facts from your conversation.
+
+### Key differences
+
+| | Manual extraction | Automatic extraction |
+|---|---|---|
+| Who decides what to save | You | The system |
+| When it happens | Whenever you tap to extract | After every 10 messages |
+| Best for | Critical story moments, specific preferences you want locked in | General ongoing facts, recurring topics |
+| Control level | Full control | Automatic, no intervention needed |
+
+<Note>
+Manual and automatic extraction work together. You can rely on automatic extraction for day-to-day conversation and use manual extraction when something especially significant happens that you want to be sure is captured.
+</Note>
+
+## Enabling long memory
+
+<Steps>
+  <Step title="Open the chat settings">
+    Inside a chat, tap the settings or options icon to open the chat configuration panel.
+  </Step>
+  <Step title="Find the Long Memory toggle">
+    Scroll to the **Long Memory** section. You'll see a toggle to enable it for this conversation.
+  </Step>
+  <Step title="Turn on long memory">
+    Tap the toggle to enable it. Long memory is now active for this chat. The AI will begin building a memory store from this point forward.
+  </Step>
+</Steps>
+
+<Tip>
+Long memory is configured per chat. If you want the AI to remember things across multiple characters or conversations, make sure long memory is enabled in each one.
+</Tip>
+
+## Managing saved memories
+
+You can view, edit, and delete the facts that have been saved to long memory at any time.
+
+<Steps>
+  <Step title="Open the memory manager">
+    From the chat settings panel, tap **Manage Memories** (or the equivalent memory view in your app version).
+  </Step>
+  <Step title="Review saved facts">
+    The memory manager shows you a list of everything currently stored. Each entry represents a fact or summary the system has extracted.
+  </Step>
+  <Step title="Edit or remove entries">
+    Tap any entry to edit its content or delete it entirely. Remove facts that are outdated, incorrect, or no longer relevant to your current story.
+  </Step>
+</Steps>
+
+<Warning>
+Memories are included in the AI's context on future turns, which consumes tokens. If your memory store grows very large, consider reviewing and pruning entries that are no longer useful to keep performance consistent.
+</Warning>

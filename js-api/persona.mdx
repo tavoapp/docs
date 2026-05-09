@@ -1,0 +1,161 @@
+---
+title: "tavo.persona — Manage User Personas"
+description: "Reference for tavo.persona: list all personas, retrieve by ID, search by name, create, update, and delete user personas with field details."
+---
+
+The `tavo.persona` namespace lets you manage the user personas stored in Tavo. Personas represent how the user presents themselves within a chat — including a name, a description, and an optional avatar. You can list, retrieve, search, create, update, and delete personas entirely through the API.
+
+## Persona object
+
+The full persona object returned by `get` contains the following fields:
+
+```javascript
+{
+  id: 5,                     // Unique persona ID
+  name: 'Default Persona',   // Persona name (required)
+  description: '...',        // Persona description (required)
+  avatar: 'chara/persona.png', // Avatar image URL or path (optional)
+  active: true,              // Whether this is the default persona
+  sortIndex: 12,             // Sort order index
+}
+```
+
+---
+
+### `tavo.persona.all()`
+
+Returns a summary list of all personas. Each item contains only `id` and `name`.
+
+```javascript
+const personas = await tavo.persona.all()
+console.log(personas[0].id)   // e.g. 5
+console.log(personas[0].name) // e.g. "Default Persona"
+```
+
+**Parameters**: None.
+
+**Returns**: `array` — Array of persona summary objects `{ id, name }`.
+
+---
+
+### `tavo.persona.get(personaId)`
+
+Retrieves the full persona object for the given persona ID. Returns `null` if it does not exist.
+
+```javascript
+const persona = await tavo.persona.get(5)
+if (persona) {
+  console.log(persona.name)
+  console.log(persona.description)
+}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `personaId` | `number` | Yes | The unique ID of the persona to retrieve. |
+
+**Returns**: `object | null` — Full persona object, or `null` if not found.
+
+---
+
+### `tavo.persona.find(name, options?)`
+
+Searches personas by name and returns an array of matching persona objects.
+
+```javascript
+// Exact match (default)
+const personas = await tavo.persona.find('Default Persona')
+
+// Prefix match
+const personas2 = await tavo.persona.find('Default', { match: 'prefix' })
+
+console.log(personas.length)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Yes | Name to search for. |
+| `options` | `object` | No | Search options. |
+| `options.match` | `string` | No | Match strategy: `'exact'` (default), `'prefix'`, `'suffix'`, or `'contains'`. |
+
+**Returns**: `array` — Array of full persona objects matching the search.
+
+---
+
+### `tavo.persona.create(persona)`
+
+Creates a new persona and returns its newly assigned ID.
+
+```javascript
+const id = await tavo.persona.create({
+  name: 'Detective Persona',
+  description: 'Detail-oriented, prefers structured reasoning.',
+  avatar: 'chara/persona-detective.png',
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `persona` | `object` | Yes | Persona data to create. |
+| `persona.name` | `string` | Yes | Persona name. |
+| `persona.description` | `string` | Yes | Persona description used in prompts. |
+| `persona.avatar` | `string` | No | Avatar image URL or file path. |
+
+**Returns**: `number | null` — New persona ID, or `null` on failure.
+
+---
+
+### `tavo.persona.update(persona)`
+
+Updates an existing persona and returns the persona ID.
+
+```javascript
+await tavo.persona.update({
+  id: 5,
+  name: 'Default Persona',
+  description: 'Concise tone, lead with actionable conclusions.',
+  avatar: 'chara/persona-default.png',
+  active: true,
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `persona` | `object` | Yes | Persona data with updated fields. |
+| `persona.id` | `number` | Yes | ID of the persona to update. |
+| `persona.name` | `string` | Yes | Persona name. |
+| `persona.description` | `string` | Yes | Persona description. |
+| `persona.avatar` | `string` | No | Avatar image URL or file path. |
+| `persona.active` | `boolean` | No | Set to `true` to make this the default persona. |
+
+**Returns**: `number | null` — Persona ID, or `null` on failure.
+
+---
+
+### `tavo.persona.delete(personaId)`
+
+Deletes a persona by ID. Also accepts a persona object with an `id` property.
+
+```javascript
+// Delete by ID
+await tavo.persona.delete(5)
+
+// Delete using a persona object
+await tavo.persona.delete(persona) // persona must have an .id property
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `personaId` | `number \| object` | Yes | The persona ID, or a persona object containing an `id` field. |
+
+**Returns**: `number | null` — The deleted persona's ID, or `null` on failure.

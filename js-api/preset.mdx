@@ -1,0 +1,255 @@
+---
+title: "tavo.preset — Manage AI Prompt Presets"
+description: "Full reference for tavo.preset: list, retrieve, search, import SillyTavern presets, create, update, and delete presets with all entry and BasicPrompts fields."
+---
+
+The `tavo.preset` namespace gives you programmatic control over prompt presets. A preset defines the structure of the prompt sent to the AI model — it contains a set of ordered prompt entries (builtin instructions, position markers, and custom prompts) plus a collection of basic prompt templates. You can retrieve existing presets, import SillyTavern-format presets, build new ones from scratch, and patch individual entries.
+
+## Preset object
+
+The complete preset object returned by `get` and `find` has this shape:
+
+```javascript
+{
+  id: 1,            // Unique preset ID
+  name: 'Default',  // Preset name (required)
+  basicPrompts: { /* BasicPrompts — see below */ },
+  entries: [],      // PresetEntry[] — see below
+}
+```
+
+## BasicPrompts fields
+
+`basicPrompts` holds system prompt template strings. Every field is optional; missing fields fall back to built-in defaults.
+
+```javascript
+{
+  persona: '{{persona}}',
+  description: '{{description}}',
+  personality: '{{personality}}',
+  scenario: '{{scenario}}',
+  exampleMessageStart: '[Example Chat]',
+  chatStart: '[Start a new Chat]',
+  groupChatStart: '[Start a new group chat. Group members: {{group}}]',
+  groupNudge: '[Write the next reply only as {{char}}.]',
+  continueNudge: '[Continue your last message without repeating its original content.]',
+  impersonation: '[Write your next reply from the point of view of {{user}}...]',
+  lorebook: '{0}',  // Wrapper template for lorebook entries; {0} marks the content insertion point
+}
+```
+
+## PresetEntry fields
+
+Each item in the `entries` array has this structure:
+
+```javascript
+{
+  // ── Identity ────────────────────────────────────
+  identifier: 'main',   // Unique identifier (built-in entries use fixed identifiers — see table below)
+  name: 'Main Prompt',  // Display name
+  content: '...',       // Prompt text (not present on 'marker' type entries)
+  enabled: true,        // Whether this entry is enabled within the active list
+  active: true,         // Whether this entry is included in the active list at all
+
+  // ── Type ────────────────────────────────────────
+  type: 'custom',       // 'builtin' | 'marker' | 'custom'
+                        //   'builtin' — system prompt (fixed identifier)
+                        //   'marker'  — position placeholder (no content, marks insertion point)
+                        //   'custom'  — user-defined prompt
+
+  // ── Role & Injection (custom entries only) ──────
+  role: 'system',                  // 'system' | 'user' | 'assistant'
+  injectionPosition: 'relative',   // 'relative' (follows preset list order)
+                                   // 'absolute' (injected at a specific chat history depth)
+  injectionDepth: 4,               // Depth used when injectionPosition is 'absolute'.
+                                   // 0 = after the last message, 1 = before the last message, etc.
+}
+```
+
+## Built-in entry identifiers
+
+The following identifiers correspond to system-managed entries. You can reference them directly when reading or modifying a preset's `entries` array.
+
+| Identifier | Name | Type | Description |
+|---|---|---|---|
+| `main` | Main Prompt | builtin | Core instructions for the conversation |
+| `worldInfoBefore` | Lorebook Before | marker | Lorebook insertion point (above character description) |
+| `personaDescription` | Persona Description | marker | User persona description insertion point |
+| `charDescription` | Char Description | marker | Character description insertion point |
+| `charPersonality` | Char Personality | marker | Character personality insertion point |
+| `scenario` | Scenario | marker | Scenario description insertion point |
+| `enhanceDefinitions` | Enhance Definitions | builtin | Supplementary prompt to strengthen character definitions |
+| `nsfw` | Auxiliary Prompt | builtin | Auxiliary prompt (empty by default) |
+| `worldInfoAfter` | Lorebook After | marker | Lorebook insertion point (below character description) |
+| `dialogueExamples` | Chat Examples | marker | Dialogue examples insertion point |
+| `chatHistory` | Chat History | marker | Chat history insertion point |
+| `jailbreak` | Post-History Instructions | builtin | Additional instructions injected after the chat history |
+
+---
+
+### `tavo.preset.all()`
+
+Returns a summary list of all presets. Each item contains only `id` and `name`.
+
+```javascript
+const presets = await tavo.preset.all()
+console.log(presets[0].id)   // e.g. 1
+console.log(presets[0].name) // e.g. "Default"
+```
+
+**Parameters**: None.
+
+**Returns**: `array` — Array of preset summary objects `{ id, name }`.
+
+---
+
+### `tavo.preset.get(presetId)`
+
+Retrieves the full preset object for the given ID. Returns `null` if not found.
+
+```javascript
+const preset = await tavo.preset.get(1)
+if (preset) {
+  console.log(preset.name)
+  console.log(preset.entries.length)
+  console.log(preset.basicPrompts.chatStart)
+}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `presetId` | `number` | Yes | The unique ID of the preset to retrieve. |
+
+**Returns**: `object | null` — Full preset object, or `null` if not found.
+
+---
+
+### `tavo.preset.find(name, options?)`
+
+Searches presets by name and returns an array of matching full preset objects.
+
+```javascript
+// Exact match (default)
+const presets = await tavo.preset.find('Default')
+
+// Prefix match
+const presets2 = await tavo.preset.find('Def', { match: 'prefix' })
+
+console.log(presets.length)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Yes | Name to search for. |
+| `options` | `object` | No | Search options. |
+| `options.match` | `string` | No | Match strategy: `'exact'` (default), `'prefix'`, `'suffix'`, or `'contains'`. |
+
+**Returns**: `array` — Array of full preset objects matching the search.
+
+---
+
+### `tavo.preset.import(preset)`
+
+Imports a preset in SillyTavern format. Shows a confirmation dialog; returns the new preset ID on confirm, or `null` on cancel.
+
+```javascript
+const id = await tavo.preset.import({
+  name: 'My Preset',
+  prompts: [...],
+  prompt_order: [{ character_id: 100001, order: [...] }],
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `preset` | `object` | Yes | Preset in SillyTavern format. |
+| `preset.name` | `string` | No | Preset name. Defaults to `'Preset'` if omitted. |
+| `preset.prompts` | `array` | No | Array of prompt entries in SillyTavern format. |
+| `preset.prompt_order` | `array` | No | Prompt ordering configuration. |
+
+**Returns**: `number | null` — New preset ID, or `null` if the user cancelled.
+
+---
+
+### `tavo.preset.create(preset)`
+
+Creates a new preset and returns its newly assigned ID. Missing `basicPrompts` and `entries` fields are filled with sensible defaults automatically.
+
+```javascript
+const id = await tavo.preset.create({
+  name: 'My Preset',
+  basicPrompts: {
+    continueNudge: '[Continue your last message without repeating its original content.]',
+  },
+  entries: [
+    {
+      identifier: 'abc123',
+      name: 'Style Control',
+      content: 'Use a refined, elegant narrative style.',
+    },
+  ],
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `preset` | `object` | Yes | Preset data to create. |
+| `preset.name` | `string` | Yes | Preset name. |
+| `preset.basicPrompts` | `object` | No | BasicPrompts overrides (see BasicPrompts fields above). |
+| `preset.entries` | `array` | No | Array of PresetEntry objects (see PresetEntry fields above). |
+
+**Returns**: `number | null` — New preset ID, or `null` on failure.
+
+---
+
+### `tavo.preset.update(preset)`
+
+Updates an existing preset. The `entries` array you pass completely replaces the existing entries, so the recommended pattern is to `get` the preset first, modify it, and then `update`.
+
+```javascript
+const preset = await tavo.preset.get(33)
+preset.entries.find(e => e.identifier === 'main').content = 'Always reply in English.'
+await tavo.preset.update(preset)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `preset` | `object` | Yes | Preset data with updated fields. |
+| `preset.id` | `number` | Yes | ID of the preset to update. |
+| `preset.name` | `string` | No | Updated preset name. |
+| `preset.basicPrompts` | `object` | No | Updated BasicPrompts fields. |
+| `preset.entries` | `array` | No | Replacement entries list (fully replaces existing entries). |
+
+**Returns**: `number | null` — Preset ID, or `null` on failure.
+
+---
+
+### `tavo.preset.delete(presetId)`
+
+Deletes a preset by ID. Also accepts a preset object with an `id` property.
+
+```javascript
+// Delete by ID
+await tavo.preset.delete(1)
+
+// Delete using a preset object
+await tavo.preset.delete(preset) // preset must have an .id property
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `presetId` | `number \| object` | Yes | The preset ID, or a preset object containing an `id` field. |
+
+**Returns**: `number | null` — The deleted preset's ID, or `null` on failure.

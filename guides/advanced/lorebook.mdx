@@ -1,0 +1,158 @@
+---
+title: "Lorebooks: Keep Your Story World Consistent"
+sidebarTitle: "Lorebook"
+description: "Use Tavo's lorebook to define world rules, locations, and lore that the AI silently references whenever relevant keywords appear in your conversation."
+---
+
+A lorebook is a hidden encyclopedia that Tavo injects into the AI's context whenever specific keywords appear in your conversation. It never shows up in the chat itself — it works silently in the background, making sure the AI stays true to the world you've built. Think of the character card as defining *who* the actor is, and the lorebook as defining *what the stage looks like* and *how the story should be told*.
+
+## Problems a lorebook solves
+
+<AccordionGroup>
+  <Accordion title="World consistency — stopping the AI from contradicting your setting">
+    Without a lorebook, the AI relies only on its training data and whatever fits in the current context window. If you established early in the chat that "this world has no metal — all tools are carved from crystal," the AI may forget that detail after a few dozen messages and write a character drawing an iron sword.
+
+    A lorebook entry locks that rule in permanently. Whenever the words `weapon`, `tool`, or `crafting` appear, the AI re-reads your rule and stays consistent.
+
+    **Example entry:**
+
+    - **Trigger keywords:** `tool`, `weapon`, `crafting`, `manufacture`
+    - **Content:** `In this world, no metal ore exists. All tools, weapons, and machinery are carved from "drive crystals" of varying elemental affinities. Crystal purity determines a tool's effectiveness.`
+  </Accordion>
+
+  <Accordion title="Narrative focus — keeping the AI on track during tense scenes">
+    The AI sometimes drifts — you're in the middle of a breathless chase scene and it starts describing roadside food stalls. A lorebook entry tied to your current scenario reminds the AI what the scene is *about*.
+
+    **Example entry:**
+
+    - **Trigger keywords:** `pursuit`, `chase`, `escape`, `guard`
+    - **Content:** `The current core scenario is an urgent chase by city guards. All descriptions and dialogue should center on hiding, planning escape routes, and responding to sudden crises. Maintain a tense, fast-paced rhythm.`
+  </Accordion>
+
+  <Accordion title="Layered exposition — revealing lore at the right moment">
+    If your world has a thousand-word backstory about three rival knight orders, dumping it all into the character card overloads the AI and makes the opening feel like a history lecture. A lorebook lets you split that background into focused entries that only surface when the relevant topic comes up naturally.
+
+    **Example entry breakdown:**
+
+    - Entry 1 (keyword: `Crimson Flame Order`) — Elite knights loyal to the crown, red armor, known for strict discipline.
+    - Entry 2 (keyword: `Silent Vow`) — A non-aggression pact signed twenty years ago by the three orders; quiet violations never stopped.
+    - Entry 3 (keyword: `Northern Rebellion`) — The event that broke the alliance between Crimson Flame and Silver Wing; the truth is covered up by the royal family.
+
+    Early in the story, only the first entry fires. When a player asks "why do they hate each other?", the second and third entries surface — the world reveals itself naturally instead of all at once.
+  </Accordion>
+</AccordionGroup>
+
+## Creating a lorebook and adding entries
+
+<Steps>
+  <Step title="Open the lorebook panel">
+    Inside a chat or character card, tap the lorebook icon to open the World Book panel.
+  </Step>
+  <Step title="Create a new lorebook">
+    Tap **New Lorebook** and give it a name. You can attach a lorebook to a specific character or share it across multiple chats.
+  </Step>
+  <Step title="Add an entry">
+    Tap **Add Entry** to create a new card. Fill in the fields described below.
+  </Step>
+  <Step title="Enable the entry">
+    Toggle the **Enabled** switch on. Disabled entries are saved but never injected.
+  </Step>
+</Steps>
+
+## Entry fields reference
+
+<AccordionGroup>
+  <Accordion title="Name">
+    A label for your own reference. It is never sent to the AI. Use something descriptive so you can find the entry later (e.g., `Crystal weapons — world rule`).
+  </Accordion>
+
+  <Accordion title="Primary trigger keywords">
+    The main words that activate this entry. When any of these words appears in the conversation (within the scan depth), the entry is injected into the AI's context.
+
+    **Tips:**
+    - Cover synonyms and alternate spellings. If your spell is called "Void Whisper", add both `void whisper` and `forbidden spell` and `ancient incantation`.
+    - Use the most specific terms that uniquely identify this topic.
+  </Accordion>
+
+  <Accordion title="Secondary trigger keywords">
+    Optional secondary keywords. When set, the entry fires only when *both* a primary keyword *and* a secondary keyword are present — useful for narrowing down when an entry activates.
+  </Accordion>
+
+  <Accordion title="Content">
+    The actual text injected into the AI's context. Write it as objective, authoritative fact — like an encyclopedia entry or a classified dossier.
+
+    **Example formats by category:**
+
+    *Geography / location:*
+    ```text
+    Everwinter City — the northernmost capital on the continent, buried in snow year-round. Built inside a massive glacial rift, powered by geothermal energy. Residents are resilient and deeply distrustful of outsiders.
+    ```
+
+    *Organization / faction:*
+    ```text
+    The Alchemist's Conclave — a neutral academic body controlling advanced knowledge of compounds and elixirs. Internally divided into three competing schools: Life, Transformation, and Destruction.
+    ```
+
+    *Concept / law of the world:*
+    ```text
+    Mana Tide — the ambient magical concentration fluctuates in monthly cycles. At high tide, spells are more powerful but harder to control. At low tide, casting is difficult but precision is greatly increased.
+    ```
+
+    *Key item:*
+    ```text
+    The Philosopher's Stone — a legendary alchemical artifact; a red rhomboid crystal. Its true ability is "limited perfect restoration," but each use randomly strips the user of one cognitive faculty (an emotion, a memory, or a skill).
+    ```
+
+    *Character relationship / secret:*
+    ```text
+    The Death of Leon — the king's younger brother Leon died three years ago in a "hunting accident." Popular belief holds that the queen arranged it to eliminate a rival heir. This is the root of the royal family's internal split.
+    ```
+  </Accordion>
+
+  <Accordion title="Strategy: constant vs. keyword-triggered">
+    - **Constant** — the entry is always injected, regardless of keywords. Use sparingly; too many constant entries consume context tokens.
+    - **Keyword-triggered** (default) — the entry only fires when a trigger keyword is detected.
+  </Accordion>
+
+  <Accordion title="Injection position">
+    Controls where in the AI's prompt the entry content is placed — before the chat history, after it, or at another defined position. Entries injected closer to the most recent messages carry more weight.
+  </Accordion>
+
+  <Accordion title="Scan depth">
+    How many recent messages the system scans for trigger keywords. A depth of 5 means only the last 5 messages are checked. Increase this if you want older context to be able to trigger entries.
+  </Accordion>
+
+  <Accordion title="Probability">
+    A percentage chance that the entry fires even when its keyword is matched. Setting this below 100% creates non-deterministic lore — useful for rare events or ambiguous world details.
+  </Accordion>
+
+  <Accordion title="Sticky">
+    When enabled, once an entry fires it stays injected for a number of subsequent turns, even if the trigger keyword no longer appears.
+  </Accordion>
+
+  <Accordion title="Cooldown">
+    The number of turns that must pass before this entry can fire again after it last triggered. Prevents the same lore block from being repeated too frequently.
+  </Accordion>
+
+  <Accordion title="Delay">
+    The entry won't fire for the first N turns of a conversation. Use this to hold back lore that only becomes relevant once the story has progressed.
+  </Accordion>
+</AccordionGroup>
+
+## Writing tips
+
+<Tip>
+**Start with "patch" entries.** You don't need to plan your entire world before you begin. Play normally, and whenever the AI contradicts your setting — it writes a metal sword into a crystal-only world — immediately create a lorebook entry to correct that specific point. Your lorebook grows naturally with the story.
+</Tip>
+
+<Note>
+**Focus on immovable facts.** Ask yourself: "What truths in my world are absolute — things I will never let the AI improvise around?" Those are your lorebook entries. Details you're flexible on can stay out of the lorebook and let the AI fill them in creatively.
+</Note>
+
+<Tip>
+**Your lorebook is a living document.** You can edit entries at any time. If the story evolves — perhaps the character who was a villain becomes an ally — update the relevant entries to reflect the new reality. The lorebook should match where the story *is*, not where it started.
+</Tip>
+
+<Warning>
+Keep individual entries focused and concise. A single entry covering one specific topic is more reliably triggered and more useful to the AI than one large entry that covers many things at once.
+</Warning>

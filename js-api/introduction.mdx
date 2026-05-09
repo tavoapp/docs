@@ -1,0 +1,133 @@
+---
+title: "Tavo JavaScript API: Overview and Setup Guide"
+sidebarTitle: "Introduction"
+description: "Write interactive scripts inside chat bubbles using the Tavo JS API. Available since v0.75.0 with Advanced Rendering and JS support enabled."
+---
+
+The Tavo JavaScript API gives you a set of interfaces to read and modify chat data, manage characters, trigger AI generation, and build interactive experiences directly inside message bubbles. It has been available since **v0.75.0** and requires Advanced Rendering with JavaScript support enabled.
+
+<Warning>
+Almost all Tavo JS API calls are asynchronous. You must use `await` before each call, and wrap your code in an `async` function. Variable operations (`tavo.get`, `tavo.set`, `tavo.unset`) are the only exception — they are synchronous.
+</Warning>
+
+## Enabling JavaScript support
+
+To use the JavaScript API, you first need to turn on Advanced Rendering and enable JS support:
+
+<Steps>
+  <Step title="Open Settings">
+    From the main screen, tap the top-left icon to open the sidebar, then tap **More** → **Settings**.
+  </Step>
+  <Step title="Open Advanced Rendering">
+    Tap **Advanced Rendering** in the settings list.
+  </Step>
+  <Step title="Enable Advanced Rendering">
+    Toggle **Advanced Rendering** on. This lets chat bubbles render HTML and CSS.
+  </Step>
+  <Step title="Enable JS support">
+    Toggle the **JS support** option on. This unlocks the `tavo` global object inside chat bubbles.
+  </Step>
+</Steps>
+
+## Writing your first script
+
+Once JS support is enabled, paste JavaScript directly into any chat message bubble. Scripts run in the context of that bubble, with full access to the `tavo` global.
+
+```javascript
+async function run() {
+  const chat = await tavo.chat.current();
+  tavo.utils.toast(`You are in: ${chat.name}`);
+}
+
+run();
+```
+
+Keep the `async`/`await` pattern in mind: because nearly every API call is asynchronous, you need to declare your function with `async` and prefix each `tavo` call with `await`.
+
+<Tip>
+**Vibe Coding:** You don't need to be a programmer to use the JS API. Paste this documentation page into any AI assistant (ChatGPT, Claude, etc.) and ask it to generate Tavo-compatible scripts for you. The AI will produce working code you can paste straight into a bubble.
+</Tip>
+
+## Helper character card
+
+Tavo provides a dedicated guide character that demonstrates each API method with interactive examples. Import it to explore the API hands-on.
+
+To import, open **Import character from URL** in the app and paste:
+
+```
+https://docs.tavoai.dev/static/images/tavojs-guide-0_8-zh.png
+```
+
+You can also download the card image directly and import it from a file.
+
+## Understanding async/await
+
+Most Tavo API methods perform asynchronous operations and must be awaited. If you forget `await`, you'll receive a `Promise` object instead of the actual data — and your code will silently behave incorrectly.
+
+```javascript
+// Correct
+async function demo() {
+  const chat = await tavo.chat.current();
+  console.log(chat.name);
+}
+
+// Incorrect — chat is a Promise, not the chat object
+function demo() {
+  const chat = tavo.chat.current(); // missing await
+  console.log(chat.name);           // undefined
+}
+```
+
+Check the JavaScript console in the app sidebar to view logs and error messages.
+
+The only calls that do **not** require `await` are the variable operations: `tavo.get()`, `tavo.set()`, and `tavo.unset()`.
+
+## Available namespaces
+
+The `tavo` global is organized into namespaces, each covering a specific area of the app:
+
+<AccordionGroup>
+  <Accordion title="tavo.get / tavo.set / tavo.unset — Variables">
+    Persistent key-value storage that survives page refreshes. Supports chat scope (per-conversation) and global scope (cross-conversation). These calls are synchronous — no `await` needed. See [Variables](/js-api/variables) for full documentation.
+  </Accordion>
+  <Accordion title="tavo.message — Messages">
+    Read, append, update, and delete messages in the current chat. Find messages by floor index or filter by role. Available since v0.78.0.
+  </Accordion>
+  <Accordion title="tavo.chat — Chat session">
+    Get and update the current chat's name, character list, persona, preset, lorebooks, and regex scripts.
+  </Accordion>
+  <Accordion title="tavo.character — Characters">
+    List, get, find, create, update, import, and delete characters. Supports CCv3 card format on import.
+  </Accordion>
+  <Accordion title="tavo.persona — Personas">
+    List, get, find, create, update, and delete user personas (the "you" identity in a chat).
+  </Accordion>
+  <Accordion title="tavo.preset — Presets">
+    List, get, find, create, update, import, and delete prompt presets and their entries.
+  </Accordion>
+  <Accordion title="tavo.lorebook — Lorebooks">
+    List, get, find, create, update, import, and delete lorebooks (world info / character books).
+  </Accordion>
+  <Accordion title="tavo.regex — Regex scripts">
+    List, get, find, create, update, import, and delete regex find-and-replace rule sets.
+  </Accordion>
+  <Accordion title="tavo.memory — Long-term memory">
+    Read and update the long-term memory entries for the current chat.
+  </Accordion>
+  <Accordion title="tavo.generate — AI generation">
+    Trigger a one-shot AI text generation request, optionally using the current chat context.
+  </Accordion>
+  <Accordion title="tavo.input — Input box">
+    Read, write, append, clear, and send the contents of the chat input field.
+  </Accordion>
+  <Accordion title="tavo.utils — Utilities">
+    Show toast notifications, open URLs, export files, and display a native selection picker.
+  </Accordion>
+  <Accordion title="tavo.app — App info">
+    Read the current app version as a string or numeric value.
+  </Accordion>
+</AccordionGroup>
+
+<Info>
+The Tavo JavaScript API is in early beta and is actively being expanded. If you have questions or feature ideas, share them in the community.
+</Info>

@@ -1,0 +1,123 @@
+---
+title: "tavo.utils — General-Purpose Utility Methods"
+description: "Reference for tavo.utils: show toast notifications, open external URLs, export files for download or sharing, and present a native selection picker."
+---
+
+The `tavo.utils` namespace provides general-purpose utility helpers that don't belong to a specific data domain. Use these methods to surface feedback to the user, open links in the system browser, export generated files, and prompt the user to choose from a list of options.
+
+---
+
+### `tavo.utils.toast(text)`
+
+Displays a brief toast notification that disappears automatically after a few seconds. This method is **synchronous** — no `await` needed.
+
+```javascript
+tavo.utils.toast('Character card created successfully.')
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `text` | `string` | Yes | The message to display in the toast. |
+
+**Returns**: `void` (synchronous)
+
+---
+
+### `tavo.utils.openUrl(url)`
+
+Opens a URL in the device's external browser. This method is **synchronous** — no `await` needed.
+
+```javascript
+tavo.utils.openUrl('https://example.com')
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `url` | `string` | Yes | The URL to open. Must be a fully qualified URL including the protocol. |
+
+**Returns**: `void` (synchronous)
+
+---
+
+### `tavo.utils.export(name, data)`
+
+Exports data as a file and triggers the system's share/save dialog. `data` can be a Base64-encoded string (recommended for binary content) or a plain text string.
+
+```javascript
+// Export as Base64 (recommended)
+tavo.utils.export(
+  'character.json',
+  btoa('{"name":"Alice"}')
+)
+
+// Export as plain text
+tavo.utils.export('notes.txt', 'Plain text content goes here.')
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Yes | The filename for the exported file, including extension. |
+| `data` | `string` | Yes | The file content. Pass a Base64-encoded string (via `btoa`) for binary or structured data, or a plain string for text files. |
+
+**Returns**: `void`
+
+---
+
+### `tavo.utils.select(options, title?, defaultValue?)`
+
+Presents a native selection picker to the user and returns the `value` of the chosen option. Returns `null` if the user dismisses the picker without selecting.
+
+```javascript
+// 1. String array — value and display text are the same
+const fruit = await tavo.utils.select(['Apple', 'Banana', 'Orange'], 'Pick a fruit')
+
+// 2. Object array with value and label
+const lang = await tavo.utils.select(
+  [
+    { value: 'en', label: 'English' },
+    { value: 'zh', label: 'Chinese' },
+    { value: 'ja', label: 'Japanese' },
+  ],
+  'Select language',
+  'en' // Default selected value
+)
+
+// 3. Full object with optional subtitle and description
+const role = await tavo.utils.select(
+  [
+    { value: 'warrior', label: 'Warrior',  description: 'Melee physical attacker', subtitle: 'Recommended for beginners' },
+    { value: 'mage',    label: 'Mage',     description: 'Ranged magic attacker',   subtitle: 'High burst damage' },
+    { value: 'healer',  label: 'Healer',   description: 'Support and healing',     subtitle: 'Team support' },
+  ],
+  'Choose a class',
+  'mage'
+)
+
+if (role !== null) {
+  tavo.utils.toast(`You selected: ${role}`)
+}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `options` | `array` | Yes | The list of options. Supports three formats (see below). |
+| `title` | `string` | No | Optional title shown above the picker. |
+| `defaultValue` | `string` | No | The `value` of the option that should be pre-selected when the picker opens. |
+
+#### Option formats
+
+| Format | Shape | Notes |
+|--------|-------|-------|
+| String array | `string[]` | Each string is both the display label and the returned value. |
+| Value/label objects | `{ value: string, label: string }[]` | `value` is returned on selection; `label` is shown to the user. |
+| Full objects | `{ value: string, label: string, subtitle?: string, description?: string }[]` | Adds an optional subtitle and a longer description beneath each option. |
+
+**Returns**: `string | null` — The `value` of the selected option, or `null` if the user cancelled.

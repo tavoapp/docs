@@ -1,0 +1,154 @@
+---
+title: "Import Character Cards into Tavo"
+sidebarTitle: "Import character cards"
+description: "Bring characters from external platforms into Tavo by importing a JSON file, a PNG character card, or a direct URL from supported sites like Chub.ai and Janitor.ai."
+---
+
+Tavo supports importing character cards created on other AI chat platforms. Instead of re-entering all of a character's settings by hand, you can import a character in seconds using a file or a link. This page covers all three import methods and lists the platforms whose URLs Tavo can resolve directly.
+
+## Opening the import screen
+
+<Steps>
+  <Step title="Open the Characters screen">
+    Tap **Characters** on the home screen, or go to **Menu → Characters**.
+  </Step>
+  <Step title="Tap New">
+    Tap **New** to open the creation and import screen.
+  </Step>
+  <Step title="Choose an import method">
+    Select one of the three import options described below: JSON file, PNG image, or URL.
+  </Step>
+</Steps>
+
+---
+
+## Import methods
+
+<Tabs>
+  <Tab title="JSON file">
+    JSON is the most widely supported character card format. Most platforms that let you download a character card will offer a `.json` file.
+
+    <Steps>
+      <Step title="Download the JSON file">
+        On the external platform, find the character you want and download its JSON file to your device.
+      </Step>
+      <Step title="Tap Import from file">
+        On the Tavo import screen, tap **Import from file** and select the `.json` file you downloaded.
+      </Step>
+      <Step title="Review and save">
+        Tavo reads the file and populates all available fields. Review the character details, then tap **Save** to finish importing.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="PNG image">
+    Some platforms encode the full character card data inside a PNG image file (following the character card V2 specification). Tavo can extract the character data directly from the image.
+
+    <Steps>
+      <Step title="Download the PNG card">
+        On the external platform, download the character's PNG card file to your device.
+      </Step>
+      <Step title="Tap Import from photo library">
+        On the Tavo import screen, tap **Import from photo library** and select the PNG file.
+      </Step>
+      <Step title="Review and save">
+        If the PNG contains embedded character data, Tavo reads it and populates the character fields. Review the details, then tap **Save**.
+      </Step>
+    </Steps>
+
+    <Warning>
+      If Tavo displays a "no text block found" error, the PNG you selected does not contain embedded character card data. This can happen with preview images, screenshots, or cards that were not exported in the V2 PNG format. Try downloading the card again using the platform's official export button, or switch to a JSON import instead.
+    </Warning>
+  </Tab>
+
+  <Tab title="URL">
+    For supported platforms, you can import a character by pasting its page URL directly — no file download needed.
+
+    <Steps>
+      <Step title="Copy the character's URL">
+        On the external platform, navigate to the character's page and copy the full URL from your browser's address bar.
+      </Step>
+      <Step title="Paste the URL in Tavo">
+        On the Tavo import screen, paste the URL into the URL import field. Only one URL at a time is supported.
+      </Step>
+      <Step title="Tap Import">
+        Tap **Import**. Tavo fetches the character data from the platform and populates the fields.
+      </Step>
+      <Step title="Review and save">
+        Review the imported character details and tap **Save**.
+      </Step>
+    </Steps>
+
+    <Note>
+      Some imports may fail if the character is set to private on the source platform. Private characters are not shared with third-party apps, so Tavo cannot retrieve their data. If an import fails, check whether the character is publicly visible on the platform.
+    </Note>
+  </Tab>
+</Tabs>
+
+---
+
+## Supported platforms for URL import
+
+Tavo can resolve character URLs from the following platforms directly. Browse to a character's page on any of these sites, copy the URL, and paste it into Tavo's URL import field.
+
+<CardGroup cols={2}>
+  <Card title="Chub.ai" icon="globe" href="https://chub.ai">
+    A large community library of character cards with both PNG and JSON downloads available on each character page.
+  </Card>
+  <Card title="Janitor.ai" icon="globe" href="https://janitorai.com">
+    A popular AI roleplay platform. Navigate to a character's page and copy the URL from the address bar.
+  </Card>
+  <Card title="AI Character Cards" icon="globe" href="https://aicharactercards.com">
+    A dedicated card-sharing site. Each character page URL works directly with Tavo's URL importer.
+  </Card>
+  <Card title="Pygmalion" icon="globe" href="https://pygmalion.chat">
+    Pygmalion.chat hosts character cards with V2 PNG and raw JSON export options on each character page.
+  </Card>
+  <Card title="RealmRisu AI" icon="globe" href="https://realm.risuai.net">
+    RealmRisu AI (realm.risuai.net) offers both URL import and downloadable PNG and JSON files via the Options button on each character page.
+  </Card>
+</CardGroup>
+
+### How to find the import URL on each platform
+
+<AccordionGroup>
+  <Accordion title="Chub.ai">
+    1. Go to [chub.ai](https://chub.ai) and find the character you want.
+    2. Open the character's page.
+    3. Copy the URL from your browser's address bar.
+    4. Paste it into Tavo's URL import field and tap **Import**.
+  </Accordion>
+
+  <Accordion title="Janitor.ai">
+    1. Go to [janitorai.com](https://janitorai.com) and find the character you want.
+    2. Open the character's page.
+    3. Copy the full URL from your browser's address bar.
+    4. Paste it into Tavo's URL import field and tap **Import**.
+  </Accordion>
+
+  <Accordion title="AI Character Cards">
+    1. Go to [aicharactercards.com](https://aicharactercards.com) and find the character you want.
+    2. Open the character's page.
+    3. Copy the URL from your browser's address bar.
+    4. Paste it into Tavo's URL import field and tap **Import**.
+  </Accordion>
+
+  <Accordion title="Pygmalion (pygmalion.chat)">
+    1. Go to [pygmalion.chat](https://pygmalion.chat) and find the character you want.
+    2. Open the character's page.
+    3. Copy the URL from your browser's address bar.
+    4. Paste it into Tavo's URL import field and tap **Import**.
+
+    You can also download the character directly from Pygmalion. On the character page, look for the download section at the bottom and choose **V2 PNG Card** or **Raw JSON**, then import the file using the file or PNG import method in Tavo.
+  </Accordion>
+
+  <Accordion title="RealmRisu AI (realm.risuai.net)">
+    1. Go to [realm.risuai.net](https://realm.risuai.net) and find the character you want.
+    2. Open the character's page.
+    3. Copy the URL from your browser's address bar and paste it into Tavo's URL import field, **or** tap **Options** on the character page and download the card as **V2 PNG (Pure)** or **JSON**, then import the file in Tavo.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  Import failures are most commonly caused by the character being marked as private on the source platform. Private characters are not authorized for third-party access, so the import cannot retrieve their data.
+</Note>

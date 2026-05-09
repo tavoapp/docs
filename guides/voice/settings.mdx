@@ -1,0 +1,110 @@
+---
+title: "Voice Playback Settings: Auto-Play, Content Rules, and Background Audio"
+sidebarTitle: "Voice settings"
+description: "Control which messages Tavo reads aloud, whether voice starts automatically, and whether audio keeps playing when you leave the app."
+---
+
+The Voice settings screen gives you precise control over how and when Tavo speaks. You can turn automatic playback on or off, decide exactly which parts of a message are read aloud, and keep audio running even after you switch to another app. All of these options are independent toggles — enable only the ones you want.
+
+## Opening voice settings
+
+<Steps>
+  <Step title="Open the sidebar">
+    In Tavo, tap the menu icon to open the left sidebar.
+  </Step>
+  <Step title="Go to Voice">
+    Tap **More** at the bottom, then select **Voice**.
+  </Step>
+  <Step title="Select the Voice Settings tab">
+    On the Voice screen, tap the **Voice Settings** tab.
+  </Step>
+</Steps>
+
+## Playback toggles
+
+### Auto-play voice
+
+When this is **on**, Tavo automatically begins speaking as soon as a character's reply arrives. You do not need to tap a play button.
+
+When this is **off**, voice is available but must be triggered manually for each message.
+
+**Example:** The character says "Good morning!" With auto-play on, you hear it immediately. With auto-play off, a play button appears next to the message and you tap it when ready.
+
+---
+
+### Play narration
+
+When this is **on**, system narration and descriptive passages are spoken aloud in addition to character dialogue.
+
+When this is **off**, only character speech is synthesized; narration is skipped.
+
+**Example:** A message contains the line *"Rain began to fall outside."* With narration play on, that line is read. With it off, only the character's spoken words are voiced.
+
+---
+
+### Play quoted text only
+
+When this is **on**, Tavo restricts synthesis to content marked with the `>` blockquote symbol and skips all other text in the message.
+
+When this is **off**, the entire message is read aloud.
+
+**Example:** A message contains:
+- A quoted line: `> Let's go.`
+- Regular text: `She turned to leave.`
+
+With this toggle **on**, only *"Let's go."* is spoken. With it **off**, both lines are read.
+
+---
+
+### Play code blocks
+
+When this is **on**, text wrapped in triple backticks (` ``` `) is read character-by-character as part of the message.
+
+When this is **off**, code blocks are silently skipped during playback.
+
+**Example:** A message includes a formatted block:
+
+```
+Today's weather: Sunny, 25°C
+```
+
+With this toggle **on**, Tavo reads the entire formatted string aloud. With it **off**, playback jumps past the block entirely.
+
+<Tip>
+Unless a character frequently sends data or structured content you want to hear, leave this toggle off. Reading raw code aloud is rarely useful and interrupts the conversational flow.
+</Tip>
+
+---
+
+### Play tagged content
+
+When this is **on**, text enclosed in specific tags (such as `<action>nods</action>`) is also spoken.
+
+When this is **off**, tagged sections are silently skipped.
+
+**Example:** A message includes `<action>nods</action>`. With this toggle **on**, Tavo reads *"nods"* aloud. With it **off**, the tagged section is ignored.
+
+---
+
+### Allow background play
+
+When this is **on**, voice playback continues even if you minimize Tavo, switch to another app, or lock your screen.
+
+When this is **off**, audio stops as soon as Tavo leaves the foreground.
+
+**Example:** With background play on, you can switch to a messaging app and still hear the character finish speaking. With it off, switching apps immediately silences playback.
+
+<Note>
+Background play requires your device to grant Tavo audio focus while in the background. If another app takes audio focus (for example, music or a video), playback may pause regardless of this setting.
+</Note>
+
+## Summary of toggles
+
+| Toggle | Default | What it controls |
+|---|---|---|
+| Auto-play voice | Off | Starts playback automatically on new messages |
+| Play narration | Off | Reads system narration and descriptive text |
+| Play quoted text only | Off | Limits synthesis to `>` blockquote sections |
+| Play code blocks | Off | Reads triple-backtick formatted blocks |
+| Play tagged content | Off | Reads content inside tag elements |
+| Allow background play | Off | Keeps audio running when the app is in the background |

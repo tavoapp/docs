@@ -1,0 +1,165 @@
+---
+title: "Getting Voice API Keys for ElevenLabs, Gemini, and Volink"
+sidebarTitle: "API keys"
+description: "Step-by-step instructions for registering an account and generating an API key on ElevenLabs, Gemini, Volink, and Google Cloud TTS for use in Tavo."
+---
+
+Before you can connect a voice provider to Tavo, you need a valid API key or credential from that provider. This page walks you through registration and key generation for every supported cloud provider. If you plan to use local (offline) TTS instead, skip ahead to [Local TTS](/guides/voice/local-tts) — no API key is needed.
+
+<AccordionGroup>
+  <Accordion title="ElevenLabs">
+    ElevenLabs offers some of the most expressive AI voices available. You need a free or paid ElevenLabs account and an API key with text-to-speech permissions.
+
+    **Step 1: Create an account**
+
+    <Steps>
+      <Step title="Go to elevenlabs.io">
+        Visit [https://elevenlabs.io](https://elevenlabs.io) and click **Sign Up** in the top-right corner.
+      </Step>
+      <Step title="Choose a sign-up method">
+        You have two options:
+
+        - **Continue with Google** — Authorize via Google OAuth. No password needed. After this, you must always sign in with the same Google account.
+        - **Email and password** — Enter your email address and create a password. ElevenLabs will send a verification link; click it to confirm your email.
+      </Step>
+      <Step title="Complete your profile">
+        After verifying, set a username and choose your intended use case (personal, commercial, etc.) to finish the onboarding flow.
+      </Step>
+    </Steps>
+
+    **Step 2: Generate an API key**
+
+    <Steps>
+      <Step title="Open the ElevenLabs app">
+        Go to [https://elevenlabs.io/app/home](https://elevenlabs.io/app/home) and sign in.
+      </Step>
+      <Step title="Open settings">
+        Click your profile avatar or the settings icon in the bottom-left corner of the sidebar.
+      </Step>
+      <Step title="Go to API Keys">
+        In the settings menu, select **API Keys**.
+      </Step>
+      <Step title="Create a new key">
+        Click **Create API Key**. Give the key a meaningful name so you can identify it later.
+      </Step>
+      <Step title="Set permissions">
+        Enable the **Text to Speech** permission. All other permissions are optional for Tavo's use case.
+      </Step>
+      <Step title="Copy and save the key">
+        Copy the generated key immediately and store it somewhere secure. ElevenLabs will not show the full key again after you leave the page.
+      </Step>
+    </Steps>
+
+    <Warning>
+      Copy your API key before closing the dialog. If you lose it, you will need to generate a new one.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Gemini (Google AI Studio)">
+    Gemini TTS uses the same Google AI Studio API key as the Gemini chat model. If you are already using Gemini for chat in Tavo, you can reuse your existing key.
+
+    **Step 1: Sign in to Google AI Studio**
+
+    <Steps>
+      <Step title="Go to Google AI Studio">
+        Visit [https://aistudio.google.com](https://aistudio.google.com) and sign in with your Google account.
+
+        - **Personal Google account** — Any Gmail or Google-linked email works. You must be at least 13 years old (or the legal age in your region).
+        - **Google Workspace account** — Enterprise and education accounts are supported when your administrator has enabled Gemini Apps access.
+      </Step>
+    </Steps>
+
+    **Step 2: Create an API key**
+
+    <Steps>
+      <Step title="Click Get API key">
+        In the left sidebar, click the blue **Get API key** button.
+      </Step>
+      <Step title="Create a new key">
+        On the API keys page, click **Create API key** on the right side.
+      </Step>
+      <Step title="Select or create a project">
+        If this is your first key, you will be prompted to create a new Google Cloud project or select an existing one. Accept the terms of service to continue.
+      </Step>
+      <Step title="Copy and save the key">
+        Once generated, copy the key and store it securely.
+      </Step>
+    </Steps>
+
+    <Tip>
+      You can preview Gemini TTS voices directly inside Google AI Studio: navigate to **Generate Media → Speech generation** (or go to [https://aistudio.google.com/generate-speech](https://aistudio.google.com/generate-speech)) to hear samples before choosing a voice in Tavo.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Volink">
+    Volink is a multilingual voice synthesis platform. Registration uses email and a one-time verification code — no third-party account required.
+
+    **Step 1: Create a Volink account**
+
+    <Steps>
+      <Step title="Go to volink.org">
+        Visit [https://volink.org](https://volink.org) and click **Login**.
+      </Step>
+      <Step title="Enter your email">
+        Type your email address and click **Get verification code**.
+      </Step>
+      <Step title="Verify your email">
+        Check your inbox for the email from Volink and click the verification link.
+      </Step>
+      <Step title="Access the console">
+        After verification, you are signed in and taken to the Volink console.
+      </Step>
+    </Steps>
+
+    **Step 2: Generate an API key**
+
+    <Steps>
+      <Step title="Open the API section">
+        In the Volink console, go to your account details page and click the **API** area in the bottom-left corner.
+      </Step>
+      <Step title="Go to API Keys">
+        Select the **API Keys** page.
+      </Step>
+      <Step title="Create a key">
+        Click **Create API key** in the bottom-right corner. Enter a name for the key, then click **Create**.
+      </Step>
+      <Step title="Copy the key">
+        Copy the key from the table and save it somewhere secure.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Google TTS (Cloud)">
+    If you want to use Google's Cloud Text-to-Speech API (Neural2 or Studio voices) rather than the on-device engine, you need a Google Cloud project with the Text-to-Speech API enabled and a service account key or API key.
+
+    <Steps>
+      <Step title="Open Google Cloud Console">
+        Go to [https://console.cloud.google.com](https://console.cloud.google.com) and sign in.
+      </Step>
+      <Step title="Enable the Text-to-Speech API">
+        Search for **Cloud Text-to-Speech API** in the search bar and click **Enable**.
+      </Step>
+      <Step title="Create credentials">
+        In the left menu, go to **APIs & Services → Credentials**. Click **Create credentials** and choose **API key** for the simplest integration.
+      </Step>
+      <Step title="Restrict the key (recommended)">
+        Under the key's settings, restrict it to the **Cloud Text-to-Speech API** only to limit exposure if the key is ever leaked.
+      </Step>
+      <Step title="Copy and save the key">
+        Copy the key and store it securely before closing the panel.
+      </Step>
+    </Steps>
+
+    <Note>
+      For offline (on-device) Google TTS, you do not need a Cloud key at all. See [Local TTS](/guides/voice/local-tts) instead.
+    </Note>
+  </Accordion>
+</AccordionGroup>
+
+## Next step
+
+Once you have your API key, go to [Configure voice API](/guides/voice/configure) to enter it in Tavo and activate your voice provider.
+
+<Info>
+If you run into issues you cannot resolve, you can reach the Tavo support team at [tavo_service@outlook.com](mailto:tavo_service@outlook.com) or ask in the [Tavo Discord community](https://discord.gg/47cBNpQDFG).
+</Info>

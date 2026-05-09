@@ -1,0 +1,235 @@
+---
+title: "tavo.regex — Manage Find-and-Replace Regex Scripts"
+description: "Full reference for tavo.regex: list, get, find, import, create, update, and delete regex script groups, with complete RegexEntry field documentation."
+---
+
+The `tavo.regex` namespace manages regex script groups — collections of find-and-replace rules applied to AI output, user input, reasoning content, or lorebook injections. Each group (`regex`) can hold multiple rule entries (`RegexEntry`), and you can create, import, update, or delete them programmatically.
+
+<Warning>
+The **create**, **import**, and **update** methods show a confirmation dialog before taking effect. If the user cancels, the operation is aborted and the method returns `null`.
+</Warning>
+
+## Regex object
+
+The complete regex object returned by `get` and `find` has this shape:
+
+```javascript
+{
+  id: 2,
+  name: 'My Regex',
+  entries: [ /* RegexEntry[] — see below */ ],
+}
+```
+
+The summary object returned by `all` contains `id`, `name`, and `entries` (the count of rules, not the array).
+
+## RegexEntry fields
+
+Each item in the `entries` array has this structure:
+
+```javascript
+{
+  name: 'Rule display name',     // Required — used for identification; must not be empty
+  findRegex: 'pattern',          // Search pattern (JavaScript-style /pattern/flags syntax supported)
+  replaceString: '',             // Replacement string
+  trimStrings: [],               // Additional strings to trim from the output
+  placements: ['char'],          // Where the rule applies (multiple values allowed):
+                                 //   'user'      — user input
+                                 //   'char'      — AI output
+                                 //   'reasoning' — AI reasoning/thinking content
+                                 //   'lorebook'  — lorebook injected content
+  timing: 'display',             // When the rule runs:
+                                 //   'display'         — display only (not written to persistent message)
+                                 //   'send'            — before sending to the model
+                                 //   'sendAndDisplay'  — both display and send
+                                 //   'receive'         — after receiving a reply (persisted)
+                                 //   'editAndReceive'  — persisted on both receive and manual edit
+  substitution: 'none',          // Macro substitution in replaceString:
+                                 //   'none'    — no macro substitution
+                                 //   'raw'     — substitute macros as-is
+                                 //   'escaped' — substitute macros with HTML-escaped values
+  minDepth: null,                // Optional lower bound on message depth (integer)
+  maxDepth: null,                // Optional upper bound on message depth (integer)
+  enabled: true,                 // Whether this rule is active
+}
+```
+
+<Note>
+When a field is omitted, Tavo fills in sensible defaults: `placements` defaults to `['char']`, `timing` defaults to `'display'`, `substitution` defaults to `'none'`, and `enabled` defaults to `true`.
+</Note>
+
+---
+
+### `tavo.regex.all()`
+
+Returns a summary list of all regex script groups. Each item contains `id`, `name`, and `entries` (the count of rules, not the array).
+
+```javascript
+const list = await tavo.regex.all()
+console.log(list[0].id)      // e.g. 2
+console.log(list[0].name)    // e.g. "My Regex"
+console.log(list[0].entries) // e.g. 5 (number of rules)
+```
+
+**Parameters**: None.
+
+**Returns**: `array` — Array of regex summary objects `{ id, name, entries }`.
+
+---
+
+### `tavo.regex.get(regexId)`
+
+Retrieves the full regex object for the given ID, including all rule entries. Returns `null` if not found.
+
+```javascript
+const r = await tavo.regex.get(2)
+if (r) {
+  console.log(r.name)
+  console.log(r.entries.length)
+}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `regexId` | `number` | Yes | The unique ID of the regex group to retrieve. |
+
+**Returns**: `object | null` — Full regex object with entries, or `null` if not found.
+
+---
+
+### `tavo.regex.find(name, options?)`
+
+Searches regex groups by name and returns an array of matching full regex objects.
+
+```javascript
+// Exact match (default)
+const found = await tavo.regex.find('My Regex')
+
+// Contains match
+const found2 = await tavo.regex.find('Regex', { match: 'contains' })
+
+console.log(found.length)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Yes | Name to search for. |
+| `options` | `object` | No | Search options. |
+| `options.match` | `string` | No | Match strategy: `'exact'` (default), `'prefix'`, `'suffix'`, or `'contains'`. |
+
+**Returns**: `array` — Array of full regex objects matching the search.
+
+---
+
+### `tavo.regex.import(regex)`
+
+Imports a regex script group in SillyTavern format. Shows a confirmation dialog; returns the new group ID on confirm, or `null` on cancel.
+
+```javascript
+const id = await tavo.regex.import({
+  name: 'Highlight Processing',
+  entries: [
+    {
+      scriptName: 'Highlight',
+      findRegex: '\\[highlight:(.+?)\\]',
+      replaceString: '<mark>$1</mark>',
+      placement: [2],
+      disabled: false,
+      markdownOnly: true,
+      promptOnly: false,
+      runOnEdit: false,
+      substituteRegex: 0,
+    },
+  ],
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `regex` | `object` | Yes | Regex group in SillyTavern format. |
+| `regex.name` | `string` | No | Group name. Defaults to `'Regex'` if omitted. |
+| `regex.entries` | `array` | No | Array of rules in SillyTavern format. |
+
+**Returns**: `number | null` — New regex group ID, or `null` if the user cancelled.
+
+---
+
+### `tavo.regex.create(regex)`
+
+Creates a new regex group and returns its newly assigned ID. Shows a confirmation dialog before saving.
+
+```javascript
+const id = await tavo.regex.create({
+  name: 'Demo Regex',
+  entries: [
+    {
+      name: 'Status Bar',
+      findRegex: '/<status>(.*?)<\/status>/gim',
+      replaceString: '<pre>$1</pre>',
+      placements: ['char'],
+      timing: 'display',
+    },
+  ],
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `regex` | `object` | Yes | Regex group data to create. |
+| `regex.name` | `string` | Yes | Group name. |
+| `regex.entries` | `array` | No | Array of RegexEntry objects. Defaults to `[]` if omitted. |
+
+**Returns**: `number | null` — New regex group ID, or `null` if the user cancelled.
+
+---
+
+### `tavo.regex.update(regex)`
+
+Updates an existing regex group. Both `id` and `name` are required. The typical pattern is to `get` the group, modify it, and then `update`. Shows a confirmation dialog before saving.
+
+```javascript
+const r = await tavo.regex.get(2)
+r.entries[0].enabled = false
+await tavo.regex.update(r)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `regex` | `object` | Yes | Regex group data with updated fields. |
+| `regex.id` | `number` | Yes | ID of the regex group to update. |
+| `regex.name` | `string` | Yes | Group name. |
+| `regex.entries` | `array` | No | Replacement entries list. |
+
+**Returns**: `number | null` — Regex group ID, or `null` if the user cancelled.
+
+---
+
+### `tavo.regex.delete(regexId)`
+
+Deletes a regex group by ID. Also accepts an object with an `id` property.
+
+```javascript
+// Delete by ID
+await tavo.regex.delete(2)
+
+// Delete using an object
+await tavo.regex.delete({ id: 2 })
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `regexId` | `number \| object` | Yes | The regex group ID, or an object containing an `id` field. |
+
+**Returns**: `number | null` — The deleted group's ID, or `null` on failure.

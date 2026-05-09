@@ -1,0 +1,136 @@
+---
+title: "Troubleshoot API Errors in Tavo — Common Fixes"
+sidebarTitle: "Troubleshooting"
+description: "Diagnose and fix the most common Tavo API errors: invalid keys, quota limits, empty replies, content filtering, request size limits, and region blocks."
+---
+
+If Tavo fails to connect to your AI provider or you see an error message during a chat, this page covers the most common causes and how to fix them. Search for your error message or symptom in the sections below.
+
+<Note>
+  You can tap on an error message in Tavo to view the full error detail. Translating the raw error text and searching for it online is often the fastest way to find a specific solution for less common errors.
+</Note>
+
+## API configuration errors
+
+<AccordionGroup>
+  <Accordion title="Invalid API key / authentication failed">
+    **Symptoms:** Tavo shows "invalid API key", "authentication failed", "401 Unauthorized", or similar when you try to save the connection or send a message.
+
+    **Common causes and fixes:**
+
+    1. **Typo or extra whitespace** — Copy the key directly from your provider's dashboard without typing it manually. Paste it into a plain-text editor first to verify there are no leading or trailing spaces, then copy from there into Tavo.
+    2. **Key was revoked or expired** — Log in to your provider's dashboard and check whether the key is still active. If it was deleted or expired, generate a new one.
+    3. **Wrong provider selected** — Make sure the **Model Platform** setting in Tavo matches where the key was issued. A Gemini key will not work if you have selected OpenAI as the provider.
+    4. **Key has not been activated** — Some providers (such as DeepSeek) require you to add billing credit before a key can make API calls. Check your account balance.
+  </Accordion>
+
+  <Accordion title="Connection failed / cannot reach the server">
+    **Symptoms:** Tavo shows "connection failed", "network error", or the save operation times out without any specific error code.
+
+    **Common causes and fixes:**
+
+    1. **Region restriction (most common for overseas providers)** — OpenAI, Claude, and Gemini block requests from mainland China and Hong Kong IP addresses. Enable a VPN with a server outside these regions, then try saving the connection again.
+    2. **Incorrect base URL** — If you are using a custom OpenAI-compatible endpoint, double-check the base URL. Try appending `/v1` to the end if it is not already there (for example, change `http://localhost:8080` to `http://localhost:8080/v1`).
+    3. **Local server not running** — If you are connecting to a local model (llama.cpp, LM Studio, etc.), make sure the server process is actually running and accessible on the port you specified.
+    4. **Temporary provider outage** — Check the provider's status page or community channels. If their servers are down, wait and try again later.
+  </Accordion>
+
+  <Accordion title="Model not found / model not activated">
+    **Symptoms:** Tavo connects successfully but returns an error like "model not found", "invalid model", or "model access denied" when a chat message is sent.
+
+    **Common causes and fixes:**
+
+    1. **Model not activated on your account** — Some providers require you to explicitly enable each model before using it. For example, on Doubao/Volcano Ark you must go to **Activation Management** and click **Activate Service** for each model. Log in to your provider's dashboard and check your model access.
+    2. **Wrong model name** — Verify that the model name in Tavo exactly matches the identifier your provider uses. Model names are case-sensitive and must match the provider's documentation precisely (for example, `gemini-1.5-pro`, not `Gemini 1.5 Pro`).
+    3. **Model is no longer available** — Providers occasionally deprecate models. Check the provider's current model list and update the model name in Tavo.
+  </Accordion>
+</AccordionGroup>
+
+## Usage and quota errors
+
+<AccordionGroup>
+  <Accordion title="Resource exhausted / quota exceeded">
+    **Symptoms:** The error message includes text like "resource_exhausted", "quota exceeded", "rate limit reached", or "429 Too Many Requests".
+
+    **Common causes and fixes:**
+
+    1. **Account balance is zero** — Log in to your provider's dashboard and check your remaining balance or credits. Top up your account to restore access.
+    2. **Free tier daily limit reached** — If you are on a free plan (common with Gemini), you may have hit the daily request cap. Wait until the quota resets (usually midnight in your provider's time zone) or upgrade to a paid plan.
+    3. **Rate limit** — You may be sending requests too quickly. Slow down your message frequency. If you are sending many messages in a short period, add a short pause between them.
+  </Accordion>
+
+  <Accordion title="Free quota exhausted">
+    **Symptoms:** An error indicating your daily free messages or free credits are used up.
+
+    **Fix:** Wait for the quota to reset at the next daily cycle, or upgrade your account to a paid tier on the provider's platform.
+  </Accordion>
+
+  <Accordion title="Request too large / payload size exceeded">
+    **Symptoms:** Error messages referencing "request too large", "payload too big", "413 Request Entity Too Large", or similar.
+
+    **Cause:** The conversation history being sent to the model exceeds the provider's maximum request size. This usually happens when the context memory length setting is very high, or when individual messages are very long.
+
+    **Fix:** Reduce the **Context memory length** parameter in Tavo's model settings. A lower value means fewer previous messages are included in each request, which reduces the request size. See [Select a Model](/guides/api-setup/select-model) for how to adjust this parameter.
+  </Accordion>
+</AccordionGroup>
+
+## Response quality errors
+
+<AccordionGroup>
+  <Accordion title="Empty response / model returns nothing">
+    **Symptoms:** Tavo shows a message bubble with no text, or shows an error saying the model returned an empty response.
+
+    **Common causes and fixes:**
+
+    1. **Streaming output incompatibility** — Some provider endpoints have issues with streaming. Go to **Settings → Model Settings** and turn off **Streaming Output**. The reply will now appear all at once instead of word by word, which is often more reliable with certain endpoints.
+    2. **Content was filtered before delivery** — The model may have generated a response but the provider filtered it before it arrived. See the "Content filtered" section below.
+    3. **Model-side issue** — Occasionally the provider's model returns nothing due to a server-side problem. Try sending the message again.
+  </Accordion>
+
+  <Accordion title="Content filtered / reply blocked">
+    **Symptoms:** An empty reply, or an error indicating that the content was blocked or filtered by the model or provider.
+
+    **Cause:** The model or the provider's safety layer determined that the generated content (or your prompt) violated its content policy, and suppressed the output.
+
+    **Fixes:**
+
+    1. **Rephrase your message** — Adjust the content of your message to avoid topics the model's safety system flags. Avoid highly explicit, violent, or otherwise sensitive material if the model's policy prohibits it.
+    2. **Switch models** — Some models have stricter content policies than others. If a specific type of content is important to your use case, consider a provider or model with a policy that fits your needs.
+    3. **Check the character's system prompt** — If your character card contains instructions that trigger safety filters, the model may refuse to respond. Review and adjust the character's persona description.
+  </Accordion>
+
+  <Accordion title="Sensitive content detected">
+    **Symptoms:** An error message explicitly mentioning "sensitive information", "content policy violation", or similar.
+
+    **Cause:** The model detected content in your message or conversation history that it classifies as sensitive or prohibited.
+
+    **Fix:** Review the recent messages in the conversation for content the model may object to, and modify or clear those messages. If the problem persists, it may be the character's background description that is triggering the filter — check the character's profile and adjust it.
+  </Accordion>
+
+  <Accordion title="Model busy / server overloaded">
+    **Symptoms:** An error indicating the model is busy, or HTTP 503 Service Unavailable.
+
+    **Cause:** The provider's servers are temporarily under high load. This is a transient issue on the provider's side, not something you can fix directly.
+
+    **Fix:** Wait a few minutes and try again. Check the provider's status page or official channels (Discord, Twitter/X) for announcements about ongoing incidents.
+  </Accordion>
+</AccordionGroup>
+
+## General troubleshooting steps
+
+If your error is not listed above, or if none of the fixes above resolved your problem, try the following:
+
+<Steps>
+  <Step title="Check your configuration carefully">
+    Re-read each field in your API connection settings: the provider type, API key, base URL (for custom endpoints), and model name. Even a single wrong character can cause the connection to fail.
+  </Step>
+  <Step title="Consult your provider's documentation">
+    Tap the error message in Tavo to see the full error text, then search for that text in your provider's API documentation or developer forums. Provider-specific errors often have detailed explanations and fixes in official docs.
+  </Step>
+  <Step title="Ask in the community">
+    Join the [Tavo Discord](https://discord.gg/47cBNpQDFG) and describe your problem in the relevant channel. Include the full error message, the provider you are using, and what you have already tried. Other users and the Tavo team can often identify the issue quickly.
+  </Step>
+  <Step title="Contact support">
+    If you are still stuck, email the Tavo support team at [tavo_service@outlook.com](mailto:tavo_service@outlook.com). Include a screenshot of the error and the steps you followed.
+  </Step>
+</Steps>

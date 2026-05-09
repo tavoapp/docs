@@ -1,0 +1,393 @@
+---
+title: "Get an API Key from a Supported AI Provider"
+sidebarTitle: "Get API Key"
+description: "Step-by-step instructions for registering on Volink, Gemini, Claude, DeepSeek, OpenAI, Doubao, OpenRouter, and custom OpenAI-compatible endpoints."
+---
+
+Tavo connects to AI models through your own API key. You register directly on the provider's platform, generate a key, and then paste it into Tavo. This page walks you through that process for every supported provider.
+
+<Note>
+  Tavo does not store or resell API access. Your key is used only to send requests from your device to the provider's servers. Keep your key private — treat it like a password.
+</Note>
+
+Choose your provider below to see the full registration and key-generation steps.
+
+<AccordionGroup>
+  <Accordion title="Volink — Recommended for beginners">
+    Volink is an AI API platform designed with Chinese-speaking users in mind. It supports domestic payment methods, requires no VPN to access, and provides a straightforward dashboard for managing keys and usage. If you are new to AI APIs, start here.
+
+    **Register your account**
+
+    <Tabs>
+      <Tab title="Email + verification code">
+        <Steps>
+          <Step title="Visit Volink">
+            Go to [https://volink.org](https://volink.org) and click **Login**.
+          </Step>
+          <Step title="Enter your email">
+            Type your email address and click **Get verification code**. Check your inbox (and your spam folder) for the email from Volink.
+          </Step>
+          <Step title="Verify your email">
+            Click the verification link in the email. You will be taken directly into the Volink console — no password setup required.
+          </Step>
+        </Steps>
+      </Tab>
+      <Tab title="Google account">
+        <Steps>
+          <Step title="Visit Volink">
+            Go to [https://volink.org](https://volink.org) and click **Login**.
+          </Step>
+          <Step title="Sign in with Google">
+            Click **Sign in with Google** and complete the OAuth authorization. If this is your first time, Volink automatically creates an account linked to your Google email.
+          </Step>
+          <Step title="Enter the console">
+            After authorization you are taken directly to the Volink console. You can also sign in later with the same Google account or with the linked email address + verification code.
+          </Step>
+        </Steps>
+      </Tab>
+    </Tabs>
+
+    **Get your API key**
+
+    <Steps>
+      <Step title="Open the API Keys section">
+        In the Volink console, find **API Keys** in the left sidebar and click it.
+      </Step>
+      <Step title="Create a new key">
+        Click **Create API Key** (or **New Key**). Give it a descriptive name so you can identify it later.
+      </Step>
+      <Step title="Copy and save your key">
+        The key is shown only once. Copy it immediately and store it somewhere safe — a password manager is ideal.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Gemini — Google AI Studio (free tier available)">
+    Google AI Studio provides access to Gemini models and includes a free usage tier for personal Google accounts. No credit card is required to start.
+
+    **Register your account**
+
+    You need a Google account. Personal Gmail accounts work, as do Google Workspace accounts if your administrator has enabled Gemini Apps. Users must be at least 13 years old (or the legal age in your region). Accounts managed by Family Link are not supported.
+
+    <Tabs>
+      <Tab title="Personal Google account">
+        Go to [gemini.google.com](https://gemini.google.com) and sign in with your personal Gmail or Google account. No additional setup is needed — signing in counts as registration.
+      </Tab>
+      <Tab title="Work or school Google account">
+        Sign in with your Google Workspace or Google Workspace for Education account. Your organization's administrator must have enabled **Gemini Apps** in the Google Admin console before you can access the API. Work users must be 18 or older; school users must be 13 or older.
+      </Tab>
+    </Tabs>
+
+    **Get your API key**
+
+    <Steps>
+      <Step title="Open Google AI Studio">
+        Go to [https://aistudio.google.com](https://aistudio.google.com) and sign in with your Google account.
+      </Step>
+      <Step title="Click Get API Key">
+        In the left sidebar, click the blue **Get API Key** button.
+      </Step>
+      <Step title="Create a new key">
+        Click **Create API Key** on the right side of the page. If this is your first key, you will be prompted to create a new Google Cloud project or select an existing one, and to accept the terms of service.
+      </Step>
+      <Step title="Copy and save your key">
+        Once the key is generated, copy it and store it securely. You will not be able to view the full key again after leaving this page.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Claude — Anthropic">
+    Claude is Anthropic's family of AI models. API access requires adding a payment method to your Anthropic account.
+
+    <Warning>
+      Claude's registration requires phone number verification using a number from outside mainland China or Hong Kong. If you do not have access to such a number, consider using Volink or OpenRouter to access Claude models instead.
+    </Warning>
+
+    **Register your account**
+
+    <Tabs>
+      <Tab title="Email + password">
+        <Steps>
+          <Step title="Visit claude.ai">
+            Go to [https://claude.ai](https://claude.ai) and click **Continue with email**.
+          </Step>
+          <Step title="Fill in your details">
+            Enter your email address, set a password, and provide your name. Click **Create Account**.
+          </Step>
+          <Step title="Verify your email">
+            Check your inbox for the Anthropic verification email and click the link to activate your account.
+          </Step>
+          <Step title="Complete phone verification">
+            You will be prompted to verify a phone number. Use a number from outside mainland China or Hong Kong.
+          </Step>
+        </Steps>
+      </Tab>
+      <Tab title="Google account">
+        <Steps>
+          <Step title="Visit claude.ai">
+            Go to [https://claude.ai](https://claude.ai) and click **Continue with Google**.
+          </Step>
+          <Step title="Authorize via Google OAuth">
+            Select your Google account and grant the requested permissions. Anthropic will create a Claude account linked to that Google address.
+          </Step>
+          <Step title="Complete phone verification">
+            Even with Google login, you must verify a phone number from outside mainland China or Hong Kong before accessing the API.
+          </Step>
+        </Steps>
+        <Note>
+          Once you sign up with Google, you can only log in through that same Google account. You cannot switch to email + password login later.
+        </Note>
+      </Tab>
+    </Tabs>
+
+    **Get your API key**
+
+    <Steps>
+      <Step title="Go to the Anthropic API page">
+        Visit [https://www.anthropic.com/api](https://www.anthropic.com/api) and sign in to your account.
+      </Step>
+      <Step title="Apply for API access">
+        Follow the prompts to request API access. You will need to add a payment method and billing information before a key is issued.
+      </Step>
+      <Step title="Copy and save your key">
+        Once approved, your API key will be displayed in the Anthropic console. Copy it and store it securely.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="DeepSeek — Official platform">
+    DeepSeek is a Chinese AI company with a dedicated developer platform. API calls require a positive account balance, but the cost per token is very competitive.
+
+    **Register your account**
+
+    <Tabs>
+      <Tab title="Email + verification code">
+        <Steps>
+          <Step title="Go to the sign-up page">
+            Visit [https://platform.deepseek.com/sign_up](https://platform.deepseek.com/sign_up).
+          </Step>
+          <Step title="Enter your email">
+            Type your email address and click **Send code**. DeepSeek will email you a verification code.
+          </Step>
+          <Step title="Enter the code and set a password">
+            Type the code from your email, set a login password, and complete the form to activate your account.
+          </Step>
+        </Steps>
+        <Tip>
+          If the verification email doesn't arrive, check your spam folder. Try again with a Gmail or Outlook address if your current email domain is not supported.
+        </Tip>
+      </Tab>
+      <Tab title="Phone number (SMS)">
+        On the DeepSeek mobile app or mobile web, choose **Phone number registration**, enter your number, and enter the SMS verification code that is sent to you. No password is required.
+      </Tab>
+      <Tab title="Google or Apple (mobile)">
+        In the DeepSeek mobile app, tap **Sign in with Google** or **Sign in with Apple**. After OAuth authorization, your account is created automatically.
+      </Tab>
+    </Tabs>
+
+    **Get your API key**
+
+    <Steps>
+      <Step title="Open the DeepSeek developer platform">
+        Go to [https://www.deepseek.com](https://www.deepseek.com) and log in to your account.
+      </Step>
+      <Step title="Find API Keys">
+        In the developer portal or dashboard, locate the **API Keys** section.
+      </Step>
+      <Step title="Create a new key">
+        Click **Create API Key**, give it a name, and confirm.
+      </Step>
+      <Step title="Copy and save your key">
+        Copy the key immediately — it is only shown once.
+      </Step>
+      <Step title="Top up your balance">
+        Add credit to your DeepSeek account to unlock API calls. Without a positive balance, requests will be rejected.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="OpenAI — ChatGPT platform">
+    OpenAI provides access to GPT-4o and other models through its developer platform.
+
+    <Warning>
+      OpenAI restricts access from mainland China and Hong Kong IP addresses. You will need a VPN to register and use this API if you are in those regions.
+    </Warning>
+
+    **Register your account**
+
+    <Tabs>
+      <Tab title="Email + password">
+        <Steps>
+          <Step title="Go to the sign-up page">
+            Visit [https://platform.openai.com/signup](https://platform.openai.com/signup).
+          </Step>
+          <Step title="Enter your email and password">
+            Fill in the **Email** and **Password** fields and click **Continue**.
+          </Step>
+          <Step title="Verify your email">
+            Open the verification email from OpenAI and click the confirmation link.
+          </Step>
+          <Step title="Complete your profile">
+            Fill in your name and date of birth, then click **Agree** to accept the terms.
+          </Step>
+        </Steps>
+        <Note>
+          When you generate your first API key, OpenAI requires phone number verification. Users in mainland China can use an SMS-receiving service for this step.
+        </Note>
+      </Tab>
+      <Tab title="Google account">
+        Click **Continue with Google** on the sign-up page and authorize via Google OAuth. No password setup is needed. You must continue to use the same Google account to log in afterward.
+      </Tab>
+      <Tab title="Microsoft account">
+        Click **Continue with Microsoft** on the sign-up page and authorize via your Outlook, Hotmail, or Live account. Useful if you want to link OpenAI to your Microsoft ecosystem.
+      </Tab>
+      <Tab title="Apple ID">
+        Click **Sign in with Apple** and authorize using Face ID, Touch ID, or your Apple ID password. You can choose to hide your real email address from OpenAI. You must use Apple sign-in for all future logins to this account.
+      </Tab>
+    </Tabs>
+
+    **Get your API key**
+
+    <Steps>
+      <Step title="Go to the OpenAI platform">
+        Visit [https://platform.openai.com](https://platform.openai.com) and log in.
+      </Step>
+      <Step title="Start building">
+        Click **Start building** in the top-right corner of the dashboard.
+      </Step>
+      <Step title="Fill in project details">
+        Complete the project creation form.
+      </Step>
+      <Step title="Name your API key">
+        Enter a name for the API key when prompted, then confirm to generate it.
+      </Step>
+      <Step title="Copy and save your key">
+        Copy the displayed key immediately and store it securely. You cannot retrieve it again after this step.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Doubao / Volcano / ByteDance (includes DeepSeek models)">
+    ByteDance's model platform (火山方舟, Volcano Ark) gives access to Doubao models and also hosts DeepSeek models. It requires real-name identity verification.
+
+    **Register your account**
+
+    You can register or log in using any of the following methods on the Doubao app or website:
+
+    - **Phone number + SMS code** — The most common method. Enter your phone number, receive an SMS code, and log in.
+    - **Carrier one-click login** — Available in China. Your carrier automatically verifies your phone number without a code.
+    - **Apple ID** — On iOS, tap **Sign in with Apple**. You will be asked to link a phone number afterward.
+    - **Douyin / TikTok account** — Authorize with your existing Douyin or TikTok account.
+    - **Username + password** — Create a username and password combination directly.
+
+    **Get your API key**
+
+    <Steps>
+      <Step title="Go to the Volcano Engine console">
+        Visit [https://www.volcengine.com/](https://www.volcengine.com/) and log in with your phone number or corporate email.
+      </Step>
+      <Step title="Complete identity verification">
+        Follow the console prompts to complete personal or enterprise real-name verification. Personal verification requires your ID card; enterprise verification requires business registration documents.
+      </Step>
+      <Step title="Open Volcano Ark (火山方舟)">
+        In the top navigation bar, click **Large Models** and then select **Volcano Ark** from the dropdown.
+      </Step>
+      <Step title="Go to API Builder">
+        Inside Volcano Ark, scroll down to the **API Builder** section and click **Use Now**.
+      </Step>
+      <Step title="Create an API key">
+        In the left sidebar, click **API Key Management**, then click **Create API Key**. Copy the key and save it securely.
+      </Step>
+      <Step title="Activate the models you need">
+        Click **Activation Management** in the sidebar. Find the large language model you want to use and click **Activate Service**. Once the status column shows **Activated**, that model is ready to use.
+      </Step>
+    </Steps>
+
+    <Tip>
+      Doubao/Volcano also hosts DeepSeek models. If you want to use DeepSeek but prefer a domestic platform with easier payment options, this is a good alternative to the official DeepSeek platform.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="OpenRouter — 200+ models from one key">
+    OpenRouter is an aggregator that gives you access to models from OpenAI, Anthropic, Google, Meta, Mistral, and many others through a single API key. It's a great choice if you want to compare models or switch providers without managing multiple keys.
+
+    **Register your account**
+
+    <Tabs>
+      <Tab title="Email + password">
+        <Steps>
+          <Step title="Go to OpenRouter">
+            Visit [https://openrouter.ai/](https://openrouter.ai/) and open the sign-up page.
+          </Step>
+          <Step title="Enter your credentials">
+            Fill in your email address and a password, accept the terms of service, and click **Continue**.
+          </Step>
+          <Step title="Verify your email">
+            Click the verification link in the email OpenRouter sends you. Check your spam folder if it doesn't appear.
+          </Step>
+        </Steps>
+      </Tab>
+      <Tab title="GitHub account">
+        Click **Sign in with GitHub**, authorize the OAuth request, and OpenRouter will create an account linked to your GitHub profile. All future logins use GitHub.
+      </Tab>
+      <Tab title="Google account">
+        Click **Sign in with Google**, authorize via Google OAuth, and your account is created instantly without email verification.
+      </Tab>
+      <Tab title="MetaMask wallet">
+        Click **Sign in with MetaMask** and sign the wallet authorization request in the MetaMask browser extension. Useful for Web3 users who prefer not to use email or OAuth.
+      </Tab>
+    </Tabs>
+
+    <Tip>
+      OpenRouter is accessible from mainland China without a VPN. Using a Google Workspace email or MetaMask avoids any issues with certain email providers' spam filters.
+    </Tip>
+
+    **Get your API key**
+
+    <Steps>
+      <Step title="Log in to OpenRouter">
+        Go to [https://openrouter.ai/](https://openrouter.ai/) and sign in to your account.
+      </Step>
+      <Step title="Open API Keys settings">
+        Click your avatar in the top-right corner, go to **Settings**, then click **API Keys**.
+      </Step>
+      <Step title="Create a new key">
+        Click **Create Key**, give it a name, and confirm.
+      </Step>
+      <Step title="Copy and save your key">
+        Copy the generated key immediately and save it somewhere secure.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Custom OpenAI-compatible endpoint">
+    If you run a local model (such as llama.cpp or Oobabooga) or use a third-party API service that follows the OpenAI protocol, you can connect it directly to Tavo. No separate registration is needed — you just need the base URL and, if required, an API key from that service.
+
+    **What "OpenAI-compatible" means**
+
+    Any API service that accepts requests in the same format as `https://api.openai.com/v1/chat/completions` is compatible. This includes:
+
+    - Local models served by **llama.cpp**, **Oobabooga**, **LM Studio**, **Ollama**, or similar tools
+    - Third-party cloud services like **Cloudflare AI** or other providers that expose an OpenAI-format endpoint
+
+    **What you need**
+
+    - **Base URL** — The root address of the API (for example, `http://localhost:8080/v1` for a local llama.cpp server, or `https://api.deepseek.com/v1` for the DeepSeek service).
+    - **API key** — Required by most cloud services; usually not required for local servers.
+    - **Model name** — The exact model identifier accepted by your endpoint (for example, `gpt-4o`, `deepseek-chat`, or `llama3-8b`).
+
+    You will enter all of these in Tavo's API settings screen. See [Configure the Connection](/guides/api-setup/configure) for the exact steps.
+
+    <Tip>
+      If your connection attempt fails, try appending `/v1` to the end of your base URL. Many local servers require the path to end with `/v1` rather than `/chat/completions`.
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+## Next step
+
+Once you have your API key, go to [Configure the Connection](/guides/api-setup/configure) to enter it in Tavo.
+
+---
+
+Need help choosing a provider? Email [tavo_service@outlook.com](mailto:tavo_service@outlook.com) or ask in the [Tavo Discord](https://discord.gg/47cBNpQDFG).

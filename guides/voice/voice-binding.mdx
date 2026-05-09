@@ -1,0 +1,66 @@
+---
+title: "Assigning a Unique Voice to Each Character in Tavo"
+sidebarTitle: "Voice binding"
+description: "Learn how to open the voice binding screen, browse available voices from your provider, preview them, and assign one to a specific character."
+---
+
+Voice binding lets you give each character in Tavo its own distinct voice. Once bound, every time that character responds, Tavo uses the voice you selected — so two characters in the same conversation can sound completely different from each other.
+
+Before binding, make sure you have already [connected a voice provider](/guides/voice/configure). The voice list is pulled from whatever provider you configured.
+
+## Bind a voice to a character
+
+<Steps>
+  <Step title="Open the sidebar">
+    In Tavo, tap the menu icon to open the left sidebar.
+  </Step>
+  <Step title="Go to Voice settings">
+    Tap **More** at the bottom of the sidebar, then select **Voice** from the menu.
+  </Step>
+  <Step title="Open Voice Binding">
+    On the Voice settings screen, tap the **Voice Binding** tab.
+  </Step>
+  <Step title="Find the character">
+    You will see a list of all the characters in your roster. Scroll to the character you want to configure.
+  </Step>
+  <Step title="Select a voice">
+    Tap the voice binding icon to the right of the character's name. A voice picker opens showing all the voices available from your connected provider.
+
+    Browse the list and tap a voice name to preview it. When you find the voice that fits the character, tap to confirm the selection.
+  </Step>
+  <Step title="Repeat for other characters">
+    Go back to the character list and repeat the process for any other characters you want to assign voices to. Each character stores its own voice setting independently.
+  </Step>
+</Steps>
+
+<Tip>
+Take your time previewing voices before committing. Different providers offer different audition controls — some let you hear a short sample clip, others speak a fixed phrase.
+</Tip>
+
+## Using a custom OpenAI-protocol TTS model
+
+If your connected provider is a custom endpoint that follows the OpenAI TTS protocol, the voice picker will not populate with a list automatically.
+
+<Steps>
+  <Step title="Open Voice Binding">
+    Follow the same steps above to reach the voice picker for the character.
+  </Step>
+  <Step title="Enter the voice ID manually">
+    Type the voice ID for your custom model directly into the input field in the picker.
+  </Step>
+  <Step title="Confirm the binding">
+    Tap the confirm button to save. The character will use that voice ID when making synthesis requests.
+  </Step>
+</Steps>
+
+<Note>
+Voice IDs for custom endpoints are defined by your TTS provider. Refer to your provider's documentation or API reference to find the correct ID.
+</Note>
+
+## What happens at playback
+
+When a bound character sends a message and voice is enabled, Tavo sends the message text to the provider along with the voice ID you selected. The provider returns the audio, and Tavo plays it immediately. If no voice is bound to a character, Tavo either uses a default voice or skips synthesis depending on your [voice settings](/guides/voice/settings).
+
+## Next step
+
+After binding voices, go to [Voice settings](/guides/voice/settings) to control when and how audio plays back — including auto-play, background audio, and which content types are read aloud.

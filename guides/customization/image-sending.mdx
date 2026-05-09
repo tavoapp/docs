@@ -1,0 +1,82 @@
+---
+title: "Send Images to AI Characters in Tavo"
+sidebarTitle: "Image Sending"
+description: "Enable image sending in Tavo's chat settings, connect a multimodal AI model like GPT-4V or Gemini, and let your characters analyze and respond to the images you share."
+---
+
+Tavo supports sending images directly to your AI characters during a chat. The character's underlying model reads and interprets the image, then responds in character — describing what it sees, reacting emotionally, or incorporating the image into the story. This feature requires a multimodal AI model that supports vision input.
+
+## Prerequisites
+
+Before enabling image sending, make sure you have configured an API that uses a **multimodal model** — one capable of understanding image content. Examples include:
+
+- **GPT-4V** (OpenAI)
+- **Claude 3** (Anthropic) — Haiku, Sonnet, or Opus
+- **Gemini** (Google) — Gemini Pro Vision or later
+
+<Warning>
+  Standard text-only models (such as GPT-3.5) cannot process images. If you send an image using a non-vision model, the character will not be able to see or respond to it meaningfully. Check your model's documentation to confirm it supports vision input.
+</Warning>
+
+## Enabling image sending
+
+<Steps>
+  <Step title="Open the sidebar">
+    Swipe right or tap the menu icon to open the left sidebar.
+  </Step>
+  <Step title="Tap More, then Settings">
+    Tap **More** at the bottom of the sidebar, then select **Settings** from the expanded menu.
+  </Step>
+  <Step title="Open Chat Settings">
+    Inside Settings, tap the **Chat Settings** tab.
+  </Step>
+  <Step title="Enter Image Sending settings">
+    Tap **Image Sending** to open the image sending configuration screen.
+  </Step>
+  <Step title="Turn on the toggle">
+    Switch the **Image Sending** toggle to the on position.
+  </Step>
+</Steps>
+
+## Configuring the image description API
+
+After enabling the feature, you must select the API model that will handle image analysis.
+
+<Steps>
+  <Step title="Select a multimodal model API">
+    In the Image Sending settings, find the **Image Description API** selector and choose an API entry that uses a vision-capable model (e.g., GPT-4V or Gemini).
+  </Step>
+  <Step title="Review the prompt settings">
+    Two prompt fields control how images are handled:
+
+    - **Image description prompt** — instructs the model how to describe the image you send.
+    - **Image description injection prompt** — controls how that description is woven into the conversation context so the character can reference it naturally.
+
+    <Tip>
+      If you are not familiar with prompt engineering, leave both fields at their defaults. The built-in prompts work well for most use cases.
+    </Tip>
+  </Step>
+</Steps>
+
+## Sending an image in chat
+
+Once the feature is enabled and configured, you can send images in any chat session.
+
+<Steps>
+  <Step title="Open a chat with a character">
+    Navigate to any character chat.
+  </Step>
+  <Step title="Tap the attachment icon">
+    In the chat input bar, tap the **attachment** or **image** icon (usually to the left of the text field).
+  </Step>
+  <Step title="Choose an image">
+    Select an image from your device's photo library or camera.
+  </Step>
+  <Step title="Send the image">
+    Tap the send button. Tavo passes the image to the configured multimodal model, which generates a description and injects it into the character's context. The character then replies based on what it "sees."
+  </Step>
+</Steps>
+
+<Info>
+  The character does not receive the raw image file directly. Instead, the multimodal model generates a text description of the image, and that description is inserted into the conversation context. This keeps the interaction consistent regardless of the character's model settings for the rest of the chat.
+</Info>

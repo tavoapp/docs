@@ -1,0 +1,58 @@
+---
+title: "Voice Synthesis in Tavo: Features and Setup Overview"
+sidebarTitle: "Voice overview"
+description: "Tavo can speak character responses aloud using text-to-speech. Learn which provider to pick, how setup works, and where each setting lives."
+---
+
+Tavo includes a built-in text-to-speech (TTS) system that reads character responses aloud as they arrive. You can connect a cloud voice provider for high-quality, expressive synthesis, or use a local on-device engine when you want offline playback. Either way, each character in your roster can have its own dedicated voice.
+
+## What voice does
+
+When voice is enabled, Tavo converts the text of a character's reply into spoken audio and plays it back through your device speaker. You control exactly what gets read — full messages, narration, quoted sections, or tagged content — and whether playback continues when you switch apps or lock your screen.
+
+## Supported providers
+
+Tavo works with the following voice providers:
+
+| Provider | Type | Notes |
+|---|---|---|
+| **ElevenLabs** | Cloud | High-quality, expressive voices; requires an ElevenLabs API key |
+| **Google TTS** | Cloud or local | Device built-in engine (offline) or cloud Neural2/Standard voices |
+| **Gemini TTS** | Cloud | Google AI Studio key; the same key used for Gemini chat |
+| **Volink** | Cloud | Volink platform; specializes in multilingual synthesis |
+| **Local TTS** | On-device | No internet required; uses Google TTS or iFlytek engine installed on your device |
+
+<Note>
+Google TTS can operate in two modes. When you select **System TTS** in Tavo, it uses the TTS engine installed on your Android device (offline). When you connect a Google Cloud or Gemini API key, it calls Google's cloud synthesis instead.
+</Note>
+
+## How setup works
+
+Getting voice running in Tavo takes four steps:
+
+<Steps>
+  <Step title="Get an API key">
+    Register with your chosen voice provider and generate an API key or credential. See [Getting API keys](/guides/voice/api-keys) for step-by-step instructions for every supported provider.
+  </Step>
+  <Step title="Connect the provider in Tavo">
+    Open the voice API settings inside Tavo, select your provider, enter your key, and save. Tavo confirms the connection immediately. See [Configure voice API](/guides/voice/configure).
+  </Step>
+  <Step title="Bind a voice to each character">
+    Once the provider is connected, open the voice binding screen and assign a specific voice from the provider's library to each character. See [Voice binding](/guides/voice/voice-binding).
+  </Step>
+  <Step title="Tune playback behavior">
+    Decide whether voice plays automatically, what content types are read aloud, and whether audio continues in the background. See [Voice settings](/guides/voice/settings).
+  </Step>
+</Steps>
+
+## Pages in this section
+
+- [Getting API keys](/guides/voice/api-keys) — Register and generate credentials for ElevenLabs, Gemini, and Volink
+- [Configure voice API](/guides/voice/configure) — Enter your key in Tavo and establish the connection
+- [Voice binding](/guides/voice/voice-binding) — Assign a specific voice to each character
+- [Voice settings](/guides/voice/settings) — Control auto-play, background audio, and what content is spoken
+- [Local TTS](/guides/voice/local-tts) — Set up offline synthesis with Google TTS or iFlytek
+
+<Tip>
+If you are new to voice in Tavo, start with [Getting API keys](/guides/voice/api-keys) to choose a provider and generate your first credential.
+</Tip>

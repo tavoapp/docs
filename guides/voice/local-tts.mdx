@@ -1,0 +1,193 @@
+---
+title: "Local TTS: Offline Voice Synthesis on Your Android Device"
+sidebarTitle: "Local TTS"
+description: "Use Google TTS or iFlytek TTS installed on your device for offline voice playback in Tavo — no API key or internet connection required."
+---
+
+Local TTS (text-to-speech) lets Tavo speak character responses without calling any external API. The synthesis runs entirely on your Android device using a TTS engine you install locally. This means voice works even without an internet connection and there are no per-character API costs.
+
+Tavo supports two local TTS engines:
+
+- **Google TTS** (`com.google.android.tts`) — Google's on-device synthesis engine, available through the Google Play Store. Supports many languages and downloadable offline voice packs.
+- **iFlytek TTS** (`com.iflytek.speechcloud` or `com.iflytek.speechsuite`) — A high-quality Chinese TTS engine that runs fully offline. Supports Android 11 and above.
+
+<Note>
+Local TTS is only available on Android. iOS devices use the system speech engine differently and are not covered by this guide.
+</Note>
+
+## Limitations compared to cloud TTS
+
+| | Local TTS | Cloud TTS (ElevenLabs, Gemini, etc.) |
+|---|---|---|
+| Internet required | No | Yes |
+| Voice expressiveness | Moderate | High |
+| Language support | Depends on installed voice pack | Broad, provider-dependent |
+| Per-use cost | Free | Depends on provider plan |
+| Voice customization per character | Limited to installed voices | Full voice library from provider |
+
+## Setting up Google TTS
+
+Google TTS requires the full Google Services suite to be installed on your device. If your device already has Google Play Store and the Google TTS engine (Speech Recognition & Synthesis by Google LLC), you can skip Part 1 and go straight to Part 2.
+
+### Part 1: Install Google Services (if not already present)
+
+Some Android devices — particularly those sold in regions without Google services, or running AOSP-based ROMs — do not include Google Play out of the box. Choose the method that fits your situation:
+
+<Tabs>
+  <Tab title="Manual APK (recommended for beginners)">
+    This method works for most Android devices and does not require root access.
+
+    <Steps>
+      <Step title="Install Google Services Framework">
+        Download the appropriate version for your device from [APKMirror — Google Services Framework](https://www.apkmirror.com/apk/google-inc/google-services-framework/). Choose a stable release that matches your Android version. Install the APK. No icon will appear on your home screen — that is expected.
+      </Step>
+      <Step title="Install Google Play Services">
+        Download from [APKMirror — Google Play Services](https://www.apkmirror.com/apk/google-inc/google-play-services/) and install. Again, no home screen icon will appear.
+      </Step>
+      <Step title="Install Google Play Store">
+        Download from [APKMirror — Google Play Store](https://www.apkmirror.com/apk/google-inc/google-play-store/) and install. If the app shows a black screen or crashes, try an older compatible version.
+      </Step>
+    </Steps>
+
+    <Warning>
+      Only download APKs from APKMirror or other trusted sources. Verify the developer is listed as **Google LLC** before installing.
+    </Warning>
+  </Tab>
+  <Tab title="Open GApps flash (advanced)">
+    This method flashes Google services at the system level and requires an unlocked bootloader and a custom recovery environment (such as TWRP).
+
+    <Steps>
+      <Step title="Download an Open GApps package">
+        Visit [https://opengapps.org](https://opengapps.org) and download the package that matches your device architecture (for example, ARM64) and Android version.
+      </Step>
+      <Step title="Copy the ZIP to your device">
+        Place the downloaded ZIP file in your device's root storage. Do not extract it.
+      </Step>
+      <Step title="Boot into recovery">
+        Power off your device, then hold the correct key combination to enter your custom recovery.
+      </Step>
+      <Step title="Flash the package">
+        In the recovery interface, select **Install → Choose zip from /sdcard**, locate the GApps ZIP, and confirm the flash.
+      </Step>
+      <Step title="Reboot">
+        After flashing completes, reboot your device. Your existing data is preserved.
+      </Step>
+    </Steps>
+
+    <Warning>
+      Select the Open GApps package that exactly matches your device architecture and Android version. An incompatible package can prevent the device from booting.
+    </Warning>
+  </Tab>
+  <Tab title="Sandbox app (Huawei / HarmonyOS)">
+    Huawei and HarmonyOS devices cannot run Google services directly. Use a sandbox application to run them in an isolated virtual environment.
+
+    <Steps>
+      <Step title="Download a sandbox app">
+        Search your device's app store for a virtual space or sandbox application (such as "出境易" or a similar tool).
+      </Step>
+      <Step title="Create a virtual space">
+        Open the sandbox app and create a new isolated environment.
+      </Step>
+      <Step title="Install Google services inside the sandbox">
+        Inside the virtual space, follow the Manual APK steps above to install Google Services Framework, Google Play Services, and Google Play Store.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Samsung (Chinese domestic models)">
+    Some Samsung Galaxy devices sold in China include hidden Google service support that can be activated without any additional APKs.
+
+    <Steps>
+      <Step title="Enable Google Services">
+        Open **Settings → Accounts and backup → Manage accounts** and turn on **Google Services**.
+      </Step>
+      <Step title="Update Google Play Store">
+        Use a third-party app store (such as APKPure) to download and install the latest version of Google Play Store.
+      </Step>
+      <Step title="Verify">
+        After completing these steps, Google Play Store should appear on your home screen and you can sign in normally.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+### Part 2: Install the Google TTS engine
+
+<Steps>
+  <Step title="Open Google Play Store">
+    Confirm you are signed in with your Google account.
+  </Step>
+  <Step title="Search for the engine">
+    In the search bar, type **Speech Recognition & Synthesis**.
+  </Step>
+  <Step title="Install the official app">
+    Find the app published by **Google LLC** and tap **Install**. No home screen icon will appear after installation — this is expected.
+  </Step>
+  <Step title="Test it in Tavo">
+    Open Tavo and go to **More → Voice → Voice API → New**. Set the provider to **System TTS**. In the model list, look for `com.google.android.tts`. In **My Voices**, tap the voice you want to preview.
+  </Step>
+</Steps>
+
+### Adjusting speech rate for System TTS
+
+If voices sound too fast or too slow, you can adjust the speech rate at the system level on Android — Tavo uses whatever rate your system TTS is configured to use.
+
+Open your device **Settings**, search for **Text-to-speech output** or **Text-to-speech**, and adjust the **Speech rate** and **Pitch** sliders.
+
+## Setting up iFlytek TTS
+
+iFlytek TTS is a professional Chinese-language synthesis engine that works fully offline. It requires **Android 11 or later**.
+
+<Steps>
+  <Step title="Download the iFlytek TTS engine">
+    Download the ZIP archive from the following URL:
+
+    ```
+    https://gitcode.com/open-source-toolkit/de7bc/blob/main/讯飞语音引擎.zip
+    ```
+
+    The archive contains two APKs:
+
+    - **32-bit** — For older or 32-bit devices
+    - **64-bit** — For modern Android devices (recommended)
+
+    If you are unsure which to use, try the 64-bit version first. Most devices released after 2018 support 64-bit.
+  </Step>
+  <Step title="Allow installation from unknown sources">
+    Go to **Settings → Security → Install unknown apps** and grant permission to your file manager or browser.
+  </Step>
+  <Step title="Install the APK">
+    Extract the ZIP and tap the APK file for your architecture. Follow the on-screen prompts to complete installation. No home screen icon will appear — that is normal.
+  </Step>
+  <Step title="Test it in Tavo">
+    Open Tavo and go to **More → Voice → Voice API → New**. Set the provider to **System TTS**. In the model list, look for `com.iflytek.speechcloud` or `com.iflytek.speechsuite`. Tap a voice in **My Voices** to preview it.
+  </Step>
+</Steps>
+
+<Warning>
+iFlytek TTS requires Android 11 or above. Installation will fail silently on older versions. Confirm your Android version in **Settings → About phone** before proceeding.
+</Warning>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The TTS engine does not appear in Tavo's model list">
+    - Confirm the APK installed successfully (check Settings → Apps to verify it appears there).
+    - Restart Tavo after installation; the model list refreshes on launch.
+    - For iFlytek, confirm your device runs Android 11 or later.
+  </Accordion>
+  <Accordion title="Voice plays but the speed is wrong">
+    Adjust the speech rate in your Android system TTS settings. Search for "Text-to-speech" in your device Settings and change the speed slider.
+  </Accordion>
+  <Accordion title="Google Play Store crashes after installation">
+    The installed version may not be compatible with your device. Uninstall it and try an older stable version from APKMirror.
+  </Accordion>
+  <Accordion title="Google services fail to connect">
+    - Verify your device's clock is set to the correct date and time (sync errors can block Google authentication).
+    - Make sure all three Google components (Services Framework, Play Services, Play Store) are installed and up to date.
+    - Restart the device after installation to let the services initialize fully.
+  </Accordion>
+</AccordionGroup>
+
+<Info>
+If you run into an issue not covered here, reach out at [tavo_service@outlook.com](mailto:tavo_service@outlook.com) or ask in the [Tavo Discord community](https://discord.gg/47cBNpQDFG).
+</Info>

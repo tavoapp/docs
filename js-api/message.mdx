@@ -1,0 +1,206 @@
+---
+title: "tavo.message — Read and Write Chat Messages"
+description: "Full reference for tavo.message: find messages by index or filter, retrieve by ID, count, append new messages, update content, and delete by ID."
+---
+
+The `tavo.message` namespace lets you read and manipulate individual messages in the active chat. You can query messages by floor index or ID, append new messages from any role, update existing content, and delete messages programmatically. All methods in this namespace are async and require `await`.
+
+<Note>
+The `tavo.message` API is available since **v0.78.0**.
+</Note>
+
+## Message object
+
+Every method that returns a message uses the following shape:
+
+```javascript
+{
+  id: 2338,          // Unique message ID
+  characterId: 34,   // Character ID (only present on assistant messages)
+  content: 'Hello!', // Message text content
+  hidden: false,     // Whether the message is hidden
+  role: 'assistant'  // 'system' | 'assistant' | 'user'
+}
+```
+
+---
+
+### `tavo.message.find(indexRange, filter?)`
+
+Searches messages by floor index range and an optional filter. Always returns an array — even when a single floor is specified. If the requested floor does not exist, returns an empty array `[]`.
+
+```javascript
+// Get the third message (floor 2, zero-indexed)
+const msgs = await tavo.message.find(2)
+
+// Get messages from floor 3 through 100 (inclusive on both ends)
+const range = await tavo.message.find([3, 100])
+
+// Get all messages from floor 10 onwards
+const fromTen = await tavo.message.find([10])
+
+// Get every message in the chat
+const all = await tavo.message.find([])
+
+// Get the last user message
+const lastUser = await tavo.message.find(-1, { role: 'user' })
+
+// Get all non-hidden messages from floor 10 onwards
+const visible = await tavo.message.find([10], { hidden: false })
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `indexRange` | `number \| array` | Yes | Floor index or range. A single `number` selects one floor (negative counts from the end: `-1` is last). An array `[start, end]` is a closed interval; `[start]` means start to end; `[]` / `null` / `undefined` means all floors. |
+| `filter` | `object` | No | Optional filter object (see fields below). |
+| `filter.role` | `string` | No | Filter by role: `'system'`, `'assistant'`, or `'user'`. Omit to include all roles. |
+| `filter.hidden` | `boolean` | No | `true` returns only hidden messages; `false` returns only visible messages. Omit to include both. |
+| `filter.characters` | `array` | No | Array of character IDs. When provided, only messages from those characters are returned. |
+
+**Returns**: `array` — Array of message objects matching the query. Empty array if nothing matches.
+
+---
+
+### `tavo.message.get(messageId)`
+
+Retrieves a single message by its unique ID.
+
+```javascript
+const msg = await tavo.message.get(2338)
+if (msg) {
+  console.log(msg.content)
+}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `messageId` | `number` | Yes | The unique ID of the message to retrieve. |
+
+**Returns**: `object | null` — The message object, or `null` if the ID is invalid or the message does not exist.
+
+---
+
+### `tavo.message.current()`
+
+Returns the message object that contains the code currently being executed. Fields match the message object format described above.
+
+A typical use case is reading the character associated with the current message, or modifying the current message and writing it back with `tavo.message.update`.
+
+```javascript
+const self = await tavo.message.current()
+console.log(self)
+
+// Read the character who sent this message
+const char = await tavo.character.get(self.characterId)
+console.log(char.name)
+```
+
+**Parameters**: None.
+
+**Returns**: `object | null` — The current message object.
+
+---
+
+### `tavo.message.count()`
+
+Returns the total number of messages in the current chat, including hidden messages. Floors are zero-indexed, so the last floor index is always `count - 1`.
+
+```javascript
+const total = await tavo.message.count()
+const lastIndex = total - 1
+console.log('Last floor:', lastIndex)
+```
+
+**Parameters**: None.
+
+**Returns**: `number` — Total message count (including hidden messages).
+
+---
+
+### `tavo.message.append(message)`
+
+Appends a new message at the end of the current chat. Returns the new message's ID on success, or `null` on failure.
+
+<Note>
+When `role` is `'assistant'` and `characterId` is omitted, Tavo infers the character from the current session context. In a group chat, `characterId` is required. If the character cannot be inferred or does not belong to the current chat, the call returns `null`.
+</Note>
+
+```javascript
+// Full example with all fields
+const newId = await tavo.message.append({
+  role: 'assistant',
+  characterId: 34,
+  content: 'This is an appended message.',
+  hidden: false,
+})
+
+// Shorthand for a single-character chat (role defaults to 'assistant', hidden defaults to false)
+const newId2 = await tavo.message.append({
+  content: 'A simple assistant message in a one-on-one chat.',
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `message` | `object` | Yes | Message object to append (see fields below). |
+| `message.content` | `string` | Yes | Text content of the message. |
+| `message.role` | `string` | No | `'assistant'` (default) or `'user'`. |
+| `message.characterId` | `number` | No | Character ID for assistant messages. Required in group chats; optional in one-on-one chats. |
+| `message.hidden` | `boolean` | No | Whether the message should be hidden. Defaults to `false`. |
+
+**Returns**: `number | null` — The new message's ID, or `null` if the operation failed.
+
+---
+
+### `tavo.message.update(message)`
+
+Updates an existing message by ID. Returns the message ID on success, or `null` on failure.
+
+```javascript
+// Get the last message and modify it
+const lastMsg = (await tavo.message.find(-1))[0]
+lastMsg.content = 'Updated content'
+lastMsg.reasoning = 'Optional reasoning text'
+lastMsg.hidden = true
+await tavo.message.update(lastMsg)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `message` | `object` | Yes | Object with updated fields. |
+| `message.id` | `number` | Yes | ID of the message to update. |
+| `message.content` | `string` | Yes | New text content for the message. |
+| `message.reasoning` | `string` | No | Reasoning/thinking content. Pass an empty string to clear it. |
+| `message.hidden` | `boolean` | No | Whether to hide the message. Defaults to `false`. |
+
+**Returns**: `number | null` — The updated message's ID, or `null` on failure.
+
+---
+
+### `tavo.message.delete(messageId)`
+
+Deletes a message by its ID. Returns the deleted message's ID on success, or `null` on failure.
+
+```javascript
+// Delete the middle message in the current chat
+const count = await tavo.message.count()
+const midIndex = Math.floor(count / 2)
+const midMsg = (await tavo.message.find(midIndex))[0]
+await tavo.message.delete(midMsg.id)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `messageId` | `number` | Yes | The unique ID of the message to delete. |
+
+**Returns**: `number | null` — The deleted message's ID, or `null` on failure.

@@ -1,0 +1,134 @@
+---
+title: Tavo User Guide
+description: Everything you need to connect your AI model, create and import characters, start conversations, and unlock advanced features like lorebooks and voice in Tavo.
+mode: frame
+---
+
+<div data-product-guide-index className="flex w-full flex-col gap-8 max-w-5xl mx-auto px-4 md:px-8 lg:px-12 py-10 lg:gap-14 lg:py-16">
+  <div className="flex max-w-[540px] flex-col gap-2 self-center text-center">
+    <h1 className="text-[30px] font-medium leading-9 tracking-tight text-gray-900 dark:text-gray-50">
+      Tavo User Guide
+    </h1>
+    <p className="text-balance text-base leading-relaxed tracking-tight text-gray-600 dark:text-gray-400">
+      Everything you need to connect your AI model, create characters, and get the most out of Tavo's chat and scripting features.
+    </p>
+  </div>
+
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <Card
+      title={<span className="product-guide-feature-card-title">Get started</span>}
+      icon="rocket"
+      href="/guides/introduction"
+      className="product-guide-feature-card"
+      size={64}
+    >
+      <span className="product-guide-feature-card-description">Connect your API key and start your first chat in minutes.</span>
+    </Card>
+
+    <a
+      href="/guides/characters/overview"
+      className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+    >
+      <Icon icon="user-round" color="rgb(var(--primary))" size={18} className="shrink-0" />
+      <div className="flex flex-col gap-1">
+        <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Characters</span>
+        <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          Create custom AI characters or import cards from Chub.ai, Janitor.ai, and more.
+        </span>
+      </div>
+    </a>
+    <a
+      href="/guides/advanced/lorebook"
+      className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+    >
+      <Icon icon="book-open" color="rgb(var(--primary))" size={18} className="shrink-0" />
+      <div className="flex flex-col gap-1">
+        <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Advanced features</span>
+        <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          Lorebooks, presets, regex scripts, long memory, and custom rendering.
+        </span>
+      </div>
+    </a>
+  </div>
+
+  <hr className="border-0 border-t border-border" />
+
+  <div className="flex flex-col gap-4">
+    <h2 className="font-serif text-xl font-medium leading-normal text-gray-900 dark:text-gray-50">Common tasks</h2>
+
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <a
+        href="/guides/api-setup/get-key"
+        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+      >
+        <Icon icon="key" color="rgb(var(--primary))" size={18} className="shrink-0" />
+        <div className="flex flex-col gap-1">
+          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Get an API key</span>
+          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            Register on OpenAI, Gemini, Claude, DeepSeek, or another supported platform.
+          </span>
+        </div>
+      </a>
+      <a
+        href="/guides/characters/create"
+        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+      >
+        <Icon icon="wand-2" color="rgb(var(--primary))" size={18} className="shrink-0" />
+        <div className="flex flex-col gap-1">
+          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Create a character</span>
+          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            Build a custom AI character with a unique personality, backstory, and greeting.
+          </span>
+        </div>
+      </a>
+      <a
+        href="/guides/chat/group-chat"
+        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+      >
+        <Icon icon="users" color="rgb(var(--primary))" size={18} className="shrink-0" />
+        <div className="flex flex-col gap-1">
+          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Start a group chat</span>
+          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            Add multiple AI characters to one conversation and set reply modes.
+          </span>
+        </div>
+      </a>
+      <a
+        href="/guides/voice/overview"
+        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+      >
+        <Icon icon="mic" color="rgb(var(--primary))" size={18} className="shrink-0" />
+        <div className="flex flex-col gap-1">
+          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Enable voice</span>
+          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            Connect ElevenLabs, Google TTS, or a local TTS engine for spoken responses.
+          </span>
+        </div>
+      </a>
+      <a
+        href="/js-api/introduction"
+        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+      >
+        <Icon icon="code-2" color="rgb(var(--primary))" size={18} className="shrink-0" />
+        <div className="flex flex-col gap-1">
+          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">JavaScript API</span>
+          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            Script interactive experiences inside chat bubbles with the Tavo JS API.
+          </span>
+        </div>
+      </a>
+      <a
+        href="/guides/advanced/macros"
+        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+      >
+        <Icon icon="braces" color="rgb(var(--primary))" size={18} className="shrink-0" />
+        <div className="flex flex-col gap-1">
+          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Use macros</span>
+          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            Inject dynamic values like character name, date, and custom variables into prompts.
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

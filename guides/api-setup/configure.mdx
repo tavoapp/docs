@@ -1,0 +1,70 @@
+---
+title: "Configure Your API Connection in Tavo"
+sidebarTitle: "Configure"
+description: "Learn how to open Tavo's API settings, choose your provider type, enter your API key and base URL, and verify that the connection is working."
+---
+
+Once you have an API key from your chosen provider, the next step is to enter it in Tavo. This page walks you through the full configuration process from opening the app to confirming a successful connection.
+
+<Steps>
+  <Step title="Open the API settings">
+    There are two ways to reach the API settings screen:
+
+    - **From the home screen** — Tap the **API Connection** button that appears on the main screen.
+    - **From the menu** — Tap the **Menu** icon (usually in the top-left corner) to open the side panel, then tap **API Connection**.
+  </Step>
+
+  <Step title="Create a new connection">
+    On the API Connection screen, tap **New** (or the **+** button) to start adding a new API configuration. Each configuration is saved separately, so you can set up multiple providers and switch between them later.
+  </Step>
+
+  <Step title="Choose your API provider type">
+    From the **Model Platform** dropdown, select the provider that matches your API key:
+
+    | If your key is from… | Select… |
+    |---|---|
+    | Volink | Volink |
+    | Google AI Studio | Gemini |
+    | Anthropic | Claude |
+    | DeepSeek official platform | DeepSeek |
+    | OpenAI | OpenAI |
+    | ByteDance / Volcano Ark / Doubao | Doubao (ByteDance) |
+    | OpenRouter | OpenRouter |
+    | Local model or other compatible API | Custom (OpenAI Protocol) |
+
+    <Note>
+      If you are using a custom or self-hosted endpoint, select **Custom (OpenAI Protocol)**. You will also need to enter the base URL of your API server in the next step.
+    </Note>
+  </Step>
+
+  <Step title="Enter your API key (and base URL if applicable)">
+    Paste your API key into the **API Key** field. Make sure there are no leading or trailing spaces — copy the key directly from your provider's dashboard.
+
+    If you selected **Custom (OpenAI Protocol)**, also fill in the **Base URL** field with the root address of your API server. Examples:
+
+    - Local llama.cpp server: `http://localhost:8080/v1`
+    - DeepSeek via custom endpoint: `https://api.deepseek.com/v1`
+    - Any other OpenAI-compatible service: the URL shown in that service's documentation
+
+    Then select the **Model Name** that your endpoint supports (for example, `gpt-4o`, `deepseek-chat`, or `llama3-8b`).
+  </Step>
+
+  <Step title="Save and test the connection">
+    Tap **Save**. Tavo will attempt to reach the provider's servers and verify the key.
+
+    - **Connection successful** — You'll see a success confirmation. Your API is now ready to use. Proceed to [Select a Model](/guides/api-setup/select-model) to choose which model Tavo uses for chat.
+    - **Connection failed** — See the troubleshooting note below.
+  </Step>
+</Steps>
+
+## If the connection fails
+
+<Warning>
+  If you are using an overseas provider such as OpenAI, Claude, or Gemini and the connection fails when you tap Save, the most common cause is a region restriction on your network. These providers block requests from mainland China and Hong Kong IP addresses. Try enabling a VPN, then tap Save again.
+</Warning>
+
+For other error types — invalid key format, quota exceeded, or wrong model name — see the [Troubleshooting](/guides/api-setup/troubleshooting) page for specific solutions.
+
+## Managing multiple API connections
+
+You can save more than one API configuration in Tavo. This lets you keep, for example, a Gemini connection and a DeepSeek connection, and switch between them depending on the character or chat session. To set a saved connection as the one Tavo uses by default, see [Select a Model](/guides/api-setup/select-model).

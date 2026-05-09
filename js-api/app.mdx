@@ -1,0 +1,48 @@
+---
+title: "tavo.app — Read App Version Information"
+description: "Reference for tavo.app: retrieve the current Tavo app version as a human-readable string or as a comparable integer for conditional logic."
+---
+
+The `tavo.app` namespace exposes basic metadata about the running Tavo application. Use it to detect the installed version and conditionally enable or disable features that depend on a specific API version.
+
+<Note>
+The Tavo JavaScript API is in early beta and is continuously updated. New namespaces and methods are added regularly. Check this documentation for the latest additions, and share feedback or feature requests in the community.
+</Note>
+
+---
+
+### `tavo.app.version()`
+
+Returns the current app version as a human-readable string.
+
+```javascript
+const ver = await tavo.app.version()
+console.log(ver) // e.g. "0.77.0"
+```
+
+**Parameters**: None.
+
+**Returns**: `string` — The current app version, e.g. `"0.77.0"`.
+
+---
+
+### `tavo.app.versionNumber()`
+
+Returns the current app version as an integer. The integer is computed by removing the dots from the version string, making it easy to compare versions with simple numeric operators.
+
+```javascript
+const num = await tavo.app.versionNumber()
+console.log(num) // e.g. 770
+
+// Example: enable a feature only on v0.78.0 or later
+if (num >= 780) {
+  const msg = await tavo.message.current()
+  console.log('Message API available:', msg)
+} else {
+  tavo.utils.toast('Please update Tavo to v0.78.0 or later.')
+}
+```
+
+**Parameters**: None.
+
+**Returns**: `number` — The current app version as an integer (e.g., version `0.77.0` returns `770`).

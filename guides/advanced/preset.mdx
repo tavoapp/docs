@@ -1,0 +1,150 @@
+---
+title: "Presets: Configure Your Character's Prompt Structure"
+sidebarTitle: "Preset"
+description: "Learn how Tavo presets define the full prompt layout sent to the AI — from character identity and personality to scenario context and output formatting."
+---
+
+A preset is a reusable configuration that controls how information is assembled into the prompt sent to the AI model. It defines a character's identity, behavioral guidelines, and the order in which different pieces of context — world info, chat history, persona, and more — are arranged. Switching presets changes the entire "frame" around a character without modifying the character card itself.
+
+## Basic prompts
+
+The basic prompts in a preset establish the character's core identity. They are filled in when you create or edit a character and feed directly into the prompt assembly.
+
+<AccordionGroup>
+  <Accordion title="User Identity">
+    Defines your relationship to the character and sets the tone of the interaction.
+
+    ```text
+    {{user}} is {{char}}'s close friend. They share a long history together, and their interactions show warmth and genuine care.
+    ```
+  </Accordion>
+
+  <Accordion title="Character Description">
+    Provides the character's complete background — their profession, goals, and history.
+
+    ```text
+    {{char}} is a curious and resourceful explorer who is always chasing the unknown. Her singular goal: find the lost treasure of the Sunken Archive.
+    ```
+  </Accordion>
+
+  <Accordion title="Personality">
+    Describes how the character thinks, feels, and reacts.
+
+    ```text
+    {{char}} is calm and methodical by nature. She approaches problems with logic, but when backed into a corner she reveals an iron resolve and natural leadership.
+    ```
+  </Accordion>
+
+  <Accordion title="Scenario">
+    Sets the current environment or situation the character is in when the chat begins.
+
+    ```text
+    {{char}} is standing in an ancient library. Dust-laden books are stacked to the ceiling. The air is dim and carries the smell of old parchment.
+    ```
+  </Accordion>
+
+  <Accordion title="Example Chat">
+    Sample dialogue that teaches the AI how the character speaks and interacts. The AI uses this to calibrate tone and vocabulary.
+
+    ```text
+    {{char}}: Do you think today's mission will go smoothly? I'm not entirely sure.
+    {{user}}: I have my doubts too, but we'll figure it out together.
+    {{char}}: Right. I know we can get through anything if we work as a team.
+    ```
+  </Accordion>
+
+  <Accordion title="New Chat">
+    The opening message template used when a fresh conversation starts with this character.
+
+    ```text
+    {{char}}: Today feels different — like something is about to change. Do you have any plans?
+    {{user}}: Maybe a walk to clear my head.
+    {{char}}: That sounds perfect. Want company?
+    ```
+  </Accordion>
+
+  <Accordion title="Group Nudge">
+    Instructions for how the character should behave in a group chat with multiple AI characters.
+
+    ```text
+    {{char}} addresses the group: "Is everyone ready for what's ahead? This mission won't be easy, but we can handle it together."
+    ```
+  </Accordion>
+
+  <Accordion title="Continue Nudge">
+    A nudge that prompts the AI to keep the story moving when the narrative stalls.
+
+    ```text
+    {{char}} presses forward: "Since we're all prepared, let's begin. Our target: uncovering the library's secret."
+    ```
+  </Accordion>
+
+  <Accordion title="AI Impersonation">
+    Controls how the AI responds when asked to answer as the character — for example, when a user asks a direct question about the character's background.
+
+    ```text
+    If {{user}} asks about {{char}}'s past, respond as: "I'm an explorer at heart — endlessly curious, always chasing the next horizon. Right now, I'm hunting a lost treasure that most people think is a myth."
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Prompt entries
+
+Beyond the basic prompts, a preset arranges a set of **prompt entries** that control the full structure of what gets sent to the AI. These appear in the preset editor as an ordered list, and you can reorder, enable, or disable them.
+
+| Entry | Purpose |
+|---|---|
+| **Main Prompt** | The top-level system instruction that sets the character's overall behavioral direction. Placed at the beginning of the prompt. |
+| **World Info (Before)** | Background context or vocabulary rules injected before the chat history. Use for setting-specific terminology or constraints. |
+| **Persona Description** | The character's inner motivations and behavioral traits — who they are beneath the surface. |
+| **Char Description** | Physical appearance, clothing, and other external traits. |
+| **Char Personality** | Deeper personality detail: how the character relates to others, their quirks, tendencies, and communication style. |
+| **Scenario** | The current situation context, mirroring the Scenario basic prompt. |
+| **Enhance Definitions** | Sharpens specific behaviors for particular situations — for example, "when threatened, react with calm precision, not panic." |
+| **Auxiliary Prompt** | Supporting instructions for dialogue style, tone, or formatting preferences. |
+| **Dialogue Examples** | The example chat entries formatted for injection into the prompt. |
+| **Chat History** | The actual conversation history up to the current turn. |
+| **World Info (After)** | Additional world context or narrative state updates that follow the chat history. |
+| **Post-History Instructions** | Final instructions that appear after the chat history — often used to enforce output format, length, or style. |
+
+<Note>
+The order of prompt entries matters. Instructions closer to the end of the prompt (just before the AI generates its response) carry more weight. Place your most important behavioral rules in **Post-History Instructions** for the strongest effect.
+</Note>
+
+## Example: Main Prompt and Post-History Instructions
+
+```text
+Main Prompt:
+Your primary task is to fully embody {{char}} and co-create an adventure with {{user}}.
+Always maintain {{char}}'s personality as defined. Actively drive the plot forward
+and sustain a tense, exciting atmosphere.
+
+Post-History Instructions:
+Keep responses between 500–800 words. Leave a blank line between paragraphs.
+Avoid dense walls of text. End each reply with an action or question that
+invites {{user}} to respond.
+```
+
+## Creating, editing, and switching presets
+
+<Steps>
+  <Step title="Open the preset editor">
+    Go to a character card and tap the **Preset** section, or access presets from the app settings under **Prompt Presets**.
+  </Step>
+  <Step title="Create a new preset">
+    Tap **New Preset**. Give it a name that describes its purpose (e.g., `Fantasy RPG — strict roleplay` or `Casual companion`).
+  </Step>
+  <Step title="Fill in the basic prompts">
+    Work through each basic prompt field. Use `{{char}}` and `{{user}}` macros so the preset remains reusable across different characters.
+  </Step>
+  <Step title="Arrange prompt entries">
+    In the prompt entry list, drag entries into the order you want. Disable entries you don't need for this preset.
+  </Step>
+  <Step title="Save and apply">
+    Save the preset. To switch presets on an existing character, open the character settings and select a different preset from the dropdown. The change takes effect on the next AI response.
+  </Step>
+</Steps>
+
+<Tip>
+Build a small library of presets for different use cases: one for immersive narrative roleplay, one for casual conversation, one for structured game-like interactions. Switching between them is instant and non-destructive.
+</Tip>

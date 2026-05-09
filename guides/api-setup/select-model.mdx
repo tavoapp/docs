@@ -1,0 +1,99 @@
+---
+title: "Select and Configure AI Models in Tavo"
+sidebarTitle: "Select a Model"
+description: "Learn how to set a default API connection, switch between available models, and fine-tune model parameters like temperature, Top-P, and context length."
+---
+
+After you have saved at least one API connection in Tavo, you can choose which connection — and which model — is active during chat. You can also adjust the model's behavior through a set of generation parameters. This page covers both.
+
+## Setting the default API connection
+
+Tavo uses one API connection at a time as the active (default) connection. Here's how to change it:
+
+<Steps>
+  <Step title="Open the API Connection screen">
+    From the home screen, tap the **API Connection** button. Or tap **Menu** in the top-left corner, then tap **API Connection**.
+  </Step>
+  <Step title="Find the connection you want to activate">
+    You will see a list of all saved API configurations. Locate the one you want to use.
+  </Step>
+  <Step title="Open the connection menu">
+    Tap the **menu icon** (three dots or similar) on the right side of the connection you want to set as default.
+  </Step>
+  <Step title="Set as default">
+    Tap **Set as Default**. Tavo will now route all chat requests through this connection until you change it.
+  </Step>
+</Steps>
+
+## Adjusting model parameters
+
+Model parameters control how the AI generates its responses — how creative, how long, how focused. You can adjust them in two places: the global Model Settings, or the per-connection Parameter Settings. Both are described below.
+
+<Tabs>
+  <Tab title="Global model settings">
+    Global settings apply to all API connections unless overridden by a per-connection parameter. Use this for general preferences you want everywhere.
+
+    <Steps>
+      <Step title="Open the sidebar">
+        Tap **Menu** to open the left sidebar.
+      </Step>
+      <Step title="Go to Settings">
+        Tap **More**, then tap **Settings** from the menu that appears.
+      </Step>
+      <Step title="Open Model Settings">
+        In the Settings screen, tap the **Model Settings** tab.
+      </Step>
+      <Step title="Adjust the parameters">
+        You can configure the following values:
+
+        | Parameter | What it controls |
+        |---|---|
+        | **Context memory length** | How many turns of conversation history the model receives. Higher values give the AI more context but use more tokens per request. |
+        | **Reply token limit** | The maximum number of tokens the model can generate in a single reply. Increase this if responses are being cut off. |
+        | **Temperature** | Controls randomness. Higher values (e.g. 1.2) produce more varied, creative replies. Lower values (e.g. 0.5) make responses more predictable and focused. |
+        | **Top-P** | Nucleus sampling threshold. Lower values narrow the model's vocabulary pool, making the character feel more consistent. Higher values give a wider range of expression. |
+        | **Top-K** | The number of top tokens the model considers at each step. Lower values make the style more fixed; higher values allow more variety in word choice. |
+        | **Streaming output** | When enabled, the model's reply appears word by word in real time. When disabled, the full reply appears all at once after generation completes. |
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Per-connection parameter settings">
+    You can also set parameters on a specific API connection. These override the global settings for that connection only.
+
+    <Steps>
+      <Step title="Open the API Connection screen">
+        Tap **Menu → API Connection**, then find the connection you want to configure.
+      </Step>
+      <Step title="Open Parameter Settings">
+        Tap the **Parameter Settings** button (or gear icon) next to the connection entry.
+      </Step>
+      <Step title="Configure the parameters">
+        The parameter configuration screen opens. The interface shows example values and short descriptions for each parameter to help you understand the effect of each setting.
+      </Step>
+      <Step title="Save your changes">
+        Confirm or save the values when you are done. These settings will apply whenever this API connection is active.
+      </Step>
+    </Steps>
+
+    <Warning>
+      Parameters set here take **higher priority** than the global Model Settings. If you set Temperature to 0.7 globally but 1.0 on a specific connection, that connection will always use 1.0.
+    </Warning>
+  </Tab>
+</Tabs>
+
+## Parameter reference
+
+The table below describes each parameter and gives starting-point recommendations. For the authoritative definitions and valid ranges, refer to your provider's official API documentation (for example, [OpenAI API reference](https://platform.openai.com/docs/api-reference) or [Anthropic API reference](https://docs.anthropic.com/en/api/getting-started)).
+
+| Parameter | Typical range | What to try |
+|---|---|---|
+| Context memory length | 1–128 (turns) | Start at 10–20. Increase if the AI forgets recent events; decrease to save tokens. |
+| Reply token limit | 256–4096 | 512–1024 works for most conversations. Increase for long narrative replies. |
+| Temperature | 0.0–2.0 | 0.7–1.0 for balanced creativity. Above 1.2 for very spontaneous replies. Below 0.5 for factual, stable outputs. |
+| Top-P | 0.0–1.0 | 0.9 is a good default. Lower for a more consistent character voice. |
+| Top-K | 1–200 | 40–100 is common. Lower values produce more repetitive but predictable style. |
+| Streaming output | On / Off | Leave on for a natural typing feel. Turn off if you see display glitches or empty responses. |
+
+<Tip>
+  If you are unsure where to start, leave all parameters at their default values and only adjust them when you notice a specific problem — replies too short, too random, too repetitive, and so on.
+</Tip>

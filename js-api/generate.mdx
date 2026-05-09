@@ -1,0 +1,117 @@
+---
+title: "tavo.generate — Trigger On-Demand Text Generation"
+description: "Reference for tavo.generate: send a one-shot generation request to the current chat's AI model endpoint, with context, preset, and settings options."
+---
+
+The `tavo.generate` function lets you fire a one-shot text generation request directly from a JavaScript bubble. Unlike the normal chat flow, generation here is fully programmable — you supply the prompt, choose whether to include the existing conversation context, and can override the preset and model parameters for that single call.
+
+<Note>
+`tavo.generate` returns the **complete** generated text as a string. It does not stream partial results. If the current chat has no available model endpoint configured, the function returns `null`.
+</Note>
+
+---
+
+### `tavo.generate(prompt, options)`
+
+Sends a generation request and returns the model's response as a string.
+
+```javascript
+const result = await tavo.generate('Summarize what happened today in one sentence.', {})
+console.log(result)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `prompt` | `string` | Yes | The user-turn prompt for this generation request. |
+| `options` | `object` | Yes | Generation options. Pass `{}` if you have no overrides. |
+| `options.context` | `boolean` | No | Whether to include the current conversation context. `true` = include chat history and state; `false` (default) = standalone request with no chat context. |
+| `options.preset` | `number \| object` | No | Override the preset for this request. Pass a preset ID directly (`12`) or an object with an `id` field (`{ id: 12 }`). |
+| `options.settings` | `object` | No | Override model sampling parameters for this request (e.g., `temperature`, `topP`, `maxCompletionTokens`). |
+
+**Returns**: `string | null` — The complete generated text, or `null` if no model endpoint is available.
+
+#### Example with all options
+
+```javascript
+const text = await tavo.generate(
+  'Based on our recent conversation, give me 3 action suggestions.',
+  {
+    context: true,
+    preset: { id: 8 },
+    settings: {
+      temperature: 0.7,
+      topP: 0.9,
+      maxCompletionTokens: 300,
+    },
+  }
+)
+console.log(text)
+```
+
+---
+
+## Demo: character card generator
+
+The following example builds a complete interactive UI inside a chat bubble. It prompts the user for character traits, calls `tavo.generate` to produce a CCv3-format character card as JSON, and then lets the user download the JSON file or import the card directly into Tavo.
+
+Paste the code below into a bubble to see it in action:
+
+```html
+<h3>Generate API Demo</h3>
+<pre id="log" style="background: #0006; font-size: 12px; padding: 1em 1.5em; min-height: 80px; max-height: 300px; overflow-y: auto;"></pre>
+<button id="btn-generate" onclick="generate()">Generate Character Card</button>
+<p id="status"></p>
+<div id="actions" style="display:none; gap:8px;">
+  <button onclick="downloadJson()">Download JSON</button>
+  <button onclick="createCharacter()">Create Character</button>
+</div>
+<script>
+let generatedCard = null
+
+const log = (...args) => {
+  const text = args.map(v => typeof v === 'string' ? v : JSON.stringify(v, null, 2)).join(' ')
+  document.getElementById('log').textContent = text + '\n\n'
+}
+
+function setUi(loading, status, showActions = false) {
+  document.getElementById('btn-generate').disabled = loading
+  document.getElementById('status').textContent = status
+  document.getElementById('actions').style.display = showActions ? 'flex' : 'none'
+}
+
+async function generate() {
+  const p = prompt('Enter character traits to generate from')
+  if (!p) return
+  setUi(true, 'Generating...')
+  try {
+    let text = await tavo.generate(
+      `Generate a character card from the following description. Output valid JSON conforming to Character Card Spec V3.\n${p}`
+    )
+    log(text)
+    text = text.trim()
+    if (text.startsWith('```') && text.endsWith('```')) {
+      text = text.replace(/^```[a-zA-Z]*\n?/, '').replace(/```$/, '')
+    }
+    generatedCard = JSON.parse(text)
+    if (generatedCard.mes_example instanceof Array) {
+      generatedCard.mes_example = generatedCard.mes_example.join('\n')
+    }
+    setUi(false, `Card "${generatedCard.name}" ready`, true)
+  } catch (e) {
+    log(e)
+    console.log(e)
+    setUi(false, 'Generation failed', false)
+  }
+}
+
+function downloadJson() {
+  tavo.utils.export(`${generatedCard.name}.json`, JSON.stringify(generatedCard))
+}
+
+async function createCharacter() {
+  await tavo.character.create(generatedCard)
+}
+</script>
+```

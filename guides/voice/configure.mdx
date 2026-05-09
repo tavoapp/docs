@@ -1,0 +1,60 @@
+---
+title: "Connecting a Voice Provider to Tavo: API Configuration"
+sidebarTitle: "Configure voice API"
+description: "Enter your voice API key in Tavo's Voice API settings, select your provider and model, save the configuration, and confirm the connection is working."
+---
+
+After you have an API key from your voice provider, the next step is to enter it in Tavo so the app can authenticate and call the synthesis service. This takes about a minute. Once the connection is confirmed, you can bind voices to characters and enable playback.
+
+<Steps>
+  <Step title="Open the sidebar">
+    In Tavo, tap the menu icon to open the left sidebar.
+  </Step>
+  <Step title="Go to Voice settings">
+    Tap **More** at the bottom of the sidebar. In the menu that appears, select **Voice**.
+  </Step>
+  <Step title="Select Voice API">
+    Inside the Voice settings screen, tap the **Voice API** tab.
+  </Step>
+  <Step title="Create a new configuration">
+    Tap the **New** button in the top-right corner of the screen.
+  </Step>
+  <Step title="Fill in the configuration">
+    In the new configuration panel:
+
+    1. **Provider** — Select the voice platform you want to use (ElevenLabs, Gemini, Volink, Google TTS, or System TTS).
+    2. **API key** — Paste the API key you generated on the provider's platform.
+    3. **Model** — Choose a voice model from the list that loads after you select the provider.
+
+    <Note>
+      If you are using a **custom OpenAI-protocol TTS model**, the model list will not auto-populate. Type the model ID manually into the model field before saving.
+    </Note>
+  </Step>
+  <Step title="Save the configuration">
+    Tap **Save**. Tavo immediately attempts to connect to the provider.
+
+    - **"Save successful"** — The connection is working. Your voice provider is ready to use.
+    - **"Connection failed"** — The API key may be incorrect, or your network is blocking the request. Check the key for typos, then try again. If you are in a region where the provider's servers are restricted, enabling a VPN or proxy before saving often resolves this.
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The connection keeps failing">
+    - Double-check that you copied the entire API key with no extra spaces.
+    - Confirm the key has not expired or been revoked on the provider's dashboard.
+    - Try enabling a VPN or proxy, then tap **Save** again — some providers' endpoints are inaccessible from certain regions without one.
+  </Accordion>
+  <Accordion title="The model list is empty">
+    - Make sure the API key is entered correctly before selecting a model; the list populates only after a valid key is recognized.
+    - If you are configuring a custom OpenAI-protocol TTS endpoint, the model list will always be empty — enter the model ID manually.
+  </Accordion>
+  <Accordion title="I want to use the on-device TTS engine">
+    Select **System TTS** as the provider. No API key is required. The model list will show the TTS engines installed on your Android device. See [Local TTS](/guides/voice/local-tts) for setup instructions.
+  </Accordion>
+</AccordionGroup>
+
+## Next step
+
+With the provider connected, go to [Voice binding](/guides/voice/voice-binding) to assign a specific voice from your provider's library to each character.

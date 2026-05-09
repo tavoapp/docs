@@ -1,0 +1,211 @@
+---
+title: "tavo.character — Manage Characters Programmatically"
+description: "Full reference for tavo.character: list, get, find, create, update, import CCv3 cards, and delete characters, with complete field documentation."
+---
+
+The `tavo.character` namespace provides full CRUD access to the characters stored in your Tavo library. You can retrieve individual characters by ID or name, create new characters from scratch, update existing ones, import complete CCv3 character cards (including embedded lorebooks and regex scripts), and delete characters you no longer need.
+
+<Warning>
+The **create**, **update**, **import**, and **delete** methods all show a confirmation dialog before taking effect. If the user cancels, the operation is aborted and the method returns `null`.
+</Warning>
+
+## Character object
+
+The full character object returned by `get` and `find` contains the following fields:
+
+```javascript
+{
+  id: 12,                     // Unique character ID
+  avatar: 'chara/alice.png',  // Avatar image URL or path
+  name: 'Alice',              // Character name (required)
+  description: '...',         // Character bio / description
+  firstMes: '...',            // Opening greeting (required)
+  personality: '...',         // Personality description
+  scenario: '...',            // Scenario or setting description
+  mesExample: '...',          // Dialogue examples separated by <START>
+  creatorNotes: '...',        // Creator's notes
+  systemPrompt: '...',        // System prompt override
+  postHistoryInstructions: '...', // Instructions injected after chat history
+  alternateGreetings: ['...'],    // Alternative opening greetings
+  tags: ['guide'],            // Classification tags
+  creator: 'Colin',           // Creator username or display name
+  characterVersion: '1.0',   // Version string
+  nickname: 'Ali',            // Nickname — replaces name as {{char}} when set
+  groupOnlyGreetings: ['...'], // Greetings exclusive to group chats
+  creationDate: new Date('2026-03-05T10:20:30.000Z'),
+  modificationDate: new Date('2026-03-05T11:30:00.000Z'),
+}
+```
+
+<Note>
+When creating or updating characters, you may use CCv3 field names such as `first_mes`, `mes_example`, and `creator_notes`. Tavo converts them to its internal format automatically.
+</Note>
+
+---
+
+### `tavo.character.all()`
+
+Returns a summary list of every character in your library. Each item contains only `id`, `name`, and `avatar` — not the full character data.
+
+```javascript
+const chars = await tavo.character.all()
+console.log(chars[0].id)     // e.g. 12
+console.log(chars[0].name)   // e.g. "Alice"
+console.log(chars[0].avatar) // e.g. "chara/alice.png"
+```
+
+**Parameters**: None.
+
+**Returns**: `array` — Array of character summary objects `{ id, name, avatar }`.
+
+---
+
+### `tavo.character.get(characterId)`
+
+Retrieves the full character object for a given character ID. Returns `null` if the character does not exist.
+
+```javascript
+const char = await tavo.character.get(12)
+if (char) {
+  console.log(char.name)
+  console.log(char.description)
+}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `characterId` | `number` | Yes | The unique ID of the character to retrieve. |
+
+**Returns**: `object | null` — Full character object, or `null` if not found.
+
+---
+
+### `tavo.character.find(name, options?)`
+
+Searches characters by name and returns an array of matching full character objects.
+
+```javascript
+// Exact match (default)
+const chars = await tavo.character.find('Alice')
+
+// Prefix match
+const chars2 = await tavo.character.find('Ali', { match: 'prefix' })
+
+console.log(chars.length)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Yes | Name to search for. |
+| `options` | `object` | No | Search options. |
+| `options.match` | `string` | No | Match strategy: `'exact'` (default), `'prefix'`, `'suffix'`, or `'contains'`. |
+
+**Returns**: `array` — Array of full character objects matching the search.
+
+---
+
+### `tavo.character.create(character)`
+
+Creates a new character and returns its newly assigned ID. Shows a confirmation dialog before saving.
+
+```javascript
+const id = await tavo.character.create({
+  name: 'Alice',
+  firstMes: 'Hello, I am Alice.',
+  description: 'A gentle and patient guide.',
+  personality: 'Kind, thoughtful, attentive',
+  tags: ['guide'],
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `character` | `object` | Yes | Character data to create. |
+| `character.name` | `string` | Yes | Character name. |
+| `character.firstMes` | `string` | Yes | Opening greeting message. |
+| `character.description` | `string` | No | Character bio / description. |
+| `character.personality` | `string` | No | Personality description. |
+| `character.scenario` | `string` | No | Scenario or setting. |
+| `character.mesExample` | `string` | No | Dialogue examples (or `mes_example` in CCv3 format). |
+| `character.systemPrompt` | `string` | No | System prompt override. |
+| `character.tags` | `string[]` | No | Classification tags. |
+| *(other fields)* | — | No | Any additional character fields listed in the character object above. CCv3 field names are accepted and converted automatically. |
+
+**Returns**: `number | null` — New character ID, or `null` if the user cancelled.
+
+---
+
+### `tavo.character.update(character)`
+
+Updates an existing character by ID and returns the character ID. Shows a confirmation dialog before saving.
+
+```javascript
+await tavo.character.update({
+  id: 12,
+  name: 'Alice',
+  firstMes: 'Hello, I am Alice.',
+  personality: 'Patient and detail-oriented',
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `character` | `object` | Yes | Character data with updated fields. |
+| `character.id` | `number` | Yes | ID of the character to update. |
+| `character.name` | `string` | Yes | Character name. |
+| `character.firstMes` | `string` | Yes | Opening greeting message. |
+| *(other fields)* | — | No | Any character fields you want to change. CCv3 field names are accepted. |
+
+**Returns**: `number | null` — Character ID, or `null` if the user cancelled.
+
+---
+
+### `tavo.character.import(card)`
+
+Imports a complete CCv3 character card object. Accepts either the full `{ spec: "chara_card_v3", data: {...} }` wrapper or a bare `data` object. If the card contains a `character_book`, a lorebook is created automatically. If it contains `extensions.regex_scripts`, a regex script set is also created. Shows a confirmation dialog before saving.
+
+```javascript
+const result = await tavo.character.import(card)
+
+console.log(result.characterId) // ID of the created character
+console.log(result.lorebookId)  // ID of the created lorebook (null if none)
+console.log(result.regexId)     // ID of the created regex set (null if none)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `card` | `object` | Yes | A CCv3 character card object (full spec wrapper or bare data object). |
+
+**Returns**: `object | null` — An object with `{ characterId, lorebookId, regexId }`, or `null` if the user cancelled. `lorebookId` and `regexId` are `null` when the card does not include those resources.
+
+---
+
+### `tavo.character.delete(characterId)`
+
+Deletes a character by ID. Also accepts a character object with an `id` property. Shows a confirmation dialog before deleting.
+
+```javascript
+// Delete by ID
+await tavo.character.delete(12)
+
+// Delete using a character object
+await tavo.character.delete(char) // char must have an .id property
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `characterId` | `number \| object` | Yes | The character ID, or a character object containing an `id` field. |
+
+**Returns**: `number | null` — The deleted character's ID, or `null` if the user cancelled or the character was not found.

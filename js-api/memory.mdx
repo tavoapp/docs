@@ -1,0 +1,71 @@
+---
+title: "tavo.memory — Read and Update Long-Term Memory"
+description: "Reference for tavo.memory: retrieve and update the current chat's long-term memory, including enabled state and the full memories string array."
+---
+
+The `tavo.memory` namespace exposes the long-term memory associated with the current chat session. Long-term memory lets you store persistent facts about the user or the conversation that persist across model context windows. You can check whether memory is enabled, read the stored memory strings, and replace them with updated values.
+
+## Memory object
+
+Both `current` and `update` return an object with this shape:
+
+```javascript
+{
+  id: 12,            // Memory record ID
+  enabled: true,     // Whether long-term memory is active for this chat
+  memories: [        // Array of memory strings
+    'User prefers concise, conclusion-first answers.',
+    'Avoid repeating already-confirmed information.',
+  ],
+}
+```
+
+---
+
+### `tavo.memory.current()`
+
+Returns the long-term memory object for the current chat.
+
+```javascript
+const memory = await tavo.memory.current()
+console.log(memory.enabled)        // true or false
+console.log(memory.memories.length) // number of stored memory strings
+```
+
+**Parameters**: None.
+
+**Returns**: `object` — The memory object for the current chat (see memory object above).
+
+---
+
+### `tavo.memory.update(memory)`
+
+Updates the long-term memory for the current chat and returns the updated memory object. Pass the object returned by `current`, modify the fields you want to change, and write it back.
+
+Updatable fields:
+
+- `enabled` — whether long-term memory is active
+- `memories` — the full array of memory strings (replaces the existing array)
+
+```javascript
+const memory = await tavo.memory.current()
+
+memory.enabled = true
+memory.memories = [
+  'User prefers concise, conclusion-first answers.',
+  'User wants characters to stay calm and professional.',
+]
+
+const updated = await tavo.memory.update(memory)
+console.log(updated)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `memory` | `object` | Yes | Memory object with updated fields. |
+| `memory.enabled` | `boolean` | No | Whether to enable long-term memory for this chat. |
+| `memory.memories` | `string[]` | No | Replacement array of memory strings. Replaces the existing list entirely. |
+
+**Returns**: `object` — The updated memory object.

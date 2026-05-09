@@ -1,0 +1,213 @@
+---
+title: "Create a Custom AI Character in Tavo"
+sidebarTitle: "Create a character"
+description: "Build a character from scratch with a name, avatar, personality, backstory, dialogue examples, and advanced prompt controls using Tavo's character editor."
+---
+
+Tavo's character editor gives you full control over how an AI persona looks, speaks, and behaves. You can craft anything from a gentle mentor to a sharp-tongued rival — the fields you fill in become the AI's instructions for how to show up in every conversation.
+
+## Opening the editor
+
+<Steps>
+  <Step title="Open the Characters screen">
+    Tap the **Characters** button on the home screen, or open the **Menu** and select **Characters**.
+  </Step>
+  <Step title="Tap New">
+    Tap **New** to open the creation screen. You'll see options to create a new character or import one. Choose **Create new**.
+  </Step>
+  <Step title="Fill in the fields and save">
+    Complete the fields described below, then tap **Save** to create your character. You can edit any field later.
+  </Step>
+</Steps>
+
+## Character fields
+
+### Name
+
+The character's display name shown in the chat interface and character list. Use the name the character would naturally go by — this is what `{{char}}` resolves to in prompts and dialogue examples.
+
+### Avatar
+
+Tap the avatar area to upload a photo from your device. A strong avatar image reinforces the character's identity at a glance.
+
+### Description
+
+The description is the core of what the AI knows about the character. Write it as a direct profile — appearance, background, history, and any details that should stay constant across all conversations.
+
+<Accordion title="Example description">
+**Physical traits:**
+
+188 cm with a sharp, triangular build. Always in a tailored three-piece suit; the cufflinks are blue-diamond mother-of-pearl, inherited from his mother. A faint scar crosses his left brow — earned at 18 during a succession dispute with his uncle. He wears the family crest ring on his right ring finger. His cologne's base notes are cedarwood and whiskey. Behind gold-rimmed glasses, his eyes shift as fast as a high-frequency trading feed.
+</Accordion>
+
+<Tip>
+Describe physical traits, habitual behaviors, background history, and emotional undercurrents. The more specific and concrete the description, the more consistently the character behaves.
+</Tip>
+
+### First message
+
+The first message is the opening line the character sends the moment a new chat begins. It sets the emotional tone and drops the user straight into the scene.
+
+<Accordion title="Example first messages">
+**Example 1 — power and tension:**
+
+*(The pen tip hovers over the acquisition agreement's signature line before tilting up to lift your chin)* "Two choices." *(Removes glasses to polish them, the reflection in the lenses hiding the storm underneath)* "Walk out with my check, or watch your father's name appear in tomorrow's regulatory report." *(The rim of a chilled whiskey glass presses precisely onto your trembling fingers)*
+
+---
+
+**Example 2 — cold efficiency:**
+
+*(The holographic display cuts out; a fingertip taps a Morse-code rhythm on the glass tabletop)* "Your pitch deck has three fatal flaws." *(An old USB drive slides across the table — the port etched with the words "Last act of mercy")* "Come back in 72 hours with corrections—" *(The floor-to-ceiling window swings open; wind scatters the equity split documents)* "—or disappear like this paperwork."
+</Accordion>
+
+<Tip>
+Write the first message the way a novelist would write the opening of a scene. Use action beats in parentheses, sensory details, and an unresolved tension to pull the user in.
+</Tip>
+
+### Personality traits
+
+A short, comma-separated list of adjectives describing the character's core temperament. These traits act as a quick reference the AI uses to calibrate tone throughout the conversation.
+
+<Accordion title="Example personality traits">
+- Rational, cautious, emotionally guarded — but soft underneath
+- Kind, sensitive, genuinely sincere
+</Accordion>
+
+<Tip>
+Keep this concise. Three to six descriptors work better than a long paragraph. If you need nuance, put it in the description or main prompt instead.
+</Tip>
+
+### Scenario
+
+The scenario describes the world, setting, or situation the character exists in. It gives context that isn't about the character personally — the environment, the rules of the world, or the circumstances that brought the user and the character together.
+
+<Accordion title="Example scenarios">
+**Example 1 — a private financial club:**
+
+A sky-high members-only finance club. The walls display live global market data on a 360-degree panoramic screen; the carpet is threaded with copper wire to block eavesdropping. Behind the bar's hidden door hang portraits of every past family patriarch — except one empty frame where his mother's portrait should be. A vintage stock exchange bell sits in the lounge and chimes every hour with the same tone as her old phone ringtone.
+
+---
+
+**Example 2 — a minimalist corporate penthouse:**
+
+The frosted glass walls of the top-floor boardroom can switch to fully transparent at will, letting him look down on rival headquarters like an ant farm. The conference table doubles as a smart display that generates a live heat map of each attendee's financial vulnerabilities. Behind a copy of *The Wealth of Nations* on the bookshelf, a hidden panel reveals a wall covered in hand-drawn star charts — his only private outlet.
+</Accordion>
+
+### Dialogue examples
+
+Dialogue examples show the AI the rhythm, vocabulary, and emotional range of the character's speech. Each example is a short exchange between `{{char}}` and `{{user}}`.
+
+<Info>
+Start every dialogue example with `<START>` on its own line. Use `{{char}}` in place of the character's name and `{{user}}` in place of the user. The `<START>` tag itself does not appear in the final prompt — it tells Tavo where one example ends and the next begins.
+</Info>
+
+<Accordion title="Example dialogue">
+```
+<START>
+{{char}}: *The pen scratches across the acquisition agreement; the blue-diamond cufflinks catch the chandelier light.* "Miss Lin, your father's pension fund is shorting my stock." *(A quiet laugh)* "How charming — even his betrayals come with loose ends." *One fingertip traces the rim of the whiskey glass.* "Sign it now. Or watch him walk through a regulator's door tomorrow morning."
+
+{{user}}: *Glancing at the empty picture frame behind the vintage stock ticker.* "Do you replace every mother's portrait when you buy a company?" *(Nudges the glass off the table deliberately)* "The same way you bribe children with cheap candy?" *(Ink blooms across the signature line)*
+
+{{char}}: *The gold-rimmed glasses slip, exposing the scar across his brow.* "Careful." *(Suddenly seizes your wrist and pins it to the edge of the ice bucket)* "Some candy—" *(His breath carries cedar and whiskey as he leans in)* "—cuts the throat of anyone who swallows too fast."
+```
+</Accordion>
+
+### Nickname
+
+The nickname is the character's informal name used **only in group chats**. It does not appear in one-on-one conversations and does not replace the character's full name.
+
+<Note>
+If you want the character to use a nickname in a solo conversation, mention it explicitly in the description or first message instead.
+</Note>
+
+**Example:** `Xiao Fang` or `Kai`
+
+### Group chat greeting
+
+The group chat greeting is the opening line the character sends when joining a group chat — separate from the first message used in solo conversations. You can write multiple versions separated by `<START>`; Tavo picks one at random.
+
+<Accordion title="Example group chat greetings">
+```
+Hey, quite a crowd here — I'll just find a corner and watch for now 👀
+<START>
+What's everyone talking about? Feels like I missed something
+<START>
+Oh, this group's lively. Am I late?
+```
+</Accordion>
+
+<Tip>
+Group chat greetings work best when they're casual and open-ended. Avoid lines that read like intimate one-on-one messages.
+</Tip>
+
+### Main Prompt
+
+The Main Prompt is a system-level instruction that tells the AI how to interpret and inhabit this character. It sits above the conversation and shapes behavior before any user input arrives. Use `{{original}}` to preserve the existing preset and append your instructions on top of it.
+
+<Accordion title="Example Main Prompt">
+```
+{{original}}
+
+You are a character with strong opinions and visible emotions.
+Speak naturally — with texture and everyday feel.
+Never break character to explain that you are an AI or a language model.
+```
+</Accordion>
+
+<Tip>
+Think of the Main Prompt as a private note you pass to the actor before the scene starts. Keep it short and behavioral — focus on how the character should act, not just who they are.
+</Tip>
+
+### Post-History Instructions
+
+Post-History Instructions appear after the conversation history in each prompt cycle. They remind the character to stay consistent with what has already happened in the chat — preventing sudden personality resets or amnesia after long exchanges. Use `{{original}}` to extend the preset rather than replace it.
+
+<Accordion title="Example Post-History Instructions">
+```
+{{original}}
+
+Based on what has already been discussed, continue the relationship naturally.
+Do not suddenly become distant or forget what has been established between you and the user.
+```
+</Accordion>
+
+<Note>
+Post-History Instructions are especially useful for romance-oriented or long-running characters where emotional continuity matters.
+</Note>
+
+### Tags
+
+Tags are short keywords that describe the character's type or genre. They do not affect how the AI behaves — they help you find and organize characters in your list.
+
+**Format:** comma-separated, 5–8 tags  
+**Example:** `loyal companion, historical, serious, slow burn, adventure`
+
+<Tip>
+Use "label-style" words, not full phrases. Tags like `rivals to lovers` or `mentor` work better than `a character who starts as a rival and becomes a lover`.
+</Tip>
+
+### Creator Notes
+
+Creator Notes are visible to anyone who browses or uses your character, but the AI itself never sees them. Use this field to leave guidance for users — what kind of experience to expect, which AI models work best, or any quirks to be aware of.
+
+<Accordion title="Example Creator Notes">
+Oriented toward slow-burn romance and everyday conversation. Tested with GPT-4 and Claude models. On smaller models, enabling dialogue examples improves consistency.
+</Accordion>
+
+### Source
+
+The Source field records where the character came from — a URL, a platform handle, or an author credit. Only the original author can edit or delete this field; other users can append notes but cannot overwrite it.
+
+<Warning>
+If you reinstall Tavo or switch devices, you may lose edit access to the Source field even for characters you originally created. Keep a backup of your character data if attribution matters to you.
+</Warning>
+
+**Example values:**
+
+```
+https://tavoai.dev/app/index.html#/
+```
+
+```
+Tavo.ai @tavo
+```

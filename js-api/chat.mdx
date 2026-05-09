@@ -1,0 +1,106 @@
+---
+title: "tavo.chat — Read and Update the Active Chat"
+description: "Reference for tavo.chat: retrieve the current chat's metadata, characters, persona, preset, lorebooks, and regex lists, then write updates back."
+---
+
+The `tavo.chat` namespace gives you access to the currently open chat session. You can read the chat's full metadata — including which characters and persona are active, the attached preset, lorebooks, and regex scripts — and update select fields on the fly.
+
+<Note>
+All `tavo.chat` methods are async. Always use `await` when calling them, and declare the containing function with `async`. See the async note at the bottom of this page for details.
+</Note>
+
+## Chat object
+
+The object returned by `tavo.chat.current()` has the following shape:
+
+```javascript
+{
+  id: 1,                       // Chat ID
+  name: 'Chat with Alice',     // Chat name / title
+  characters: [                // Summary list of characters in this chat
+    { id: 12, name: 'Alice', avatar: 'alice.png' },
+    { id: 7,  name: 'Lee',   avatar: 'lee.png'  },
+  ],
+  persona: {                   // Active persona summary (may be null)
+    id: 5,
+    name: 'Default Persona',
+  },
+  preset: {                    // Active preset summary
+    id: 9,
+    name: 'Default Preset',
+  },
+  lorebooks: [                 // Attached lorebook summaries
+    { id: 17, name: 'Night City' },
+  ],
+  regexes: [                   // Active regex script summaries
+    { id: 3, name: 'Remove Stage Cues' },
+  ],
+}
+```
+
+---
+
+### `tavo.chat.current()`
+
+Returns the metadata object for the currently open chat. Returns `null` if no chat is active.
+
+```javascript
+const chat = await tavo.chat.current()
+console.log(chat.name)               // Chat title
+console.log(chat.characters[0]?.name) // First character's name
+console.log(chat.persona?.name)       // Active persona name (if set)
+```
+
+**Parameters**: None.
+
+**Returns**: `object | null` — The current chat object, or `null` if no chat is open.
+
+---
+
+### `tavo.chat.update(chat)`
+
+Updates fields on the current chat session. Only the fields you pass are changed; omitted fields remain as-is.
+
+<Warning>
+This method only updates the **current** chat. It does not support updating other chats by ID.
+</Warning>
+
+```javascript
+await tavo.chat.update({
+  name: 'New Chat Title',
+  characters: [12, 34],  // Replace the character list entirely
+  persona: 5,            // Switch to persona ID 5
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `chat` | `object` | Yes | Object containing the fields to update. |
+| `chat.name` | `string` | No | New title for the chat. |
+| `chat.characters` | `number[]` | No | Array of character IDs. Replaces the current character list entirely. |
+| `chat.persona` | `number` | No | Persona ID to switch to. |
+
+**Returns**: `void`
+
+---
+
+## Async note
+
+In the Tavo JS API, nearly every method (except variable operations) is asynchronous and must be called with `await`. An `await` expression can only appear inside an `async` function (or at the module top level):
+
+```javascript
+// Correct
+async function showChatInfo() {
+  const chat = await tavo.chat.current()
+  console.log(chat.name)
+}
+
+// Incorrect — missing async/await
+function showChatInfo() {
+  const chat = tavo.chat.current() // Returns a Promise, not the chat object!
+}
+```
+
+If you forget `await`, the variable holds an unresolved `Promise` and your code will behave unexpectedly. Check the JavaScript console in the sidebar if you see errors.

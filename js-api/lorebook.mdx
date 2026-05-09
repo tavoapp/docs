@@ -1,0 +1,244 @@
+---
+title: "tavo.lorebook — Manage World Info / Lorebooks"
+description: "Full reference for tavo.lorebook: list, get, find, import CCv3 lorebooks, create, update, and delete, with complete LorebookEntry field documentation."
+---
+
+The `tavo.lorebook` namespace provides full control over lorebooks (also called world info or world books). A lorebook holds a collection of entries that inject contextual information into the prompt when certain keywords appear in the conversation. You can create lorebooks from scratch, import them from CCv3 `character_book` objects, and manage their entries programmatically.
+
+## Lorebook object
+
+The complete lorebook object returned by `get` and `find` has this shape:
+
+```javascript
+{
+  id: 3,            // Unique lorebook ID
+  name: 'City Lore', // Lorebook name (required)
+  entries: [],      // LorebookEntry[] — see below
+}
+```
+
+The summary object returned by `all` contains `id`, `name`, and `entries` (the number of entries, not the array).
+
+## LorebookEntry fields
+
+Each item in the `entries` array has this structure:
+
+```javascript
+{
+  // ── Identity ─────────────────────────────────────
+  identifier: 'entry-uuid',  // Unique entry identifier (string)
+  name: 'City Overview',     // Display name (for search and reference only)
+  content: 'A coastal city often shrouded in fog at night.', // Text injected into the prompt
+  enabled: true,             // Whether this entry is active
+  strategy: 'constant',      // Trigger strategy: 'constant' (always active) | 'keyword' (triggered by keywords)
+
+  // ── Keywords ─────────────────────────────────────
+  keywords: ['city', 'harbor'],           // Primary keywords (used when strategy is 'keyword')
+  secondaryKeywords: ['night', 'fog'],    // Secondary keywords
+  secondaryKeywordStrategy: 'none',       // Secondary keyword matching:
+                                          //   'none'   — secondary keywords disabled
+                                          //   'andAny' — primary hit + any secondary hit (default)
+                                          //   'andAll' — primary hit + all secondary keywords hit
+                                          //   'notAny' — primary hit + no secondary keywords hit
+                                          //   'notAll' — primary hit + not all secondary keywords hit
+  scanDepth: 2,              // Number of recent messages to scan for keywords (max 1000)
+  caseSensitive: false,      // Whether keyword matching is case-sensitive
+  matchWholeWord: true,      // Whether to match whole words only
+
+  // ── Injection position ───────────────────────────
+  injectionPosition: 'lorebookBefore',  // Where to inject the content:
+                                        //   'lorebookBefore'          — above character description
+                                        //   'lorebookAfter'           — below character description
+                                        //   'topOfExampleMessages'    — before dialogue examples
+                                        //   'bottomOfExampleMessages' — after dialogue examples
+                                        //   'atDepth'                 — specific depth in chat history
+  injectionDepth: 4,         // Depth used when injectionPosition is 'atDepth'
+                             // 0 = after the last message, 1 = before the last message, etc.
+  injectionRole: 'system',   // Role for the injected message: 'system' | 'user' | 'assistant'
+
+  // ── Probability & timing ─────────────────────────
+  probability: 100,  // Activation probability (0–100, default 100)
+  sticky: 0,         // How many message turns to stay active after triggering (0 = no persistence)
+  cooldown: 0,       // Cooldown turns after activation before the entry can trigger again (0 = none)
+  delay: 0,          // Turns to wait before activating after the trigger condition is met (0 = immediate)
+}
+```
+
+<Note>
+When creating or updating lorebook entries, you may use CCv3 field names. Tavo converts them automatically. The mapping is not always a simple rename — some semantics differ:
+
+- `keys` → `keywords`; `secondary_keys` → `secondaryKeywords`
+- `constant: true/false` → `strategy: 'constant'/'keyword'`
+- `position: 'before_char'/'after_char'` → `injectionPosition: 'lorebookBefore'/'lorebookAfter'`
+- `selective: true/false` → `secondaryKeywordStrategy: 'andAny'/'none'`
+</Note>
+
+---
+
+### `tavo.lorebook.all()`
+
+Returns a summary list of all lorebooks. Each item contains `id`, `name`, and `entries` (the count of entries, not the array).
+
+```javascript
+const lorebooks = await tavo.lorebook.all()
+console.log(lorebooks[0].id)      // e.g. 3
+console.log(lorebooks[0].name)    // e.g. "City Lore"
+console.log(lorebooks[0].entries) // e.g. 12 (number of entries)
+```
+
+**Parameters**: None.
+
+**Returns**: `array` — Array of lorebook summary objects `{ id, name, entries }`.
+
+---
+
+### `tavo.lorebook.get(lorebookId)`
+
+Retrieves the full lorebook object for the given ID, including all entries. Returns `null` if not found.
+
+```javascript
+const lorebook = await tavo.lorebook.get(3)
+if (lorebook) {
+  console.log(lorebook.name)
+  console.log(lorebook.entries.length)
+}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `lorebookId` | `number` | Yes | The unique ID of the lorebook to retrieve. |
+
+**Returns**: `object | null` — Full lorebook object with entries, or `null` if not found.
+
+---
+
+### `tavo.lorebook.find(name, options?)`
+
+Searches lorebooks by name and returns an array of matching full lorebook objects.
+
+```javascript
+// Exact match (default)
+const lorebooks = await tavo.lorebook.find('City Lore')
+
+// Suffix match
+const lorebooks2 = await tavo.lorebook.find('Lore', { match: 'suffix' })
+
+console.log(lorebooks.length)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Yes | Name to search for. |
+| `options` | `object` | No | Search options. |
+| `options.match` | `string` | No | Match strategy: `'exact'` (default), `'prefix'`, `'suffix'`, or `'contains'`. |
+
+**Returns**: `array` — Array of full lorebook objects matching the search.
+
+---
+
+### `tavo.lorebook.import(lorebook)`
+
+Imports a lorebook in CCv3 `character_book` format. Shows a confirmation dialog; returns the new lorebook ID on confirm, or `null` on cancel.
+
+```javascript
+const id = await tavo.lorebook.import({
+  name: 'My Lorebook',
+  entries: [
+    {
+      keys: ['city'],
+      content: 'A foggy coastal city.',
+      constant: false,
+      position: 'before_char',
+    },
+  ],
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `lorebook` | `object` | Yes | Lorebook in CCv3 `character_book` format, including an `entries` array. |
+
+**Returns**: `number | null` — New lorebook ID, or `null` if the user cancelled.
+
+---
+
+### `tavo.lorebook.create(lorebook)`
+
+Creates a new lorebook and returns its newly assigned ID.
+
+```javascript
+const id = await tavo.lorebook.create({
+  name: 'City Lore',
+  entries: [
+    {
+      name: 'City Overview',
+      content: 'A foggy coastal city with a busy harbor.',
+      strategy: 'keyword',
+      keywords: ['city', 'harbor'],
+    },
+  ],
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `lorebook` | `object` | Yes | Lorebook data to create. |
+| `lorebook.name` | `string` | Yes | Lorebook name. |
+| `lorebook.entries` | `array` | No | Array of LorebookEntry objects. Defaults to `[]` if omitted. |
+
+**Returns**: `number | null` — New lorebook ID, or `null` on failure.
+
+---
+
+### `tavo.lorebook.update(lorebook)`
+
+Updates an existing lorebook. Both `id` and `name` are required. The typical pattern is to `get` the lorebook, modify it, and then `update`.
+
+```javascript
+await tavo.lorebook.update({
+  id: 3,
+  name: 'City Lore (Revised)',
+  entries: [],
+})
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `lorebook` | `object` | Yes | Lorebook data with updated fields. |
+| `lorebook.id` | `number` | Yes | ID of the lorebook to update. |
+| `lorebook.name` | `string` | Yes | Lorebook name. |
+| `lorebook.entries` | `array` | No | Replacement entries list. |
+
+**Returns**: `number | null` — Lorebook ID, or `null` on failure.
+
+---
+
+### `tavo.lorebook.delete(lorebookId)`
+
+Deletes a lorebook by ID. Also accepts a lorebook object with an `id` property.
+
+```javascript
+// Delete by ID
+await tavo.lorebook.delete(3)
+
+// Delete using a lorebook object
+await tavo.lorebook.delete(lorebook) // lorebook must have an .id property
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `lorebookId` | `number \| object` | Yes | The lorebook ID, or a lorebook object containing an `id` field. |
+
+**Returns**: `number | null` — The deleted lorebook's ID, or `null` on failure.

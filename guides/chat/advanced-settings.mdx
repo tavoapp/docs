@@ -1,0 +1,120 @@
+---
+title: "Advanced Chat Settings in Tavo: API, Presets, and Memory"
+sidebarTitle: "Advanced settings"
+description: "Configure per-conversation options in Tavo's chat sidebar — switch models, load presets, toggle lorebooks, enable regex scripts, and activate long memory."
+---
+
+The chat sidebar's advanced options panel lets you customize how each individual conversation behaves. Changes made here apply only to the current chat, so you can experiment freely without affecting your global settings or other conversations.
+
+To open the panel, tap the **sidebar icon** in the top-right corner of any chat screen and scroll to the **Advanced Options** section.
+
+---
+
+## Switch the API connection or model
+
+You can change which AI service or model powers the current conversation at any point — mid-chat changes take effect on the next message.
+
+<Steps>
+  <Step title="Open the sidebar">
+    Tap the sidebar icon in the top-right corner of the chat screen.
+  </Step>
+  <Step title="Tap the API connection selector">
+    In the **Advanced Options** section, tap **Switch API Connection**.
+  </Step>
+  <Step title="Select a different API or model">
+    Choose the API service or model you want to use. All subsequent messages in this conversation will use the new selection.
+  </Step>
+</Steps>
+
+<Note>
+  Switching the model mid-conversation does not alter the existing message history. Messages already sent stay as they are; only new replies use the new model.
+</Note>
+
+---
+
+## Load a different preset
+
+Presets are saved configurations of system prompts and model parameters. Loading a different preset changes the character's tone, style, and response behavior for the rest of the conversation.
+
+<Steps>
+  <Step title="Open the sidebar">
+    Tap the sidebar icon in the top-right corner of the chat screen.
+  </Step>
+  <Step title="Tap the preset selector">
+    In the **Advanced Options** section, tap **Enable / Switch Preset**.
+  </Step>
+  <Step title="Choose a preset">
+    Select the preset you want to apply. The character will use the new settings starting with the next reply.
+  </Step>
+</Steps>
+
+---
+
+## Enable or switch a world book (lorebook)
+
+A world book — also called a lorebook — is a knowledge base attached to a character that provides background context to the AI. Enabling or switching a world book during a chat enriches the character's awareness of the setting, lore, or story details you have defined.
+
+<Steps>
+  <Step title="Open the sidebar">
+    Tap the sidebar icon in the top-right corner of the chat screen.
+  </Step>
+  <Step title="Tap the world book selector">
+    In the **Advanced Options** section, tap **Enable / Switch World Book**.
+  </Step>
+  <Step title="Toggle or select a world book">
+    Turn a world book on or off, or switch to a different one. Changes take effect on the next message.
+  </Step>
+</Steps>
+
+<Tip>
+  If a character is giving responses that ignore important lore or setting details, check that the correct world book is enabled for that chat.
+</Tip>
+
+---
+
+## Enable or switch regex scripts
+
+Regex scripts apply pattern-matching rules to messages — for example, automatically replacing certain words, triggering specific formatting, or filtering content. You can enable, disable, or swap scripts on a per-chat basis.
+
+<Steps>
+  <Step title="Open the sidebar">
+    Tap the sidebar icon in the top-right corner of the chat screen.
+  </Step>
+  <Step title="Tap the regex selector">
+    In the **Advanced Options** section, tap **Enable / Switch Regex**.
+  </Step>
+  <Step title="Toggle or select a script">
+    Turn regex processing on or off for this chat, or choose a different script to apply.
+  </Step>
+</Steps>
+
+---
+
+## Enable long memory
+
+Long memory allows the character to retain and reference important information from earlier parts of the conversation, even when those messages have scrolled out of the active context window.
+
+<Steps>
+  <Step title="Open the sidebar">
+    Tap the sidebar icon in the top-right corner of the chat screen.
+  </Step>
+  <Step title="Toggle Long Memory">
+    In the **Advanced Options** section, tap the **Long Memory** toggle to enable it.
+  </Step>
+</Steps>
+
+<Info>
+  Long memory works by summarizing and storing key details from past exchanges and reinjecting them into the prompt when relevant. This makes long-running conversations feel more coherent and personalized, but may slightly increase response time.
+</Info>
+
+---
+
+## Settings summary
+
+| Setting | What it controls |
+|---|---|
+| **API connection** | Which AI service and model generates responses in this chat. |
+| **Preset** | System prompt template and model parameters applied to the character. |
+| **World book** | Background lore and context injected into the prompt for this chat. |
+| **Regex scripts** | Pattern-matching rules applied to incoming and outgoing messages. |
+| **Long memory** | Whether the character retains a summary of earlier conversation history. |

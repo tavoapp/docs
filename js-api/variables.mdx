@@ -1,0 +1,160 @@
+---
+title: "Persistent Variables: tavo.get, tavo.set, tavo.unset"
+sidebarTitle: "Variables"
+description: "Store and retrieve data that persists across page refreshes using tavo.get, tavo.set, and tavo.unset. Supports chat and global scopes."
+---
+
+The Tavo variable API lets you store data that survives page refreshes and app restarts. Unlike regular JavaScript variables — which disappear the moment the page reloads — Tavo variables are saved to persistent storage and can be read back at any time, in any future session.
+
+<Note>
+Variable operations (`tavo.get`, `tavo.set`, `tavo.unset`) are **synchronous**. You do not need `await` before them. This makes them the exception to the general async rule that applies to the rest of the Tavo JS API.
+</Note>
+
+## Variable scopes
+
+Every variable lives in a **scope** that determines which conversations can access it.
+
+| Scope | Description | Exported with chat? |
+|-------|-------------|---------------------|
+| `chat` (default) | Only accessible within the current conversation. | Yes |
+| `global` | Accessible across all conversations. | No |
+
+Use `chat` scope for anything specific to one playthrough or story. Use `global` scope for data you want to share across different characters and chats — such as a player's all-time high score or a persistent user preference.
+
+<Warning>
+Global variables are shared across every chat. Be careful with naming to avoid collisions between different characters or scenarios.
+</Warning>
+
+## tavo.get — Read a variable
+
+```javascript
+tavo.get(name)
+tavo.get(name, scope)
+```
+
+Returns the current value of the variable, or `null` if it has not been set.
+
+**Parameters:**
+- `name` — the variable name (string). Supports dot notation for nested paths.
+- `scope` — optional. `'chat'` (default) or `'global'`.
+
+```javascript
+// Read a chat-scoped variable (default scope)
+let age = tavo.get('age');
+
+// Read a global variable
+let bestScore = tavo.get('bestScore', 'global');
+```
+
+## tavo.set — Write a variable
+
+```javascript
+tavo.set(name, value)
+tavo.set(name, value, scope)
+```
+
+Stores a value under the given name. If a variable with that name already exists, its value is replaced.
+
+**Parameters:**
+- `name` — the variable name (string). Supports dot notation to write nested fields.
+- `value` — the value to store. Can be a string, number, or object.
+- `scope` — optional. `'chat'` (default) or `'global'`.
+
+```javascript
+// Set a chat-scoped numeric variable
+tavo.set('age', 16);
+
+// Set a global variable (Lily's lover, shared across all chats)
+tavo.set('Lily_lover', 'Colin', 'global');
+
+// Store a structured object in chat scope
+tavo.set('status', { hp: 100, mp: 32, location: 'Cave' });
+```
+
+## tavo.unset — Delete a variable
+
+```javascript
+tavo.unset(name)
+tavo.unset(name, scope)
+```
+
+Removes a variable entirely. After calling `unset`, `tavo.get` for that name returns `null`.
+
+**Parameters:**
+- `name` — the variable name (string). Supports dot notation to delete a nested field.
+- `scope` — optional. `'chat'` (default) or `'global'`.
+
+```javascript
+tavo.set('age', 16);  // age = 16
+tavo.unset('age');    // age is now null
+```
+
+## Path notation for nested objects
+
+When a variable holds an object, you can use dot notation to read or write individual fields without loading and rewriting the entire object.
+
+```javascript
+// Store a status object
+tavo.set('status', { hp: 100, mp: 50 });
+
+// Read just the hp field
+tavo.get('status.hp');       // 100
+
+// Delete just the hp field — mp is preserved
+tavo.unset('status.hp');     // status is now { mp: 50 }
+```
+
+This is especially useful for RPG-style stat tracking, where you want to update a single attribute (like hit points) without touching the rest.
+
+## Using variables in prompts
+
+You can inject variable values directly into character cards, presets, lorebook entries, and regex scripts using **macros**. The AI sees the resolved value, not the macro syntax.
+
+```
+{{getvar::<name>}}        — reads a chat-scoped variable
+{{getglobalvar::<name>}}  — reads a global variable
+```
+
+**Examples:**
+
+```
+{{char}} has a new name: {{getvar::name}}
+{{user}} current HP: {{getvar::status.hp}}
+All-time high score: {{getglobalvar::highestScore}}
+```
+
+<Tip>
+Macros work everywhere a prompt is constructed — character descriptions, presets, lorebook entries, and regex replacement strings. This lets the AI always see up-to-date game state, without needing to search back through the conversation history.
+</Tip>
+
+For the full list of variable macros and their behaviors (including `setvar`, `addvar`, `incvar`, `decvar`, and their global equivalents), see the [Macros Reference](/js-api/macros-reference).
+
+## Complete example: HP tracking
+
+This example shows how JavaScript variable writes and prompt macros work together to build a simple HP tracking system.
+
+```javascript
+// Paste into a bubble to initialize the player's stats
+tavo.set('status', { hp: 100, mp: 50, location: 'Town' });
+tavo.utils.toast('Stats initialized!');
+```
+
+Then in your preset or a lorebook entry triggered by combat keywords:
+
+```
+Current player status:
+  HP: {{getvar::status.hp}}
+  MP: {{getvar::status.mp}}
+  Location: {{getvar::status.location}}
+```
+
+When the player takes damage, a script in another bubble updates the value:
+
+```javascript
+// Subtract 15 HP
+const currentHp = tavo.get('status.hp');
+tavo.set('status.hp', currentHp - 15);
+tavo.utils.toast(`HP is now ${tavo.get('status.hp')}`);
+```
+
+The next time the AI generates a response, it reads the updated HP from the variable and references it correctly — no matter how many messages have passed.

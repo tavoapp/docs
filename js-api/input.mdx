@@ -1,0 +1,94 @@
+---
+title: "tavo.input — Read and Control the Chat Input Box"
+description: "Reference for tavo.input: get the current input text, set or append content, clear the field, and programmatically send the message — all synchronously."
+---
+
+The `tavo.input` namespace lets you interact with the chat input box from JavaScript. You can read what the user has typed, overwrite or append to the text, clear the field entirely, or trigger a send — all without any user action required.
+
+<Note>
+All `tavo.input` methods except `get` are **synchronous** — they do not return a Promise and do not require `await`. `tavo.input.get()` is async and requires `await`.
+</Note>
+
+---
+
+### `tavo.input.get()`
+
+Returns the current text content of the input box.
+
+```javascript
+const text = await tavo.input.get()
+console.log(text) // Whatever the user has typed so far
+```
+
+**Parameters**: None.
+
+**Returns**: `string` — The current input box content.
+
+---
+
+### `tavo.input.set(text)`
+
+Replaces the entire content of the input box with the given text. Any existing text is cleared first.
+
+```javascript
+tavo.input.set('Hello!') // Input box now contains "Hello!"
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `text` | `string` | Yes | The text to write into the input box. Replaces any existing content. |
+
+**Returns**: `void` (synchronous)
+
+---
+
+### `tavo.input.append(text)`
+
+Appends text to the end of whatever is currently in the input box, without clearing existing content.
+
+```javascript
+tavo.input.append(' — continued') // Adds to the end of the current input
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `text` | `string` | Yes | Text to append to the current input box content. |
+
+**Returns**: `void` (synchronous)
+
+---
+
+### `tavo.input.clear()`
+
+Clears all text from the input box.
+
+```javascript
+tavo.input.clear()
+```
+
+**Parameters**: None.
+
+**Returns**: `void` (synchronous)
+
+---
+
+### `tavo.input.send()`
+
+Triggers the send action for the current input box content, exactly as if the user pressed the send button. The input box is cleared after sending.
+
+```javascript
+tavo.input.set("Today's weather is great.")
+tavo.input.send() // Sends the message automatically
+```
+
+<Tip>
+You can chain `tavo.input.set` and `tavo.input.send` in sequence to compose and dispatch a message entirely from code. Both calls are synchronous, so no `await` is needed between them.
+</Tip>
+
+**Parameters**: None.
+
+**Returns**: `void` (synchronous)
