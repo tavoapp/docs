@@ -370,7 +370,7 @@ Choose your provider below to see the full registration and key-generation steps
         Go to [https://cloud.io.net](https://cloud.io.net) and click **Sign Up**.
       </Step>
       <Step title="Create your account">
-        Register with your email address, or continue with a Google or GitHub account.
+        Register with your email address, or continue with a Google, GitHub, or Apple account.
       </Step>
       <Step title="Open the console">
         After verifying your email you are taken to the IO Intelligence console.
@@ -381,13 +381,13 @@ Choose your provider below to see the full registration and key-generation steps
 
     <Steps>
       <Step title="Open API key settings">
-        In the IO Intelligence console, open the **API Key** page.
+        In the IO Intelligence console, open the **API Keys** section.
       </Step>
       <Step title="Create a new key">
-        Click **Create API Key**, give it a name, and confirm.
+        Click **Create New Secret Key**, give it a name, pick a project and permissions, and choose an expiration window (30, 60, 90, or 180 days).
       </Step>
       <Step title="Copy and save your key">
-        Copy the generated key immediately and store it somewhere secure.
+        Copy the generated key immediately and store it somewhere secure. IO Intelligence keys expire after the window you chose — if Tavo's connection later stops authorizing, create a new key.
       </Step>
     </Steps>
 
@@ -396,8 +396,8 @@ Choose your provider below to see the full registration and key-generation steps
     In Tavo's API settings, choose **Custom (OpenAI Protocol)** as the Model Platform and fill in:
 
     - **Base URL** — `https://api.intelligence.io.solutions/api/v1`
-    - **API Key** — the IO Intelligence key you just created
-    - **Model Name** — an exact model ID from the IO Intelligence model list, for example `meta-llama/Llama-3.3-70B-Instruct` or `deepseek-ai/DeepSeek-R1-0528` (model IDs use the `organization/model` format)
+    - **API key** — the IO Intelligence key you just created
+    - **Model name** — an exact model ID from the IO Intelligence model list, for example `meta-llama/Llama-3.3-70B-Instruct` or `deepseek-ai/DeepSeek-R1-0528` (model IDs use the `organization/model` format)
 
     See [Configure the Connection](/guides/api-setup/configure) for the full walkthrough.
 
